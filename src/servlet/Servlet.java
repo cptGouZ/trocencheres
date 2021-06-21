@@ -1,3 +1,7 @@
+package servlet;
+
+import dal.ConnectionProvider;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
