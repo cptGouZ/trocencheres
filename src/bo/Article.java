@@ -3,6 +3,7 @@ package bo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,11 +13,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Article implements Serializable {
     Integer idArticle;
-    Integer idUtilisateur;
-    Integer idCategorie;
+    Utilisateur utilisateur;
+    Categorie categorie;
     String article;
     String description;
     LocalDate dateDebut;
     LocalDate dateFin;
     Integer prixVente;
 }
+

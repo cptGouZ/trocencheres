@@ -10,16 +10,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
     Integer idUtilisateur;
+    Adresse adresse;
     String pseudo;
     String nom;
     String prenom;
     String email;
     String telephone;
-    String rue;
-    String cpo;
-    String ville;
     String password;
     Integer credit;
     boolean administrateur;
-
 }
