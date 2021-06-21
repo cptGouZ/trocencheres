@@ -1,0 +1,122 @@
+CREATE TABLE CATEGORIES (
+                            no_categorie   INTEGER IDENTITY(1,1) NOT NULL,
+                            libelle        VARCHAR(30) NOT NULL
+)
+
+ALTER TABLE CATEGORIES ADD CONSTRAINT PK_CATEGORIES PRIMARY KEY (no_categorie)
+
+CREATE TABLE ENCHERES (
+                          no_utilisateur   INTEGER NOT NULL,
+                          no_article       INTEGER NOT NULL,
+                          date     DATETIME NOT NULL,
+                          montant  INTEGER NOT NULL
+
+)
+
+ALTER TABLE ENCHERES ADD CONSTRAINT PK_ENCHERES PRIMARY KEY (no_utilisateur, no_article)
+
+CREATE TABLE RETRAITS (
+                          no_article         INTEGER NOT NULL,
+                          rue              VARCHAR(30) NOT NULL,
+                          cpo      VARCHAR(5) NOT NULL,
+                          ville            VARCHAR(30) NOT NULL
+)
+
+ALTER TABLE RETRAITS ADD CONSTRAINT PK_RETRAITS PRIMARY KEY  (no_article)
+
+CREATE TABLE UTILISATEURS (
+                              no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
+                              pseudo           VARCHAR(30) NOT NULL,
+                              nom              VARCHAR(30) NOT NULL,
+                              prenom           VARCHAR(30) NOT NULL,
+                              email            VARCHAR(50) NOT NULL,
+                              telephone        VARCHAR(15),
+                              rue              VARCHAR(50) NOT NULL,
+                              cpo      VARCHAR(5) NOT NULL,
+                              ville            VARCHAR(50) NOT NULL,
+                              mdp     VARCHAR(30) NOT NULL,
+                              credit           INTEGER NOT NULL,
+                              administrateur   BIT NOT NULL
+)
+
+ALTER TABLE UTILISATEURS ADD CONSTRAINT PK_UTILISATEUR PRIMARY KEY (no_utilisateur)
+
+
+CREATE TABLE ARTICLES (
+                                 no_article                    INTEGER IDENTITY(1,1) NOT NULL,
+                                 article                   VARCHAR(30) NOT NULL,
+                                 description                   VARCHAR(300) NOT NULL,
+                                 date_debut_encheres           DATE NOT NULL,
+                                 date_fin_encheres             DATE NOT NULL,
+                                 prix_initial                  INTEGER,
+                                 prix_vente                    INTEGER,
+                                 no_utilisateur                INTEGER NOT NULL,
+                                 no_categorie                  INTEGER NOT NULL
+)
+
+ALTER TABLE ARTICLES ADD CONSTRAINT PK_ARTICLE PRIMARY KEY (no_article)
+
+ALTER TABLE ENCHERES
+    ADD CONSTRAINT FK_ENCHERES_UTILISATEURS FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE ENCHERES
+    ADD CONSTRAINT FK_ENCHERES_ARTICLES FOREIGN KEY ( no_article ) REFERENCES ARTICLES ( no_article )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE RETRAITS
+    ADD CONSTRAINT FK_RETRAITS_ARTICLES FOREIGN KEY ( no_article ) REFERENCES ARTICLES ( no_article )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE ARTICLES
+    ADD CONSTRAINT FK_ARTICLES_CATEGORIES FOREIGN KEY ( no_categorie ) REFERENCES CATEGORIES ( no_categorie )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE ARTICLES
+    ADD CONSTRAINT FK_VENTES_UTILISATEURS FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+
+create unique index UTILISATEURS_pseudo_uindex
+    on UTILISATEURS (pseudo)
+go
+
+create unique index UTILISATEURS_email_uindex
+    on UTILISATEURS (email)
+go
+
+CREATE TABLE ADRESSES (
+                          no_adresse                    INTEGER IDENTITY(1,1) NOT NULL,
+                          rue              VARCHAR(50) NOT NULL,
+                          cpo              VARCHAR(5) NOT NULL,
+                          ville            VARCHAR(50) NOT NULL,
+                          no_utilisateur                INTEGER NOT NULL,
+)
+
+ALTER TABLE ADRESSES ADD CONSTRAINT PK_ADRESSES PRIMARY KEY  (no_adresse)
+
+ALTER TABLE ADRESSES
+    ADD CONSTRAINT FK_ADRESSES_UTILISATEURS FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE UTILISATEURS ADD no_adresse                INTEGER NOT NULL
+
+ALTER TABLE UTILISATEURS
+    ADD CONSTRAINT FK_UTILISATEURS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE RETRAITS ADD no_adresse                INTEGER NOT NULL
+
+ALTER TABLE RETRAITS
+    ADD CONSTRAINT FK_RETRAITS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+
