@@ -1,0 +1,7 @@
+*.class
+.idea
+out
+*.classpath
+*.project
+*eclipse*
+*.iml
