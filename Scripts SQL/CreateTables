@@ -81,3 +81,42 @@ ALTER TABLE ARTICLES
         ON DELETE NO ACTION
         ON UPDATE no action
 
+
+create unique index UTILISATEURS_pseudo_uindex
+    on UTILISATEURS (pseudo)
+go
+
+create unique index UTILISATEURS_email_uindex
+    on UTILISATEURS (email)
+go
+
+CREATE TABLE ADRESSES (
+                          no_adresse                    INTEGER IDENTITY(1,1) NOT NULL,
+                          rue              VARCHAR(50) NOT NULL,
+                          cpo              VARCHAR(5) NOT NULL,
+                          ville            VARCHAR(50) NOT NULL,
+                          no_utilisateur                INTEGER NOT NULL,
+)
+
+ALTER TABLE ADRESSES ADD CONSTRAINT PK_ADRESSES PRIMARY KEY  (no_adresse)
+
+ALTER TABLE ADRESSES
+    ADD CONSTRAINT FK_ADRESSES_UTILISATEURS FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE UTILISATEURS ADD no_adresse                INTEGER NOT NULL
+
+ALTER TABLE UTILISATEURS
+    ADD CONSTRAINT FK_UTILISATEURS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+ALTER TABLE RETRAITS ADD no_adresse                INTEGER NOT NULL
+
+ALTER TABLE RETRAITS
+    ADD CONSTRAINT FK_RETRAITS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
+
+
