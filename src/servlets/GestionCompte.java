@@ -19,16 +19,18 @@ public class GestionCompte extends HttpServlet {
             userId = Integer.parseInt(req.getParameter("userId"));
 
         Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
-        if(userId==-1){
-            System.out.println(resp.getHeader("name"));
+        Utilisateur userToDisplay = getUserById(userId);
+        if(userToDisplay == null)
+            //Si l'utilisateur demandé dans la base n'éxiste pas on retourne vers la page d'accueil
             req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
-        }else if(userConnected==null)
-        {
+        if(userToDisplay.getId()!=userConnected.getId()) {
             //Affichage d'un profil
             req.setAttribute("user", getUserById(userId));
             req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
-        }else{
+        }
+        if(userId==-1 || userToDisplay.getId()==userConnected.getId()){
             //Creation ou Modif compte
+            req.setAttribute("user", getUserById(userId));
             req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
         }
     }
