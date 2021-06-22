@@ -6,33 +6,42 @@
 
 <%@ include file="fragments/header.jsp"%>
 
+            <%--BLOC CONNEXION--%>
+            <br>
             <div class="row">
+                <%--Colonne Vide--%>
                 <div class="col">
-
                 </div>
 
+                <%--Form Connexion--%>
                 <div class="col">
-                    <form method="post" action="connexion.jsp">
-
-                        <label for="login" > Identifiant : </label>
-                        <input type="text" id="login" name="login" required><br>
-
-                        <label for="mdp" > Mot de passe : </label>
-                        <input type="text" id="mdp" name="mdp" required><br>
-
+                    <form method="get" action="connexion">
+                        <%--LOGIN--%>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" >Identifiant : </span>
+                            <input type="text" class="form-control" placeholder="pseudo / email" name="login" required>
+                        </div>
+                        <%--MDP--%>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" >Mot de pass</span>
+                            <input type="password" class="form-control" placeholder="mot de passe" name="mdp" required >
+                        </div>
+                        <br>
+                        <%--RESTE CONNEXTE--%>
                         <input type="checkbox" id="resteConnecte" name="resteConnecte"
                                checked>
                         <label for="resteConnecte">Se souvenir de moi</label>
+                        <%--LIEN REINIT MDP--%>
                         <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
-
+                        <%--BOUTON CONNEXION--%>
                         <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
+                        <%--BOUTON CREATION COMPTE--%>
                         <button  type="submit button" class="btn btn-secondary"  name="creerCompte"> Créer un compte </button>
 
                     </form>
                 </div>
-
+                <%--Colonne Vide--%>
                 <div class="col">
-
                 </div>
             </div>
 
