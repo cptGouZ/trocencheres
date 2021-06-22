@@ -15,7 +15,7 @@
             out.print("<div>Nom : " + user2.getNom() + "</div>");
             out.print("<div>Prenom : " + user2.getPrenom() + "</div>");
             out.print("<div>Email : " + user2.getEmail() + "</div>");
-            out.print("<div>Telephone : " + user2.getTelephone() + "</div>");
+            out.print("<div>Telephone : " + user2.getPhone() + "</div>");
             out.print("<div>Rue : " + user2.getAdresse().getRue() + "</div>");
             out.print("<div>Code postal : " + user2.getAdresse().getCpo() + "</div>");
             out.print("<div>Ville : " + user2.getAdresse().getVille() + "</div>");

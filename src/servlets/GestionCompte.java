@@ -2,7 +2,6 @@ package servlets;
 
 import bo.Adresse;
 import bo.Utilisateur;
-import lombok.RequiredArgsConstructor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,19 +14,28 @@ import java.io.IOException;
 public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Utilisateur userInSession = new Utilisateur();
-        System.out.println(req.getParameter("pseudo"));
-        req.getSession().setAttribute("userConnected", userInSession);
-        req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
-        if(req.getSession().getAttribute("userConnected")==null){
-            req.getRequestDispatcher("accueilS").forward(req, resp);
-        }else {
+        int userId = -1;
+        if( req.getParameter("userId") != null )
+            userId = Integer.parseInt(req.getParameter("userId"));
+
+        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
+        if(userId==-1){
+            System.out.println(resp.getHeader("name"));
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
+        }else if(userConnected==null)
+        {
+            //Affichage d'un profil
+            req.setAttribute("user", getUserById(userId));
+            req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
+        }else{
+            //Creation ou Modif compte
             req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("post");
         Utilisateur userConnected = (Utilisateur)req.getSession().getAttribute("userConnected");
         String pseudo = req.getParameter("pseudo");
         String nom = req.getParameter("nom");
@@ -56,4 +64,17 @@ public class GestionCompte extends HttpServlet {
         currentUser.setPseudo(pseudo);
         req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
     }
+
+
+    private Utilisateur getUserById(int id){
+        Utilisateur retour =  new Utilisateur();
+        retour.setId(id);
+        return retour;
+    }
+/*    private Utilisateur ConstruireUnUtilisateur(HttpServletRequest req, Adresse adrr){
+
+    }
+    private Adresse ConstruireUneAdresse(HttpServletRequest req){
+
+    }*/
 }

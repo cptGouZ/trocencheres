@@ -9,14 +9,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
-    Integer idUtilisateur=0;
+    Integer id =0;
     Adresse adresse=new Adresse(0,null, "rue des églantiers", "44800", "Sautron");
-    String pseudo="Gouz2";
+    String pseudo="Gouz"+id;
     String nom="toto";
     String prenom="julien";
     String email="julien@gmail.com";
-    String telephone="0628187989";
+    String phone ="0628187989";
     String password="toto";
-    Integer credit=200;
+    java.lang.Integer credit=200;
     boolean administrateur;
 }

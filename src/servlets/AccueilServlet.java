@@ -20,29 +20,6 @@ public class AccueilServlet extends HttpServlet {
         System.out.println(categorie2);
         req.setAttribute("categorie ",categorie2);
 
-        //On recupere egalement les parametres d'inscription
-        String pseudo = req.getParameter("pseudo");
-        String nom = req.getParameter("nom");
-        String prenom = req.getParameter("prenom");
-        String email = req.getParameter("email");
-        String telephone = req.getParameter("telephone");
-        String rue = req.getParameter("rue");
-        String cpo = req.getParameter("cpo");
-        String ville = req.getParameter("ville");
-        String password = req.getParameter("password");
-        String confirmation = req.getParameter("confirmation");
-
-        req.setAttribute("pseudo", pseudo);
-        req.setAttribute("nom", nom);
-        req.setAttribute("prenom", prenom);
-        req.setAttribute("email", email);
-        req.setAttribute("telephone", telephone);
-        req.setAttribute("rue", rue);
-        req.setAttribute("cpo", cpo);
-        req.setAttribute("ville", ville);
-        req.setAttribute("password", password);
-        req.setAttribute("confirmation", confirmation);
-
         //La servlet envoie l'info à la JSP
         RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
         rd.forward(req, resp);
