@@ -15,14 +15,6 @@ CREATE TABLE ENCHERES (
 
 ALTER TABLE ENCHERES ADD CONSTRAINT PK_ENCHERES PRIMARY KEY (no_utilisateur, no_article)
 
-CREATE TABLE RETRAITS (
-                          no_article         INTEGER NOT NULL,
-                          rue              VARCHAR(30) NOT NULL,
-                          cpo      VARCHAR(5) NOT NULL,
-                          ville            VARCHAR(30) NOT NULL
-)
-
-ALTER TABLE RETRAITS ADD CONSTRAINT PK_RETRAITS PRIMARY KEY  (no_article)
 
 CREATE TABLE UTILISATEURS (
                               no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
@@ -31,15 +23,18 @@ CREATE TABLE UTILISATEURS (
                               prenom           VARCHAR(30) NOT NULL,
                               email            VARCHAR(50) NOT NULL,
                               telephone        VARCHAR(15),
-                              rue              VARCHAR(50) NOT NULL,
-                              cpo      VARCHAR(5) NOT NULL,
-                              ville            VARCHAR(50) NOT NULL,
                               mdp     VARCHAR(30) NOT NULL,
                               credit           INTEGER NOT NULL,
                               administrateur   BIT NOT NULL
+                              no_adresse                INTEGER NOT NULL
 )
 
 ALTER TABLE UTILISATEURS ADD CONSTRAINT PK_UTILISATEUR PRIMARY KEY (no_utilisateur)
+
+ALTER TABLE UTILISATEURS
+    ADD CONSTRAINT FK_UTILISATEURS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
 
 
 CREATE TABLE ARTICLES (
@@ -52,9 +47,15 @@ CREATE TABLE ARTICLES (
                                  prix_vente                    INTEGER,
                                  no_utilisateur                INTEGER NOT NULL,
                                  no_categorie                  INTEGER NOT NULL
+                                 no_adresse                    INTEGER NOT NULL
 )
 
 ALTER TABLE ARTICLES ADD CONSTRAINT PK_ARTICLE PRIMARY KEY (no_article)
+
+ALTER TABLE ARTICLES
+    ADD CONSTRAINT FK_ARTICLES_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
+        ON DELETE NO ACTION
+        ON UPDATE no action
 
 ALTER TABLE ENCHERES
     ADD CONSTRAINT FK_ENCHERES_UTILISATEURS FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
@@ -105,25 +106,9 @@ ALTER TABLE ADRESSES
         ON DELETE NO ACTION
         ON UPDATE no action
 
-ALTER TABLE UTILISATEURS ADD no_adresse                INTEGER NOT NULL
 
-ALTER TABLE UTILISATEURS
-    ADD CONSTRAINT FK_UTILISATEURS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
-        ON DELETE NO ACTION
-        ON UPDATE no action
 
-ALTER TABLE RETRAITS ADD no_adresse                INTEGER NOT NULL
 
-ALTER TABLE RETRAITS
-    ADD CONSTRAINT FK_RETRAITS_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
-        ON DELETE NO ACTION
-        ON UPDATE no action
 
-ALTER TABLE ARTICLES ADD no_adresse                INTEGER NOT NULL
-
-ALTER TABLE ARTICLES
-    ADD CONSTRAINT FK_ARTICLES_ADRESSES FOREIGN KEY ( no_adresse ) REFERENCES ADRESSES ( no_adresse )
-        ON DELETE NO ACTION
-        ON UPDATE no action
 
 
