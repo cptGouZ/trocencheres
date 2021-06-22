@@ -15,7 +15,7 @@ import java.io.IOException;
 public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("userConnected")==null){
+        if(req.getSession().getAttribute("userConnected")!=null){
             req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
         }else {
             req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);

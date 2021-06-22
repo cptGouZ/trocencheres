@@ -23,17 +23,31 @@
     </div>
 </div>
 
-<div class="row g-3">
-    <div class="col-auto">
-        <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
-            <button class="btn btn-primary mb-3" type="submit">Back</button>
-        </form>
-        <form action="http://localhost:8080/trocencheres_war_exploded/" method="get">
-            <button class="btn btn-primary mb-3" type="submit">Modifier</button>
-        </form>
-    </div>
-</div>
 
+<%--Voir les informations si le profil n'est pas celui de l'utilisateur--%>
+<c:if test="${sessionScope.user = null}">
+    <div class="row g-3">
+        <div class="col-auto">
+            <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
+                <button class="btn btn-primary mb-3" type="submit">Back</button>
+            </form>
+        </div>
+    </div>
+</c:if>
+
+<%--Pouvoir modifier les informations si le profil est celui de l'utilisateur--%>
+<c:if test="${sessionScope.user != null}">
+    <div class="row g-3">
+        <div class="col-auto">
+            <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
+                <button class="btn btn-primary mb-3" type="submit">Back</button>
+            </form>
+            <form action="http://localhost:8080/trocencheres_war_exploded/gestioncompte" method="get">
+                <button class="btn btn-primary mb-3" type="submit">Modifier</button>
+            </form>
+        </div>
+    </div>
+</c:if>
 
 <%@ include file="fragments/footer.jsp"%>
 
