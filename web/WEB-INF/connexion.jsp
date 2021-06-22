@@ -1,16 +1,11 @@
 
+<!--Données pous JSTL et Charset-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-<html>
-<head>
-    <title>Se Connecter</title>
-</head>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<body>
-<header>
+<%@ include file="fragments/header.jsp"%>
 
-</header>
-        <div class="container">
             <div class="row">
                 <div class="col">
 
@@ -40,9 +35,6 @@
 
                 </div>
             </div>
-        </div>
 
+<%@ include file="fragments/footer.jsp"%>
 
-
-</body>
-</html>
