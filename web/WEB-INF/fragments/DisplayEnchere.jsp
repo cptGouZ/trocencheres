@@ -10,6 +10,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="col-12 col-md-6">
     <div class="row">
-
+        <img src="">
     </div>
 </div>
