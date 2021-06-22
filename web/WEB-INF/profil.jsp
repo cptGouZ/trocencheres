@@ -1,18 +1,39 @@
+<%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Profil</title>
-</head>
-<body>
 
-<div class="row">
-    <div class="col">
-        <form action="http://localhost:8080/TPTraducteur_war_exploded/S" method="get">
-            <button class="btn" type="submit">Back</button>
+<%@ include file="fragments/header.jsp"%>
+
+
+<div class="row g-3">
+    <div class="col-auto">
+        <br/>
+        <br/>
+        <br/>
+        <%
+            Utilisateur user2 = (Utilisateur) request.getAttribute("user");
+            out.print("<div>Pseudo : " + user2.getPseudo() + "</div>");
+            out.print("<div>Nom : " + user2.getNom() + "</div>");
+            out.print("<div>Prenom : " + user2.getPrenom() + "</div>");
+            out.print("<div>Email : " + user2.getEmail() + "</div>");
+            out.print("<div>Telephone : " + user2.getTelephone() + "</div>");
+            out.print("<div>Rue : " + user2.getAdresse().getRue() + "</div>");
+            out.print("<div>Code postal : " + user2.getAdresse().getCpo() + "</div>");
+            out.print("<div>Ville : " + user2.getAdresse().getVille() + "</div>");
+        %>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-auto">
+        <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
+            <button class="btn btn-primary mb-3" type="submit">Back</button>
+        </form>
+        <form action="http://localhost:8080/trocencheres_war_exploded/" method="get">
+            <button class="btn btn-primary mb-3" type="submit">Modifier</button>
         </form>
     </div>
 </div>
 
 
-</body>
-</html>
+<%@ include file="fragments/footer.jsp"%>
+
