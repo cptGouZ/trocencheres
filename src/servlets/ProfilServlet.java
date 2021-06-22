@@ -18,9 +18,8 @@ public class ProfilServlet extends HttpServlet {
         //La servlet envoie l'info à la JSP
         req.setAttribute("user", user2);
 
-        //Je déclare le RequestDispatcher
+        //Je déclare le RequestDispatcher pour aller à la JSP profil
         RequestDispatcher rd;
-        //Pour aller à la JSP profil
         rd = req.getRequestDispatcher("WEB-INF/profil.jsp");
         rd.forward(req, resp);
     }
@@ -28,10 +27,8 @@ public class ProfilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //Je déclare le RequestDispatcher
+        //Je déclare le RequestDispatcher pour aller à la JSP profil
         RequestDispatcher rd;
-
-        //Pour aller à la JSP profil
         rd = req.getRequestDispatcher("WEB-INF/profil.jsp");
         rd.forward(req, resp);
     }

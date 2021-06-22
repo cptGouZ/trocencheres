@@ -7,20 +7,29 @@
 </head>
 <body>
 
+<%--BLOC REINIT MDP--%>
 <div class="container">
     <div class="row">
+        <%--Colonne Vide--%>
         <div class="col">
         </div>
+        <%--FORM Reinit MDP--%>
         <div class="col">
-            <form method="post" action="reinitMdp.jsp">
-
+            <form method="" action="">
+            <%--Titre--%>
             <h3>Réinitialisation Mot de passe</h3>
+            <%--EMAIL du COMPTE--%>
             <label for="email" > Email associé à votre compte : </label>
-            <input type="text" id="email" name="email" required><br>
+            <input type="text" id="email" name="email" ><br>
+            <%--BOUTON REINIT--%>
             <button  type="submit button" class="btn btn-secondary"  name="reinitMdp"> Réinitialiser </button>
-            <button  type="submit button" class="btn btn-secondary"  name="annuler"> Annuler </button>
-
             </form>
+
+            <form method="get" action="connexion" >
+            <%--BOUTON ANNULER--%>
+            <button  type="submit button" class="btn btn-secondary"  > Annuler </button>
+            </form>
+
         </div>
         <div class="col">
         </div>

@@ -16,6 +16,10 @@ public class AccueilServlet extends HttpServlet {
         System.out.println(categorie);
         req.setAttribute("categorie ",categorie);
 
+        String categorie2 = req.getParameter("categorie");
+        System.out.println(categorie2);
+        req.setAttribute("categorie ",categorie2);
+
         //On recupere egalement les parametres d'inscription
         String pseudo = req.getParameter("pseudo");
         String nom = req.getParameter("nom");
