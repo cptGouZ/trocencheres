@@ -25,12 +25,12 @@ public class GestionCompte extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
         if(userToDisplay.getId()!=userConnected.getId()) {
             //Affichage d'un profil
-            req.setAttribute("user", getUserById(userId));
+            req.setAttribute("user", userToDisplay);
             req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
         }
         if(userId==-1 || userToDisplay.getId()==userConnected.getId()){
             //Creation ou Modif compte
-            req.setAttribute("user", getUserById(userId));
+            req.setAttribute("user", getUserById(userConnected.getId()));
             req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
         }
     }
