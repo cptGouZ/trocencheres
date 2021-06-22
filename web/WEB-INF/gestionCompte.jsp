@@ -1,16 +1,20 @@
+<%@ page import="bo.Utilisateur" %>
 <!--Données pous JSTL et Charset-->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="fragments/header.jsp"%>
+<% String defaultPseudo = "value=\"" + ((Utilisateur)session.getAttribute("userConnected")).getNom() + "\""; %>
+
 <div class="row">
-    <form class="col" method="post" action="${pageContext.request.contextPath}/gestioncompte">
+    <div class="col">
         <%--Pseudo / Nom--%>
         <div class="row">
             <div class="col input-group mb-3">
                 <span class="col-2 input-group-text" id="idPseudo">Pseudo</span>
-                <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo" <%=defaultPseudo%>>
+
             </div>
             <div class="col input-group mb-3">
                 <span class="input-group-text" id="idNom">Nom :</span>
@@ -89,7 +93,7 @@
       
         <%--Enregistrer / Supprimer
         Afficher si le profil de session est celui de l'utilisateur--%>
-        <c:if test="${!empty sessionScope.get(connectedUser.id)}">
+        <c:if test="${!empty sessionScope.get('connectedUser')}">
             <div class="row">
                 <div class="col">
                     Credit : 640

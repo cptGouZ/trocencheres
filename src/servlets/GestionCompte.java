@@ -15,8 +15,12 @@ import java.io.IOException;
 public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Utilisateur userInSession = new Utilisateur();
+        System.out.println(req.getParameter("pseudo"));
+        req.getSession().setAttribute("userConnected", userInSession);
+        req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
         if(req.getSession().getAttribute("userConnected")==null){
-            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
+            req.getRequestDispatcher("accueilS").forward(req, resp);
         }else {
             req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
         }
