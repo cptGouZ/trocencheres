@@ -28,7 +28,7 @@
                         <input type="checkbox" id="resteConnecte" name="resteConnecte"
                                checked>
                         <label for="resteConnecte">Se souvenir de moi</label>
-                        <li><a href="">Mot de passe oublié</a></li>
+                        <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
 
                         <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
                         <button  type="submit button" class="btn btn-secondary"  name="creerCompte"> Créer un compte </button>

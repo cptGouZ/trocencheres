@@ -10,21 +10,19 @@
 <div class="container">
     <div class="row">
         <div class="col">
-
         </div>
         <div class="col">
             <form method="post" action="reinitMdp.jsp">
 
             <h3>Réinitialisation Mot de passe</h3>
             <label for="email" > Email associé à votre compte : </label>
-            <input type="text" id="email" name="email" required>
+            <input type="text" id="email" name="email" required><br>
             <button  type="submit button" class="btn btn-secondary"  name="reinitMdp"> Réinitialiser </button>
             <button  type="submit button" class="btn btn-secondary"  name="annuler"> Annuler </button>
 
             </form>
         </div>
         <div class="col">
-
         </div>
     </div>
 </div>
