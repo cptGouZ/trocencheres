@@ -8,24 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/connexion")
-public class Connexion extends HttpServlet {
+@WebServlet("/vente")
+
+public class Vente extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String jspConnexion = "WEB-INF/connexion.jsp";
-        String jspReinitMdp = "WEB-INF/reinitMdp.jsp";
-
-        String redirectionJsp = jspConnexion ;
-
-        if(req.getParameter("id")!=null)
-        {
-            redirectionJsp = jspReinitMdp ;
-        }
-
         RequestDispatcher rd ;
-        rd = req.getRequestDispatcher(redirectionJsp) ;
+        rd = req.getRequestDispatcher("WEB-INF/vente.jsp") ;
         rd.forward(req,resp);
 
     }
