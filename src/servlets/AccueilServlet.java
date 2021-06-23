@@ -1,6 +1,5 @@
 package servlets;
 
-import bll.FUserManager;
 import bll.impl.ArticleManager;
 import bo.Article;
 import exception.BLLException;

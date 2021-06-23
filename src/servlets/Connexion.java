@@ -1,6 +1,8 @@
 package servlets;
 
 import bll.IConnexionManager;
+import bll.ManagerProvider;
+import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -35,7 +37,7 @@ public class Connexion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
+
 
         //Mettre un cookie sur le rester connecté
        /* Cookie[] cookies = req.getCookies();
@@ -50,8 +52,10 @@ public class Connexion extends HttpServlet {
         System.out.println(identifiant);
         System.out.println(mdp);
 
-        IConnexionManager icm = FConnexionManager.getConnexionManager();
-        icm.connexionAuSite(identifiant,mdp);
+        IConnexionManager icm = ManagerProvider.getConnexionManager();
+        Utilisateur test = icm.connexionAuSite(identifiant,mdp);
+
+        HttpSession session = req.getSession();
 
 
     }
