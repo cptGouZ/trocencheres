@@ -16,7 +16,7 @@ public interface IGenericDao<T> {
     List<T> selectAll() throws DALException;
 
     //Méthode spécifique à Utilisateur
-    default Utilisateur selectByName(String name) {return null;}
+    default Utilisateur selectByLogin(String login) {return null;}
 
     //Méthode spécifique à Article
     default Article selectByArticle(String article) {return null;}
