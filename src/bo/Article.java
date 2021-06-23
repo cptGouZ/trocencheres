@@ -6,18 +6,19 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article implements Serializable {
-    Integer id;
-    Utilisateur utilisateur;
-    Categorie categorie;
-    String article;
-    String description;
-    LocalDate dateDebut;
-    LocalDate dateFin;
-    Integer prixVente;
+    Integer id = 1;
+    Utilisateur utilisateur = new Utilisateur();
+    Categorie categorie = new Categorie(1,"sports");
+    String article = "Raquette" ;
+    String description = "Pour pratiquer le tennis indoor";
+    LocalDateTime dateDebut = LocalDateTime.of(2021,11,02,02,12);
+    LocalDateTime dateFin = LocalDateTime.of(2021,11,07,05,22);
+    Integer prixVente = 49;
 }
 
