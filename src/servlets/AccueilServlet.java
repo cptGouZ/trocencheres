@@ -11,14 +11,14 @@ public class AccueilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //On recupere la categorie et le nom
-        String nomText = req.getParameter("nomtext");
-        req.setAttribute("nomtext", nomText);
+        //On recupere la categorie
         String categorie = req.getParameter("categorie");
+        System.out.println(categorie);
         req.setAttribute("categorie ",categorie);
 
-        req.setAttribute("nomtext", nomText);
-        req.setAttribute("categorie", categorie);
+        String categorie2 = req.getParameter("categorie");
+        System.out.println(categorie2);
+        req.setAttribute("categorie ",categorie2);
 
         //On recupere egalement les parametres d'inscription
         String pseudo = req.getParameter("pseudo");
@@ -43,7 +43,7 @@ public class AccueilServlet extends HttpServlet {
         req.setAttribute("password", password);
         req.setAttribute("confirmation", confirmation);
 
-        //La servlet envoie les infos à la JSP
+        //La servlet envoie l'info à la JSP
         RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
         rd.forward(req, resp);
     }
