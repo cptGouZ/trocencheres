@@ -1,7 +1,12 @@
 package servlets;
 
+import bll.IArticleManager;
+import bll.IUserManager;
+import bll.ManagerProvider;
 import bll.impl.ArticleManager;
 import bo.Article;
+import bo.Categorie;
+import bo.Utilisateur;
 import exception.BLLException;
 import lombok.SneakyThrows;
 
@@ -11,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +44,7 @@ public class AccueilServlet extends HttpServlet {
         //Affichage par categorie
         //On fait appel a ArticleManager
         List<Article> articleList2 = new ArrayList<>();
-        ArticleManager am2 = new ArticleManager();
+        IArticleManager am2 = ManagerProvider.getArticleManager();
         //Mettre les valeur de checkbox dans les paramètres de la requête
         articleList2 = am2.getByCriterias(textArticle, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, encheresNonDeb, encheresTerm);
 
@@ -62,9 +69,8 @@ public class AccueilServlet extends HttpServlet {
         //Affichage de tous les articles
         //On fait appel a ArticleManager
         List<Article> articleList = new ArrayList<>();
-        ArticleManager am;
+        IArticleManager am = ManagerProvider.getArticleManager();
         try {
-            am = new ArticleManager();
             articleList = am.getAll();
 
         } catch (BLLException e) {

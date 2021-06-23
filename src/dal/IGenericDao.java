@@ -16,9 +16,15 @@ public interface IGenericDao<T> {
     List<T> selectAll() throws DALException;
 
     //Méthode spécifique à Utilisateur
+    default Utilisateur selectByLogin(String login) throws DALException {return null;}
+
+    //Méthodes spécifiques à Article
+    default Article selectByArticle(String article) throws DALException {return null;}
+    default List<Article> selectByCriterias(String articleName, String catName, boolean openedEnchere,
+                                            boolean inprogressEnchere, boolean winEnchere,
+                                            boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws DALException {return null;}
     default Utilisateur selectByEmail(String email) {return null;}
     default Utilisateur selectByPseudo(String pseudo) {return null;}
 
     //Méthode spécifique à Article
-    default Article selectByArticle(String article) {return null;}
 }
