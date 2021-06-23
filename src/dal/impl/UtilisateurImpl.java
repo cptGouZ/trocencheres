@@ -31,4 +31,9 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
     public List<Utilisateur> selectAll() throws DALException {
         return null;
     }
+
+    @Override
+    public Utilisateur selectByName(String Name){
+        return new Utilisateur();
+    }
 }

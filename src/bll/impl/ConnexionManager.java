@@ -2,7 +2,7 @@ package bll.impl;
 
 import bll.IConnexionManager;
 import bo.Utilisateur;
-import dal.IUtilisateurDao;
+import dal.IGenericDao;
 import dal.FGlobalDao;
 
 public class ConnexionManager implements IConnexionManager {
@@ -15,7 +15,9 @@ public class ConnexionManager implements IConnexionManager {
         System.out.println(login);
         System.out.println(mdp);
 
-        IUtilisateurDao cDao = FGlobalDao.getConnexionDao();
+        IGenericDao<Utilisateur> cDao = FGlobalDao.getUtilisateurDao();
+        IGenericDao<Utilisateur> cDao1 = FGlobalDao.getUtilisateurDao();
+
         return nouvelUtilisateur;
     }
 }
