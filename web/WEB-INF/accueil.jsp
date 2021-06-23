@@ -5,7 +5,7 @@
 
 
 <!-- PARTIE RECHERCHE-->
-<%--Voir les informations Ventes et Achats si le profil est celui de l'utilisateur--%>
+<%--Voir les informations Ventes et Achats si le profil est connecté--%>
 <c:if test="${sessionScope.user != null}">
     <div class="input-group mb-3">
         <div class="col-auto">

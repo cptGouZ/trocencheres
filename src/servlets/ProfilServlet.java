@@ -13,7 +13,6 @@ public class ProfilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         Utilisateur user2 = new Utilisateur();
         //La servlet envoie l'info à la JSP
         req.setAttribute("user", user2);
@@ -26,7 +25,6 @@ public class ProfilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         //Je déclare le RequestDispatcher pour aller à la JSP profil
         RequestDispatcher rd;
         rd = req.getRequestDispatcher("WEB-INF/profil.jsp");

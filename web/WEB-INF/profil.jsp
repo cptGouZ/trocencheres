@@ -24,8 +24,8 @@
 </div>
 
 
-<%--Voir les informations si le profil n'est pas celui de l'utilisateur--%>
-<c:if test="${sessionScope.user = null}">
+<%--Voir les informations du vendeur si le profil n'est pas celui de l'utilisateur--%>
+<c:if test="${empty sessionScope.get(connectedUser.id)}">
     <div class="row g-3">
         <div class="col-auto">
             <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
@@ -36,7 +36,7 @@
 </c:if>
 
 <%--Pouvoir modifier les informations si le profil est celui de l'utilisateur--%>
-<c:if test="${sessionScope.user != null}">
+<c:if test="${!empty sessionScope.get(connectedUser.id)}">
     <div class="row g-3">
         <div class="col-auto">
             <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="get">
