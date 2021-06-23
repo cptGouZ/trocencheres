@@ -18,13 +18,25 @@ public class Utilisateur implements Serializable {
     String phone ="0628187989";
     String password="toto";
     java.lang.Integer credit=200;
-    boolean administrateur;
+    boolean admin;
 
 
     // Constructeur pour CONNEXION
     public Utilisateur(String pseudo, String password) {
         this.pseudo = pseudo;
         this.password = password;
+    }
+
+    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone, String password, int credit, boolean admin) {
+        this.adresse = adresse;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.credit = credit;
+        this.admin = admin;
     }
 }
 

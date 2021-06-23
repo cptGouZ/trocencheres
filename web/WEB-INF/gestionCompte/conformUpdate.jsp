@@ -3,11 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ include file="fragments/header.jsp"%>
+<%@ include file="../fragments/header.jsp"%>
 
-Votre compte utilisateur est créé. Merci de vous connecter pour commencer à vendre et acheter plein d'objets !
-<a href="/connexion">Connexion</a>
+Votre compte utilisateur est bien modifié
 <a href="/accueilS">Connexion</a>
 
-<%@ include file="fragments/footer.jsp"%>
-
+<%@ include file="../fragments/footer.jsp"%>

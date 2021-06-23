@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Adresse {
     Integer id;
-    Utilisateur userId;
     String rue;
     String cpo;
     String ville;
+    boolean domicile;
+
+    public Adresse(String rue, String cpo, String ville, boolean domicile) {
+    }
 }
