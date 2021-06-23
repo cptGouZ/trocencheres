@@ -55,7 +55,6 @@ public class Connexion extends HttpServlet {
         IConnexionManager icm = ManagerProvider.getConnexionManager();
         Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
 
-        HttpSession session = req.getSession();
         req.getSession().setAttribute("userConnected",utilisateurConnecte);
 
         req.getRequestDispatcher("accueilS").forward(req, resp);
