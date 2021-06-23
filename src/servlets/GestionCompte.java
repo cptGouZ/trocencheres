@@ -2,11 +2,9 @@ package servlets;
 
 import bll.FUserManager;
 import bll.IUserManager;
-import bll.impl.UserManager;
 import bo.Adresse;
 import bo.Utilisateur;
 import exception.BLLException;
-import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,29 +15,48 @@ import java.io.IOException;
 
 @WebServlet("/gestioncompte")
 public class GestionCompte extends HttpServlet {
+    public final static int DEFAULT = -1;
+    public final static int NEW_ACCOUNT = 0;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             IUserManager um = FUserManager.getUserManager();
-            int userId = -1;
+            int userId = DEFAULT;
             if( req.getParameter("userId") != null )
                 userId = Integer.parseInt(req.getParameter("userId"));
 
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
             Utilisateur userToDisplay = null;
             userToDisplay = um.getById(userId);
-            if(userToDisplay == null)
-                //Si l'utilisateur demandé dans la base n'éxiste pas on retourne vers la page d'accueil
+
+            //L'utilisateur n'existe pas et nous ne demandons pas une création de compte
+            if(userToDisplay==null && userId != NEW_ACCOUNT)
                 req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
-            if(userToDisplay.getId()!=userConnected.getId()) {
-                //Affichage d'un profil
-                req.setAttribute("user", userToDisplay);
-                req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
+
+            //L'utilisateur n'est pas connecté
+            if(userConnected==null) {
+                //Demande d'affichage du profil
+                if(userToDisplay!=null) {
+                    req.setAttribute("userDisplayed", userToDisplay);
+                    req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
+                }
+                //Demande de création de compte
+                if(userId==NEW_ACCOUNT) {
+                    req.setAttribute("userId", userId);
+                    req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
+                }
             }
-            if(userId==-1 || userToDisplay.getId()==userConnected.getId()){
-                //Creation ou Modif compte
-                req.setAttribute("user", um.getById(userConnected.getId()));
-                req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
+            if(userConnected!=null){
+                //Demande d'affichage du profil
+                if(userToDisplay.getId()!=userConnected.getId()) {
+                    req.setAttribute("userDisplayed", userToDisplay);
+                    req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
+                }
+                //Demande de modification de compte
+                if(userToDisplay.getId()==userConnected.getId()) {
+                    req.setAttribute("userId", userId);
+                    req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
+                }
             }
         } catch (BLLException e) {
             e.printStackTrace();
