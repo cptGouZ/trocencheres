@@ -65,13 +65,19 @@ public class UserManager implements IUserManager {
             throw new BLLException(e.getMessage());
         }
     }
-    private void validerUtilisateur (Utilisateur user) throws GlobalException {
-        if(user.getPseudo().trim().isEmpty())
-            GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
-        if(FactoriesDao.getUtilisateurDao().selectByPseudo(user.getPseudo()) != null)
-            GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
-
-        if(GlobalException.getInstance().hasErrors())
+    private void validerCreation (Utilisateur user) throws GlobalException {
+        try {
+            IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
+            if (user.getPseudo().trim().isEmpty())
+                GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
+            if (userDao.selectByPseudo(user.getPseudo())!=null)
+                GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
+            if (userDao.selectByEmail(user.getEmail())!=null)
+                GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
     }
 }
