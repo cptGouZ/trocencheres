@@ -15,7 +15,7 @@
 
                 <%--Form Connexion--%>
                 <div class="col">
-                    <form method="get" action="connexion">
+                    <form method="post" action="connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
                             <span class="input-group-text" >Identifiant : </span>
@@ -35,9 +35,13 @@
                         <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
                         <%--BOUTON CONNEXION--%>
                         <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
+
+
+                    </form>
+
+                    <form method="get" action="${pageContext.request.contextPath}/gestioncompte?userId=0">
                         <%--BOUTON CREATION COMPTE--%>
                         <button  type="submit button" class="btn btn-secondary"  name="creerCompte"> Créer un compte </button>
-
                     </form>
                 </div>
                 <%--Colonne Vide--%>

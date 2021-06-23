@@ -20,3 +20,14 @@ public class Utilisateur implements Serializable {
     java.lang.Integer credit=200;
     boolean administrateur;
 }
+
+// Constructeur pour CONNEXION
+    public Utilisateur(String pseudo, String password) {
+        this.pseudo = pseudo;
+        this.password = password;
+    }
+}
+
+
+
+

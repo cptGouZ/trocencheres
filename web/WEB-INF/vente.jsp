@@ -97,7 +97,7 @@
                  </div>
                  <br>
              <%--BOUTON ENREGISTRER--%>
-             <button  type="submit button" class="btn btn-secondary"  name="enregistrer"> Connexion </button>
+             <button  type="submit button" class="btn btn-secondary"  name="enregistrer"> Enregistrer </button>
              <%--BOUTON ANNULER--%>
              <button  type="submit button" class="btn btn-secondary"  name="annuler"> Annuler </button>
 
