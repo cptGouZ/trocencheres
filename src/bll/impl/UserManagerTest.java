@@ -12,4 +12,19 @@ public class UserManagerTest implements IUserManager {
         retour.setId(id);
         return retour;
     }
+
+    @Override
+    public void mettreAJour(Utilisateur user) throws BLLException {
+
+    }
+
+    @Override
+    public void remove(int id) throws BLLException {
+
+    }
+
+    @Override
+    public void create(Utilisateur user) throws BLLException {
+
+    }
 }
