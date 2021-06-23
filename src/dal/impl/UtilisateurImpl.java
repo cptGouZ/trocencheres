@@ -5,10 +5,8 @@ import dal.ConnectionProvider;
 import dal.IGenericDao;
 import exception.DALException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurImpl implements IGenericDao<Utilisateur> {
@@ -115,7 +113,9 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
 
     @Override
     public List<Utilisateur> selectAll() throws DALException {
-        return null;
+        List<Utilisateur> retour = new ArrayList<>();
+        
+        return retour;
     }
-
+}
 

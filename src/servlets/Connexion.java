@@ -1,6 +1,7 @@
 package servlets;
 
 import bll.IConnexionManager;
+import bll.ManagerProvider;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -50,7 +51,7 @@ public class Connexion extends HttpServlet {
         System.out.println(identifiant);
         System.out.println(mdp);
 
-        IConnexionManager icm = FConnexionManager.getConnexionManager();
+        IConnexionManager icm = ManagerProvider.getConnexionManager();
         icm.connexionAuSite(identifiant,mdp);
 
 
