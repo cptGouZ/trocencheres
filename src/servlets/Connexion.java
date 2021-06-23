@@ -2,6 +2,7 @@ package servlets;
 
 import bll.IConnexionManager;
 import bll.ManagerProvider;
+import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,8 +53,12 @@ public class Connexion extends HttpServlet {
         System.out.println(mdp);
 
         IConnexionManager icm = ManagerProvider.getConnexionManager();
-        icm.connexionAuSite(identifiant,mdp);
+        Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
 
+        HttpSession session = req.getSession();
+        req.getSession().setAttribute("userConnected",utilisateurConnecte);
+
+        req.getRequestDispatcher("accueilS").forward(req, resp);
 
     }
 }
