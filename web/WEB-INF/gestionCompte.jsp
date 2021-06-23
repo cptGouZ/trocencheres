@@ -15,7 +15,7 @@
 
 <%@ include file="fragments/header.jsp"%>
 <div class="row">
-    <form method="post" action="${pageContext.request.contextPath}/gestioncompte${userId}" class="col">
+    <form method="post" action="${pageContext.request.contextPath}/gestioncompte?${userId}" class="col">
         <%--Pseudo / Nom--%>
         <div class="row">
             <div class="col input-group mb-3">
