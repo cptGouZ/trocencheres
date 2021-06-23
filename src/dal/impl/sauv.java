@@ -2,14 +2,13 @@ package dal.impl;
 
 import bo.Utilisateur;
 import dal.ConnectionProvider;
-import dal.IGenericDao;
-import exception.DALException;
 
-import java.sql.*;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class UtilisateurImpl implements IGenericDao<Utilisateur> {
-
+public class sauv {
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email=?";
     private static final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
 
@@ -67,30 +66,4 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
     }
 
 
-    @Override
-    public void insert(Utilisateur obj) throws DALException {
-
-    }
-
-    @Override
-    public void update(Utilisateur obj) throws DALException {
-
-    }
-
-    @Override
-    public void delete(int id) throws DALException {
-
-    }
-
-    @Override
-    public Utilisateur selectById(int id) throws DALException {
-        return null;
-    }
-
-    @Override
-    public List<Utilisateur> selectAll() throws DALException {
-        return null;
-    }
 }
-
-
