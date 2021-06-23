@@ -3,6 +3,7 @@ package bll;
 import bll.impl.ArticleManager;
 import bll.impl.ConnexionManager;
 import bll.impl.UserManager;
+import bll.impl.UserManagerTest;
 
 public class ManagerProvider {
     public static IConnexionManager getConnexionManager(){

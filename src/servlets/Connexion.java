@@ -1,8 +1,7 @@
 package servlets;
 
-import bll.FConnexionManager;
 import bll.IConnexionManager;
-import bll.impl.ConnexionManager;
+import bll.ManagerProvider;
 import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
@@ -38,12 +37,10 @@ public class Connexion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
 
         //Mettre un cookie sur le rester connecté
        /* Cookie[] cookies = req.getCookies();
         Cookie connectionCookie = new Cookie ()*/
-
 
         //Récupérer l'identifiant et le mot de passe
 
@@ -53,9 +50,13 @@ public class Connexion extends HttpServlet {
         System.out.println(identifiant);
         System.out.println(mdp);
 
-        IConnexionManager icm = FConnexionManager.getConnexionManager();
-        icm.connexionAuSite(identifiant,mdp);
+        IConnexionManager icm = ManagerProvider.getConnexionManager();
+        Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
 
+        HttpSession session = req.getSession();
+        req.getSession().setAttribute("userConnected",utilisateurConnecte);
+
+        req.getRequestDispatcher("accueilS").forward(req, resp);
 
     }
 }
