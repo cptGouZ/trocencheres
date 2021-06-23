@@ -30,11 +30,12 @@ public class GestionCompte extends HttpServlet {
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
             Utilisateur userToDisplay = null;
             userToDisplay = um.getById(userId);
-
+            System.out.println(userToDisplay);
+            System.out.println(userId);
             //L'utilisateur n'existe pas et nous ne demandons pas une création de compte
-            if(userToDisplay==null && userId != NEW_ACCOUNT)
-                req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
-
+            if(userToDisplay==null && userId != NEW_ACCOUNT) {
+                req.getRequestDispatcher("accueilS").forward(req, resp);
+            }
             //L'utilisateur n'est pas connecté
             if(userConnected==null) {
                 //Demande d'affichage du profil
@@ -60,6 +61,7 @@ public class GestionCompte extends HttpServlet {
                     req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
                 }
             }
+            req.getRequestDispatcher("accueilS").forward(req, resp);
         } catch (BLLException e) {
             e.printStackTrace();
         }
