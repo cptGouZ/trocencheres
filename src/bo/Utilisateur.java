@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
     Integer id =0;
-    Adresse adresse=new Adresse(0,null, "rue des églantiers", "44800", "Sautron");
+    Adresse adresse=null;
     String pseudo="Gouz"+id;
     String nom="toto";
     String prenom="julien";

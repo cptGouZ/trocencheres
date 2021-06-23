@@ -1,9 +1,6 @@
 package servlets;
 
-import bll.FConnexionManager;
 import bll.IConnexionManager;
-import bll.impl.ConnexionManager;
-import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
