@@ -1,4 +1,9 @@
-package src.servlets;
+package servlets;
+
+import bll.FConnexionManager;
+import bll.IConnexionManager;
+import bll.impl.ConnexionManager;
+import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +13,8 @@ import java.io.IOException;
 
 @WebServlet("/connexion")
 public class Connexion extends HttpServlet {
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,6 +50,11 @@ public class Connexion extends HttpServlet {
         String identifiant = req.getParameter("login");
         String mdp = req.getParameter("mdp");
 
+        System.out.println(identifiant);
+        System.out.println(mdp);
+
+        IConnexionManager icm = FConnexionManager.getConnexionManager();
+        icm.creerCompte(identifiant,mdp);
 
 
     }

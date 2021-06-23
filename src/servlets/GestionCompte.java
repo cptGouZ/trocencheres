@@ -2,11 +2,9 @@ package servlets;
 
 import bll.FUserManager;
 import bll.IUserManager;
-import bll.impl.UserManager;
 import bo.Adresse;
 import bo.Utilisateur;
 import exception.BLLException;
-import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
