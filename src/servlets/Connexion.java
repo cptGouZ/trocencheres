@@ -1,15 +1,20 @@
-package src.servlets;
+package servlets;
+
+import bll.FConnexionManager;
+import bll.IConnexionManager;
+import bll.impl.ConnexionManager;
+import bo.Utilisateur;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/connexion")
 public class Connexion extends HttpServlet {
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,6 +37,25 @@ public class Connexion extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
+        HttpSession session = req.getSession();
+
+        //Mettre un cookie sur le rester connecté
+       /* Cookie[] cookies = req.getCookies();
+        Cookie connectionCookie = new Cookie ()*/
+
+
+        //Récupérer l'identifiant et le mot de passe
+
+        String identifiant = req.getParameter("login");
+        String mdp = req.getParameter("mdp");
+
+        System.out.println(identifiant);
+        System.out.println(mdp);
+
+        IConnexionManager icm = FConnexionManager.getConnexionManager();
+        icm.creerCompte(identifiant,mdp);
+
+
     }
 }

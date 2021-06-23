@@ -5,6 +5,6 @@ import bll.impl.UserManagerTest;
 
 public class FUserManager {
     public static IUserManager getUserManager(){
-        return new UserManagerTest();
+        return new UserManager();
     }
 }
