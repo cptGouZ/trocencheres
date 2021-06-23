@@ -38,11 +38,9 @@ public class Connexion extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-
         //Mettre un cookie sur le rester connecté
        /* Cookie[] cookies = req.getCookies();
         Cookie connectionCookie = new Cookie ()*/
-
 
         //Récupérer l'identifiant et le mot de passe
 
@@ -53,10 +51,12 @@ public class Connexion extends HttpServlet {
         System.out.println(mdp);
 
         IConnexionManager icm = ManagerProvider.getConnexionManager();
-        Utilisateur test = icm.connexionAuSite(identifiant,mdp);
+        Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
 
         HttpSession session = req.getSession();
+        req.getSession().setAttribute("userConnected",utilisateurConnecte);
 
+        req.getRequestDispatcher("accueilS").forward(req, resp);
 
     }
 }
