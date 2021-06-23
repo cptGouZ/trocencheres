@@ -27,5 +27,4 @@ public interface IGenericDao<T> {
     default Utilisateur selectByPseudo(String pseudo) {return null;}
 
     //Méthode spécifique à Article
-    default Article selectByArticle(String article) {return null;}
 }
