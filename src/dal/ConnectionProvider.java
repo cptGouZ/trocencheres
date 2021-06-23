@@ -10,9 +10,8 @@ import java.sql.SQLException;
 public class ConnectionProvider {
     private static DataSource dataSource;
     static {
-        Context ctx = null;
         try {
-            ctx = new InitialContext();
+            Context ctx = new InitialContext();
             dataSource = (DataSource) ctx.lookup("java:comp/env/jdbc/dbSettings");
         } catch (NamingException e) {
             e.printStackTrace();

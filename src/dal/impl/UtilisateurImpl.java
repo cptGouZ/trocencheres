@@ -4,6 +4,8 @@ import bo.Utilisateur;
 import dal.ConnectionProvider;
 import dal.IGenericDao;
 import exception.DALException;
+import exception.GlobalException;
+import exception.exceptionEnums.UserException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -91,7 +93,7 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
     }
 
     @Override
-    public Utilisateur selectById(int id) throws DALException {
+    public Utilisateur selectById(int id) throws DALException, GlobalException {
         final String SELECT_BY_ID = "SELECT * FROM utilisateurs WHERE no_utilisateur = ?";
         Utilisateur retour = null;
         try (Connection cnx = ConnectionProvider.getConnection();
@@ -113,7 +115,8 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();
-            new DALException(sqle.getMessage());
+            GlobalException.getInstance().addError(UserException.SELECT_BY_USER_ID);
+            throw GlobalException.getInstance();
         }
         return retour;
     }

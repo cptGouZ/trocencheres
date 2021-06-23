@@ -4,6 +4,7 @@ import bo.Article;
 import bo.Utilisateur;
 import dal.impl.UtilisateurImpl;
 import exception.DALException;
+import exception.GlobalException;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface IGenericDao<T> {
     void insert(T obj) throws DALException;
     void update(T obj) throws DALException;
     void delete(int id) throws DALException;
-    T selectById(int id) throws DALException;
+    T selectById(int id) throws DALException, GlobalException;
     List<T> selectAll() throws DALException;
 
     //Méthode spécifique à Utilisateur

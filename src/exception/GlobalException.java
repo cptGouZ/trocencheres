@@ -1,5 +1,7 @@
 package exception;
 
+import exception.exceptionEnums.AppException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,13 +9,13 @@ import java.util.List;
 import java.util.Properties;
 
 public class GlobalException extends Exception {
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
     private static final String URL_ERRORS_MSG = "src/exception/MsgErrors.properties";
     private static GlobalException singleton;
 
     //Création du singleton
     private GlobalException(){}
-    public static GlobalException getInstance(){
+    public static GlobalException getInstance() throws GlobalException {
         if(singleton==null)
             singleton = new GlobalException();
         try {
@@ -21,11 +23,11 @@ public class GlobalException extends Exception {
             properties.load(fis);
         } catch (IOException e) {
             e.printStackTrace();
+            GlobalException.getInstance().addError(AppException.FILE_NOT_FOUND);
+            throw GlobalException.getInstance();
         }
         return singleton;
     }
-
-
 
     //Liste des erreurs
     List<Integer> errors = new ArrayList<>();
