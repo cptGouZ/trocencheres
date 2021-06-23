@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/*public class ConnectionProvider {
+public class ConnectionProvider {
     private static DataSource dataSource;
     static {
         Context ctx = null;
@@ -21,4 +21,4 @@ import java.sql.SQLException;
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
-}*/
+}

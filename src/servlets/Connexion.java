@@ -54,7 +54,7 @@ public class Connexion extends HttpServlet {
         System.out.println(mdp);
 
         IConnexionManager icm = FConnexionManager.getConnexionManager();
-        icm.creerCompte(identifiant,mdp);
+        icm.connexionAuSite(identifiant,mdp);
 
 
     }
