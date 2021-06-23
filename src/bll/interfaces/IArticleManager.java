@@ -1,4 +1,4 @@
-package bll;
+package bll.interfaces;
 
 import bo.Article;
 import bo.Categorie;

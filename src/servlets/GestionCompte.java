@@ -1,6 +1,6 @@
 package servlets;
 
-import bll.IUserManager;
+import bll.interfaces.IUserManager;
 import bll.ManagerProvider;
 import bo.Adresse;
 import bo.Utilisateur;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @WebServlet("/gestioncompte")
 public class GestionCompte extends HttpServlet {

@@ -1,6 +1,6 @@
 package bll.impl;
 
-import bll.IUserManager;
+import bll.interfaces.IUserManager;
 import bo.Utilisateur;
 import exception.BLLException;
 

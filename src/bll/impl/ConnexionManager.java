@@ -1,10 +1,9 @@
 package bll.impl;
 
-import bll.IConnexionManager;
+import bll.interfaces.IConnexionManager;
 import bo.Utilisateur;
 import dal.IGenericDao;
-import dal.FGlobalDao;
-import dal.impl.UtilisateurImpl;
+import dal.FactoriesDao;
 
 public class ConnexionManager implements IConnexionManager {
 
@@ -15,7 +14,7 @@ public class ConnexionManager implements IConnexionManager {
         Utilisateur utilisateurByEmail;
         Utilisateur utilisateurByPseudo;
 
-        IGenericDao<Utilisateur> cDao = FGlobalDao.getUtilisateurDao();
+        IGenericDao<Utilisateur> cDao = FactoriesDao.getUtilisateurDao();
 
         utilisateurByEmail = cDao.selectByEmail(login);
         utilisateurByPseudo = cDao.selectByPseudo(login);
@@ -34,5 +33,22 @@ public class ConnexionManager implements IConnexionManager {
         }else{
             return null;
         }
+
+        //Pour Alex, à modifier :
+        /*
+        Utilisateur utilisateurLog = new Utilisateur();
+            devient
+        Utilisateur utilisateurLog = null;
+        Utilisateur =
+
+
+        if (mdp.equals(utilisateurLog.getPassword())) {
+            return utilisateurLog ;
+        }else{
+            return null;
+        }
+        if (utilisateurLog != null && mdp.equals(utilisateurLog.getPassword())){
+
+         */
     }
 }

@@ -88,20 +88,20 @@ public class ArticleImpl implements IGenericDao<Article> {
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
 
-                //On choisit les paramètres de son objet avec le get
+/*                //On choisit les paramètres de son objet avec le get
                 list.getUtilisateur();
                 list.getCategorie();
                 list.setArticle(rs.getString("article"));
                 //a.setDateFin(rs.getDate("dateFin".toLocalDateTime()));
                 list.setPrixVente(rs.getInt("prixVente"));
-                pstt.executeQuery();
+                pstt.executeQuery();*/
             }
         }
-        try {
+        /*try {
             return IGenericDao.super.selectByCriterias(list<article>);
         } catch (DALException e) {
             e.printStackTrace();
-        }
+        }*/
         return list;
     }
 }

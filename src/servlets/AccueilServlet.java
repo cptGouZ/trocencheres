@@ -1,12 +1,8 @@
 package servlets;
 
-import bll.IArticleManager;
-import bll.IUserManager;
+import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
-import bll.impl.ArticleManager;
 import bo.Article;
-import bo.Categorie;
-import bo.Utilisateur;
 import exception.BLLException;
 import lombok.SneakyThrows;
 
@@ -16,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

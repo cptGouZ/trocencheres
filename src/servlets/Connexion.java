@@ -1,6 +1,6 @@
 package servlets;
 
-import bll.IConnexionManager;
+import bll.interfaces.IConnexionManager;
 import bll.ManagerProvider;
 import bo.Utilisateur;
 
