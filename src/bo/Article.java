@@ -21,12 +21,10 @@ public class Article implements Serializable {
     LocalDateTime dateFin = LocalDateTime.of(2021,11,07,05,22);
     Integer prixVente = 49;
 
-    public void setDateDebut(LocalDateTime dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
     public void setDateFin(LocalDateTime dateFin) {
         this.dateFin = dateFin;
     }
+
+
 }
 

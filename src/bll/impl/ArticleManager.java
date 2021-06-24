@@ -4,8 +4,6 @@ import bll.interfaces.IArticleManager;
 import bo.Article;
 import dal.FactoriesDao;
 import dal.IGenericDao;
-import exception.BLLException;
-import exception.DALException;
 import exception.GlobalException;
 
 import java.util.ArrayList;
@@ -34,11 +32,11 @@ public class ArticleManager implements IArticleManager {
     }
 
     @Override
-    public List<Article> getByCriterias(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
+    public List<Article> getByCriteres(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
         List<Article> articleList2 = new ArrayList<>();
         try {
             IGenericDao<Article> IDao = FactoriesDao.getArticleDao();
-            articleList2 = IDao.selectByCriterias(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
+            articleList2 = IDao.selectByCriteres(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
         } catch (GlobalException e) {
             e.printStackTrace();
         }
