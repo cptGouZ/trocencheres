@@ -38,6 +38,10 @@ public class Utilisateur implements Serializable {
         this.credit = credit;
         this.admin = admin;
     }
+
+    public Utilisateur(String pseudo) {
+        this.pseudo = pseudo;
+    }
 }
 
 

@@ -1,5 +1,6 @@
 <%@ page import="bo.Article" %>
 <%@ page import="java.util.List" %>
+<%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="fragments/header.jsp"%>
@@ -19,7 +20,7 @@
                     <option value="informatique">Informatique</option>
                     <option value="ameublement">Ameublement</option>
                     <option value="vetement">Vetement</option>
-                    <option value="sport&loisirs">Sports&Loisirs</option>
+                    <option value="sports&loisirs">Sports&Loisirs</option>
                 </select>
                 <div class="row mb-3">
                     <div class="col-auto">
@@ -62,7 +63,7 @@
                     <option value="informatique">Informatique</option>
                     <option value="ameublement">Ameublement</option>
                     <option value="vetement">Vetement</option>
-                    <option value="sport&loisirs">Sports&Loisirs</option>
+                    <option value="sports&loisirs">Sports&Loisirs</option>
                 </select>
                 <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
             </form>
@@ -72,14 +73,11 @@
 
 
 <!-- PARTIE RESULTATS-->
+<%--Pas de vers profil vendeur ok si le profil est déconnecté--%>
+<c:if test="${empty sessionScope.user}">
 <div class="row mb-3">
     <div class="col-auto">
         <div class="row">
-            <div class="col-auto">
-                <%
-                    out.print("<div>lien vers photo ordi</div>");
-                %>
-            </div>
             <div class="col-auto">
                 <!--<div>Objet : ${a.getArticle()}</div>-->
                 <%
@@ -92,18 +90,40 @@
                         request.getAttribute("debut");
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
                         request.getAttribute("dateDebut");
-                        out.print("<div>Vendeur : lien vers le vendeur</div><br/>");
+                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br/>");
                     }
                 %>
             </div>
-                <div class="col-auto">
-                    <div class="col-auto">
-                    </div>
-                </div>
+        </div>
+    </div>
+</div>
+</c:if>
+
+<%--Lien vers profil vendeur si le profil est connecté--%>
+<c:if test="${empty sessionScope.user}">
+<div class="row mb-3">
+    <div class="col-auto">
+        <div class="row">
+            <div class="col-auto">
+                <!--<div>Objet : ${a.getArticle()}</div>-->
+                <%
+                    List<Article> articleList3 = (List<Article>) request.getAttribute("listedesarticles");
+                    //request.getAttribute("objet1");
+                    for (Article item : articleList3) {
+                        out.print("<div>Objet : " + item.getArticle() + "</div>");
+                        request.getAttribute("montant");
+                        out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
+                        request.getAttribute("debut");
+                        out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
+                        request.getAttribute("dateDebut");
+                        out.print("<div><a href=Vendeur : " + item.getUtilisateur().getPseudo() + " ></div><br/>");
+                    }
+                %>
             </div>
         </div>
+    </div>
 </div>
-
+</c:if>
 
 <%@ include file="fragments/footer.jsp"%>
 
