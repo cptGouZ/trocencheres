@@ -38,7 +38,7 @@
                         <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
                         <br>
 
-                        <%--RESTE CONNEXTE--%>
+                        <%--RESTE CONNECTE--%>
                         <input type="checkbox" id="resteConnecte" name="resteConnecte"
                                checked>
                         <label for="resteConnecte">Se souvenir de moi</label>
