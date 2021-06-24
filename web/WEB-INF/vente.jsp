@@ -38,7 +38,7 @@
              <%--CATEGORIES--%>
              <div>
                  <label for="categorie">Catégorie :</label>
-                 <select name="categorie" id="categorie">
+                 <select name="categorie" id="categorie" required>
                      <option value="">--Sélectionner une catégorie--</option>
                      <option value="informatique">Informatique</option>
                      <option value="ameublement">Ameublement</option>
@@ -57,14 +57,14 @@
              <%--MISE A PRIX--%>
              <div>
                  <label for="tentacles">Mise à prix :</label>
-                 <input type="number" id="tentacles" name="tentacles" min="1" max="">
+                 <input type="number" id="tentacles" name="tentacles" min="1" max="" required>
              </div><br>
 
              <%--DEBUT ENCHERE--%>
                  <div>
                      <label for="debutEnchere">Début de l'enchère :</label>
                      <input type="date" id="debutEnchere" name="debutEnchere"
-                            value=""
+                            value="${dateDuJour}"
                             min="2018-01-01" max="2050-12-31">
                  </div>
 
