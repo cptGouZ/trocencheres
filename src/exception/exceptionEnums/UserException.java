@@ -19,6 +19,7 @@ public interface UserException extends EnumException {
     int PASSWORD_VIDE=1160;
     int PASSWORD_INVALIDE=1161;
     int CONFIRMATION_PASSWORD = 1165;
+    int TELEPHONE_INVALIDE = 1164;
     //IHM Exception 12**
 
 }

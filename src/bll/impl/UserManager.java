@@ -12,7 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserManager implements IUserManager {
-
+    private final String PATTERN_USER = "^[\\p{L}0-9]*$";
+    private final String PATTERN_PRENOM = "^[\\p{L}0-9]*$";
+    private final String PATTERN_NOM = "^[\\p{L}0-9]*$";
+    private final String PATTERN_EMAIL = "^[\\w-]*@[a-z0-9-]*\\.[a-z]*$";
+    private final String PATTERN_TELEPHONE = "^\\d{10}$";
 
     @Override
     public Utilisateur getById(int id) throws GlobalException {
@@ -46,39 +50,44 @@ public class UserManager implements IUserManager {
         adresseDao.insert(user.getAdresse());
         userDao.insert(user);
     }
-
     private void validerPseudo(Utilisateur user) {
         if (user.getPseudo().isEmpty())
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
-        if (!Pattern.matches("^[\\p{L}0-9]*$",user.getPseudo()))
+        if (!Pattern.matches(PATTERN_USER,user.getPseudo()))
             GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
     }
-
-    public void validerNom(Utilisateur user) {
+    private void validerNom(Utilisateur user) {
         if(user.getNom().isEmpty())
             GlobalException.getInstance().addError(UserException.NOM_VIDE);
-        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getNom()))
+        if(!Pattern.matches(PATTERN_NOM, user.getNom()))
             GlobalException.getInstance().addError(UserException.NOM_INVALIDE);
     }
 
-    public void validerPrenom(Utilisateur user) {
+    private void validerPrenom(Utilisateur user) {
         if(user.getPrenom().isEmpty())
             GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
-        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getPrenom()))
+        if(!Pattern.matches(PATTERN_PRENOM,user.getPrenom()))
             GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
     }
 
-    public void validerEmail(Utilisateur user){
+    private void validerEmail(Utilisateur user){
         IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
         if(user.getPrenom().isEmpty())
             GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
-        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getPrenom()))
+        if(!Pattern.matches(PATTERN_EMAIL, user.getPrenom()))
             GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
         if (userDao.selectByEmail(user.getEmail())!=null)
             GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
     }
 
-    public void validerModifPassword(Utilisateur user, String confirmationPassword){
+    private void validerTelephone(Utilisateur user){
+        if(!user.getPrenom().isEmpty()){
+            if(!Pattern.matches(PATTERN_EMAIL, user.getPrenom()))
+                GlobalException.getInstance().addError(UserException.TELEPHONE_INVALIDE);
+        }
+    }
+
+    private void validerModifPassword(Utilisateur user, String confirmationPassword){
         if(confirmationPassword==null || confirmationPassword.isEmpty() || !confirmationPassword.equals(user.getPassword())){
             GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD);
         }else{
