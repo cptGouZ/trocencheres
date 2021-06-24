@@ -16,13 +16,13 @@ public class UserManager implements IUserManager {
     @Override
     public Utilisateur getById(int id) throws BLLException {
         Utilisateur retour = null;
-        try {
+ /*       try {
             IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
             retour = userDao.selectById(id);
         } catch (DALException e) {
             e.printStackTrace();
             throw new BLLException(e.getMessage());
-        }
+        }*/
         return retour;
     }
 
