@@ -38,16 +38,14 @@ public class ConnexionManager implements IConnexionManager {
         /*
         Utilisateur utilisateurLog = new Utilisateur();
             devient
-        Utilisateur utilisateurLog = null;
-        Utilisateur =
+        Utilisateur utilisateurLog = new Utilisateur();
+        Utilisateur retourMethode = null
 
 
         if (mdp.equals(utilisateurLog.getPassword())) {
-            return utilisateurLog ;
-        }else{
-            return null;
+            retourMethode =  utilisateurLog
         }
-        if (utilisateurLog != null && mdp.equals(utilisateurLog.getPassword())){
+        return retourMethode;
 
          */
     }

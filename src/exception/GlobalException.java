@@ -10,12 +10,12 @@ import java.util.Properties;
 
 public class GlobalException extends Exception {
     private static final Properties properties = new Properties();
-    private static final String URL_ERRORS_MSG = "src/exception/MsgErrors.properties";
+    private static final String URL_ERRORS_MSG = "MsgErrors.properties";
     private static GlobalException singleton;
 
     //Création du singleton
     private GlobalException(){}
-    public static GlobalException getInstance() throws GlobalException {
+    public static GlobalException getInstance() {
         if(singleton==null)
             singleton = new GlobalException();
         try {
@@ -23,8 +23,6 @@ public class GlobalException extends Exception {
             properties.load(fis);
         } catch (IOException e) {
             e.printStackTrace();
-            GlobalException.getInstance().addError(AppException.FILE_NOT_FOUND);
-            throw GlobalException.getInstance();
         }
         return singleton;
     }

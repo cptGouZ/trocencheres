@@ -8,6 +8,9 @@ import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserManager implements IUserManager {
 
 
@@ -43,11 +46,16 @@ public class UserManager implements IUserManager {
         adresseDao.insert(user.getAdresse());
         userDao.insert(user);
     }
+    private void validerPseudo (Utilisateur user) throws GlobalException {
+        if (user.getPseudo().isEmpty())
+            GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
+        if (!Pattern.matches("\\w*+",user.getPseudo()))
+            GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
+
+    }
     private void validerCreation (Utilisateur user) throws GlobalException {
         IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
 
-        if (user.getPseudo().trim().isEmpty())
-            GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
 
         if (userDao.selectByPseudo(user.getPseudo())!=null)
             GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);

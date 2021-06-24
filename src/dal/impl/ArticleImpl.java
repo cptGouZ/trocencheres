@@ -60,7 +60,7 @@ public class ArticleImpl implements IGenericDao<Article> {
             //On choisit les paramètres de son objet avec le get
             while (rs.next()) {
                 a.setArticle(rs.getString("article"));
-                a.setDateFin(rs.getDate("dateFin".toLocalDateTime()));
+                //a.setDateFin(rs.getDate("dateFin".toLocalDateTime()));
                 a.setPrixVente(rs.getInt("prixVente"));
                 pstt.executeQuery();
             }
