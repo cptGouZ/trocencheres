@@ -6,6 +6,7 @@ import bo.Adresse;
 import bo.Utilisateur;
 import exception.BLLException;
 import exception.GlobalException;
+import exception.exceptionEnums.UserException;
 import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
@@ -21,6 +22,14 @@ public class GestionCompte extends HttpServlet {
     public final static int NEW_ACCOUNT = 0;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        try {
+            GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
+            throw GlobalException.getInstance();
+        }catch (GlobalException e){
+            System.out.println(e.getMessageErrors());
+        }
+
+
         try {
             IUserManager um = ManagerProvider.getUserManager();
             int userId = DEFAULT;

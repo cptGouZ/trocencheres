@@ -2,15 +2,14 @@ package exception;
 
 import exception.exceptionEnums.AppException;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class GlobalException extends Exception {
-    private static final Properties properties = new Properties();
-    private static final String URL_ERRORS_MSG = "MsgErrors.properties";
+    private static final String URL_ERRORS_MSG = "exception.MsgErrors";
+    private static final ResourceBundle bundleError = ResourceBundle.getBundle(URL_ERRORS_MSG);
     private static GlobalException singleton;
 
     //Création du singleton
@@ -18,12 +17,6 @@ public class GlobalException extends Exception {
     public static GlobalException getInstance() {
         if(singleton==null)
             singleton = new GlobalException();
-        try {
-            FileInputStream fis = new FileInputStream(URL_ERRORS_MSG);
-            properties.load(fis);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return singleton;
     }
 
@@ -35,7 +28,7 @@ public class GlobalException extends Exception {
     }
 
     public String getMessage(int error){
-        String retour = properties.getProperty(String.valueOf(error));
+        String retour = bundleError.getString(String.valueOf(error));
         return retour!=null ? retour : "Pas de message disponible dans le fichier MsgErrors";
     }
 

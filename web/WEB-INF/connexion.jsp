@@ -6,13 +6,12 @@
 
 <%@ include file="fragments/header.jsp"%>
 
-<%--Message d'erreur de connexion--%>
-<% String affichMessageErr = (String) request.getAttribute("messageErreurLog"); %>
-<%= affichMessageErr %>
 
             <%--BLOC CONNEXION--%>
             <br>
             <div class="row">
+                <br>
+                <br>
                 <%--Colonne Vide--%>
                 <div class="col">
                 </div>
@@ -30,23 +29,36 @@
                             <span class="input-group-text" >Mot de pass</span>
                             <input type="password" class="form-control" placeholder="mot de passe" name="mdp" required >
                         </div>
+
+                        <%--Message d'erreur de connexion--%>
+                        <p class="text-decoration-underline text-danger">${empty messageErreurLog ? "" : messageErreurLog}</p>
+
+
+                        <%--BOUTON CONNEXION--%>
+                        <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
                         <br>
-                        <%--RESTE CONNEXTE--%>
+
+                        <%--RESTE CONNECTE--%>
                         <input type="checkbox" id="resteConnecte" name="resteConnecte"
                                checked>
                         <label for="resteConnecte">Se souvenir de moi</label>
-                        <%--LIEN REINIT MDP--%>
-                        <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
-                        <%--BOUTON CONNEXION--%>
-                        <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
-
-
+                        <br>
                     </form>
 
-                    <form method="get" action="${pageContext.request.contextPath}/gestioncompte?userId=0">
-                        <%--BOUTON CREATION COMPTE--%>
-                        <button  type="submit button" class="btn btn-secondary"  name="creerCompte"> Créer un compte </button>
-                    </form>
+                        <div>
+                            <%--BOUTON ANNULER--%>
+                            <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
+                            <br>
+                            <br>
+
+                            <%--BOUTON CREER COMPTE/PROFIL--%>
+                            <a href="${pageContext.request.contextPath}/gestioncompte?userId=0" class="btn btn-secondary"> Créer un compte </a>
+                            <br>
+
+                            <%--LIEN REINIT MDP--%>
+                            <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
+                            <br>
+                        </div>
                 </div>
                 <%--Colonne Vide--%>
                 <div class="col">

@@ -13,7 +13,7 @@ public class testClass {
 
 
     public static void BLL() throws GlobalException{
-        GlobalException.getInstance().addError(UserException.EMAIL_INVALID);
+        GlobalException.getInstance().addError(UserException.EMAIL_INVALIDE);
         DAL();
         throw GlobalException.getInstance();
     }

@@ -3,6 +3,7 @@ package servlets;
 import bll.interfaces.IConnexionManager;
 import bll.ManagerProvider;
 import bo.Utilisateur;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,6 @@ public class Connexion extends HttpServlet {
         RequestDispatcher rd ;
         rd = req.getRequestDispatcher(redirectionJsp) ;
         rd.forward(req,resp);
-
     }
 
     @Override
@@ -62,12 +62,9 @@ public class Connexion extends HttpServlet {
 
         } catch (GlobalException e) {
             e.printStackTrace();
-            String erreurLog = "Email ou mot de passe invalide";
-            req.setAttribute("messageErreurLog", erreurLog);
+
+            req.setAttribute("messageErreurLog", e.getMessageErrors());
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }
-
-
-
     }
 }
