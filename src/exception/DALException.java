@@ -1,5 +1,5 @@
 package exception;
-
+@Deprecated
 public class DALException extends Exception {
     public DALException() {
     }

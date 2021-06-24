@@ -1,5 +1,5 @@
 package exception;
-
+@Deprecated
 public class BLLException extends Exception{
     public BLLException() {
     }

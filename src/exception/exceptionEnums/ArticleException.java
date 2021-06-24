@@ -1,7 +1,9 @@
 package exception.exceptionEnums;
 
+import exception.EnumException;
+
 //Groupe de codes 2000
-public interface ArticleException {
+public interface ArticleException extends EnumException {
     //DAL Exception 20**
 
     //BLL Exception 21**

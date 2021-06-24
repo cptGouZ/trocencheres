@@ -1,4 +1,6 @@
 package exception.exceptionEnums;
 
-public interface EnchereException {
+import exception.EnumException;
+
+public interface EnchereException extends EnumException {
 }
