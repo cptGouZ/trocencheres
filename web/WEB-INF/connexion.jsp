@@ -18,6 +18,7 @@
 
                 <%--Form Connexion--%>
                 <div class="col">
+                    <form method="post" action="connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
                             <span class="input-group-text" >Identifiant : </span>
@@ -31,13 +32,13 @@
 
                         <%--Message d'erreur de connexion--%>
                         <p class="text-decoration-underline text-danger">${empty messageErreurLog ? "" : messageErreurLog}</p>
-                        <form method="post" action="connexion">
+
 
                         <%--BOUTON CONNEXION--%>
                         <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
                         <br>
 
-                        <%--RESTE CONNEXTE--%>
+                        <%--RESTE CONNECTE--%>
                         <input type="checkbox" id="resteConnecte" name="resteConnecte"
                                checked>
                         <label for="resteConnecte">Se souvenir de moi</label>

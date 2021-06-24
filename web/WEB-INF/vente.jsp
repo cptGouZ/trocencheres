@@ -24,7 +24,7 @@
 
      <%--Form VENTE--%>
      <div class="col">
-         <form method="" action="vente">
+         <form method="post" action="vente">
              <%--ARTICLE--%>
              <div class="input-group mb-3">
                  <span class="input-group-text" >Article : </span>
@@ -33,17 +33,17 @@
              <%--DESCRIPTION--%>
                  <div class="input-group">
                      <span class="input-group-text" >Description : </span>
-                     <textarea class="form-control" placeholder="décrire l'article" id="floatingTextarea2" style="height: 100px" required></textarea>
+                     <textarea class="form-control" placeholder="décrire l'article" id="floatingTextarea2" style="height: 100px" name="description" required></textarea>
                  </div><br>
              <%--CATEGORIES--%>
              <div>
                  <label for="categorie">Catégorie :</label>
                  <select name="categorie" id="categorie" required>
                      <option value="">--Sélectionner une catégorie--</option>
-                     <option value="informatique">Informatique</option>
-                     <option value="ameublement">Ameublement</option>
-                     <option value="vetement">Vetement</option>
-                     <option value="sport&loisirs">Sport&Loisirs</option>
+                     <option name="categorie" value="1">Sports</option>
+                     <option name="categorie" value="2">Vêtements</option>
+                     <option name="categorie" value="3">Meubles</option>
+                     <option name="categorie" value="4">Sport&Loisirs</option>
                  </select>
              </div>
              <br>
@@ -57,7 +57,7 @@
              <%--MISE A PRIX--%>
              <div>
                  <label for="tentacles">Mise à prix :</label>
-                 <input type="number" id="tentacles" name="tentacles" min="1" max="" required>
+                 <input type="number" id="tentacles" name="prixDepart" min="1" max="" required>
              </div><br>
 
              <%--DEBUT ENCHERE--%>
@@ -65,7 +65,7 @@
                      <label for="debutEnchere">Début de l'enchère :</label>
                      <input type="date" id="debutEnchere" name="debutEnchere"
                             value="${dateDuJour}"
-                            min="2018-01-01" max="2050-12-31">
+                            min="${dateDuJour}" max="2050-12-31" required>
                  </div>
 
              <%--FIN ENCHERE--%>
@@ -73,7 +73,7 @@
                      <label for="finEnchere">Fin de l'enchère :</label>
                      <input type="date" id="finEnchere" name="finEnchere"
                         value=""
-                        min="2018-01-01" max="2018-12-31">
+                        min="${dateDuJour}" max="2050-12-31">
                  </div>
                  <br>
 
@@ -92,16 +92,18 @@
                 <%--VILLE--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Ville : </span>
-                        <input type="text" class="form-control" placeholder="ville" name="article" required>
+                        <input type="text" class="form-control" placeholder="ville" name="ville" required>
                     </div>
                  </div>
                  <br>
              <%--BOUTON ENREGISTRER--%>
              <button  type="submit button" class="btn btn-secondary"  name="enregistrer"> Enregistrer </button>
-             <%--BOUTON ANNULER--%>
-             <button  type="submit button" class="btn btn-secondary"  name="annuler"> Annuler </button>
 
          </form>
+         <%--BOUTON ANNULER--%>
+         <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
+
+
      </div>
      <%--Colonne Vide--%>
      <div class="col">

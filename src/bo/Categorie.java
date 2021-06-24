@@ -12,4 +12,8 @@ import java.io.Serializable;
 public class Categorie implements Serializable {
     Integer id;
     String libelle;
+
+    public Categorie(Integer id) {
+        this.id = id;
+    }
 }

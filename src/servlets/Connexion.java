@@ -3,6 +3,7 @@ package servlets;
 import bll.interfaces.IConnexionManager;
 import bll.ManagerProvider;
 import bo.Utilisateur;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
@@ -32,7 +33,6 @@ public class Connexion extends HttpServlet {
         RequestDispatcher rd ;
         rd = req.getRequestDispatcher(redirectionJsp) ;
         rd.forward(req,resp);
-
     }
 
     @Override
@@ -66,9 +66,5 @@ public class Connexion extends HttpServlet {
             req.setAttribute("messageErreurLog", e.getMessageErrors());
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }
-
-
-
-
     }
 }

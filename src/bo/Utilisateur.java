@@ -49,6 +49,11 @@ public class Utilisateur implements Serializable {
         this.credit = credit;
         this.admin = admin;
     }
+
+    //TODO A supprimer plus tard
+    public Utilisateur(String pseudo) {
+        this.pseudo = pseudo;
+    }
 }
 
 

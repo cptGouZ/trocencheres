@@ -24,6 +24,8 @@ public interface IGenericDao<T> {
                                             boolean inprogressEnchere, boolean winEnchere,
                                             boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {return null;}
 
+    default Article insertNewArticle(T nouvelArticle) {return null;}
+
 
     //Méthode spécifique à Article
 }
