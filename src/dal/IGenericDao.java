@@ -22,7 +22,7 @@ public interface IGenericDao<T> {
 
     //Méthodes spécifiques à Article
     default Article selectByArticle(String article) throws DALException {return null;}
-    default List<Article> selectByCriterias(String articleName, String catName, boolean openedEnchere,
+    default List<Article> selectByCriteres(String articleName, String catName, boolean openedEnchere,
                                             boolean inprogressEnchere, boolean winEnchere,
                                             boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws DALException {return null;}
 
