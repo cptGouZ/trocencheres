@@ -3,7 +3,6 @@ package servlets;
 import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
 import bo.Article;
-import exception.BLLException;
 import exception.GlobalException;
 import lombok.SneakyThrows;
 

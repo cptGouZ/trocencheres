@@ -2,8 +2,6 @@ package dal;
 
 import bo.Article;
 import bo.Utilisateur;
-import dal.impl.UtilisateurImpl;
-import exception.DALException;
 import exception.GlobalException;
 
 import java.util.List;

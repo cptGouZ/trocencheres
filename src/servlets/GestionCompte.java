@@ -2,12 +2,9 @@ package servlets;
 
 import bll.interfaces.IUserManager;
 import bll.ManagerProvider;
-import bo.Adresse;
 import bo.Utilisateur;
-import exception.BLLException;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
-import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,7 +75,6 @@ public class GestionCompte extends HttpServlet {
         }
     }
 
-    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         IUserManager um = ManagerProvider.getUserManager();
@@ -96,14 +92,26 @@ public class GestionCompte extends HttpServlet {
         String newPassword = req.getParameter("newPassword").trim();
         String confirmPassword = req.getParameter("confirmPassword").trim();
         String action = req.getParameter("action").trim();
-        Utilisateur concernedUser = um.getById(Integer.parseInt(req.getParameter("userId")));
 
+
+        Utilisateur newUser = new Utilisateur(null, pseudo, nom, prenom, email, tel, 0, false);
+
+        try {
+            um.create(newUser, newPassword, confirmPassword);
+        } catch (GlobalException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessageErrors());
+        }
+
+        /*if(req.getParameter("userId")!=null){
+            Utilisateur concernedUser = um.getById(Integer.parseInt(req.getParameter("userId")));}
+        Utilisateur concernedUser = null;
         //Création de l'utilisateur
         Utilisateur userToUpdate = null;
         if(concernedUser==null){
             Adresse adresse = new Adresse(rue, cpo, ville, true);
             userToUpdate = new Utilisateur(adresse, pseudo, nom, prenom, email, tel, password, 0, false);
-            um.create(userToUpdate);
+            um.create(userToUpdate, newPassword, confirmPassword);
             req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
         }
 
@@ -129,6 +137,6 @@ public class GestionCompte extends HttpServlet {
             um.remove(concernedUser.getId());
             req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);*/
     }
 }

@@ -38,6 +38,17 @@ public class Utilisateur implements Serializable {
         this.credit = credit;
         this.admin = admin;
     }
+
+    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone, int credit, boolean admin) {
+        this.adresse = adresse;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.phone = phone;
+        this.credit = credit;
+        this.admin = admin;
+    }
 }
 
 

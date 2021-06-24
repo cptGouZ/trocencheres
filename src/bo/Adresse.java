@@ -13,6 +13,7 @@ public class Adresse {
     String cpo;
     String ville;
     boolean domicile;
+    Integer userId;
 
     public Adresse(String rue, String cpo, String ville, boolean domicile) {
     }
