@@ -4,6 +4,7 @@ import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
 import bo.Article;
 import exception.BLLException;
+import exception.GlobalException;
 import lombok.SneakyThrows;
 
 import javax.servlet.RequestDispatcher;
@@ -67,7 +68,7 @@ public class AccueilServlet extends HttpServlet {
         try {
             articleList = am.getAll();
 
-        } catch (BLLException e) {
+        } catch (GlobalException e) {
             e.printStackTrace();
         }
 

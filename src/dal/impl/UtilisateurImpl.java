@@ -78,22 +78,22 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
 
 
     @Override
-    public void insert(Utilisateur obj) throws DALException {
+    public void insert(Utilisateur obj) throws GlobalException {
 
     }
 
     @Override
-    public void update(Utilisateur obj) throws DALException {
+    public void update(Utilisateur obj) throws GlobalException {
 
     }
 
     @Override
-    public void delete(int id) throws DALException {
+    public void delete(int id) throws GlobalException {
 
     }
 
     @Override
-    public Utilisateur selectById(int id) throws DALException, GlobalException {
+    public Utilisateur selectById(int id) throws GlobalException {
         final String SELECT_BY_ID = "SELECT * FROM utilisateurs WHERE no_utilisateur = ?";
         Utilisateur retour = null;
         try (Connection cnx = ConnectionProvider.getConnection();
@@ -122,7 +122,7 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
     }
 
     @Override
-    public List<Utilisateur> selectAll() throws DALException {
+    public List<Utilisateur> selectAll() throws GlobalException {
         List<Utilisateur> retour = new ArrayList<>();
 
         return retour;

@@ -5,6 +5,7 @@ import bo.Utilisateur;
 import dal.ConnectionProvider;
 import dal.IGenericDao;
 import exception.DALException;
+import exception.GlobalException;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
@@ -19,27 +20,27 @@ public class ArticleImpl implements IGenericDao<Article> {
     private static final String SQL_SELECT_ARTICLES_BY_CRITERIAS = "";
 
     @Override
-    public void insert(Article obj) throws DALException {
+    public void insert(Article obj) throws GlobalException {
 
     }
 
     @Override
-    public void update(Article obj) throws DALException {
+    public void update(Article obj) throws GlobalException {
 
     }
 
     @Override
-    public void delete(int id) throws DALException {
+    public void delete(int id) throws GlobalException {
 
     }
 
     @Override
-    public Article selectById(int id) throws DALException {
+    public Article selectById(int id) throws GlobalException {
         return null;
     }
 
     @Override
-    public List<Article> selectAll() throws DALException {
+    public List<Article> selectAll() throws GlobalException {
         return null;
     }
 
@@ -68,7 +69,7 @@ public class ArticleImpl implements IGenericDao<Article> {
         }
         try {
             return IGenericDao.super.selectByArticle(article);
-        } catch (DALException e) {
+        } catch (GlobalException e) {
             e.printStackTrace();
         }
         return a;

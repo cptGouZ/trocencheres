@@ -5,6 +5,7 @@ import bll.ManagerProvider;
 import bo.Adresse;
 import bo.Utilisateur;
 import exception.BLLException;
+import exception.GlobalException;
 import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ public class GestionCompte extends HttpServlet {
     public final static int DEFAULT = -1;
     public final static int NEW_ACCOUNT = 0;
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
             IUserManager um = ManagerProvider.getUserManager();
             int userId = DEFAULT;
@@ -61,14 +62,16 @@ public class GestionCompte extends HttpServlet {
                 }
             }
             req.getRequestDispatcher("accueilS").forward(req, resp);
-        } catch (BLLException e) {
+        } catch (GlobalException e) {
+            System.out.println(e.getMessageErrors());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         IUserManager um = ManagerProvider.getUserManager();
 
         //Récupération des données de la page
