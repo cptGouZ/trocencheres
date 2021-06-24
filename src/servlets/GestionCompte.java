@@ -23,7 +23,7 @@ public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
-            GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
+            GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
             throw GlobalException.getInstance();
         }catch (GlobalException e){
             System.out.println(e.getMessageErrors());
