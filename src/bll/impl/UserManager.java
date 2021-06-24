@@ -46,14 +46,47 @@ public class UserManager implements IUserManager {
         adresseDao.insert(user.getAdresse());
         userDao.insert(user);
     }
-    private void validerPseudo (Utilisateur user) throws GlobalException {
+
+    private void validerPseudo(Utilisateur user) {
         if (user.getPseudo().isEmpty())
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
-        if (!Pattern.matches("\\w*+",user.getPseudo()))
-            GlobalException.getInstance().addError(UserException.PSEUDO_INVALID);
+        if (!Pattern.matches("^[\\p{L}0-9]*$",user.getPseudo()))
+            GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
+    }
+
+    public void validerNom(Utilisateur user) {
+        if(user.getNom().isEmpty())
+            GlobalException.getInstance().addError(UserException.NOM_VIDE);
+        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getNom()))
+            GlobalException.getInstance().addError(UserException.NOM_INVALIDE);
+    }
+
+    public void validerPrenom(Utilisateur user) {
+        if(user.getPrenom().isEmpty())
+            GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
+        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getPrenom()))
+            GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
+    }
+
+    public void validerEmail(Utilisateur user){
+        IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
+        if(user.getPrenom().isEmpty())
+            GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
+        if(!Pattern.matches("^[\\p{L}0-9]*$",user.getPrenom()))
+            GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
+        if (userDao.selectByEmail(user.getEmail())!=null)
+            GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
+    }
+
+    public void validerModifPassword(Utilisateur user, String confirmationPassword){
+        if(confirmationPassword==null || confirmationPassword.isEmpty() || !confirmationPassword.equals(user.getPassword())){
+            GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD);
+        }else{
+
+        }
 
     }
-    private void validerCreation (Utilisateur user) throws GlobalException {
+    private void validerCreation(Utilisateur user) throws GlobalException {
         IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
 
 
