@@ -98,8 +98,8 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
         Utilisateur retour = null;
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID)) {
-            ResultSet rs = pstmt.executeQuery();
             pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 retour = new Utilisateur();
                 retour.setId(rs.getInt("no_utilisateur"));
@@ -108,7 +108,7 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
                 retour.setNom(rs.getString("nom"));
                 retour.setPrenom(rs.getString("prenom"));
                 retour.setEmail(rs.getString("email"));
-                retour.setPhone(rs.getString("phone"));
+                retour.setPhone(rs.getString("telephone"));
                 retour.setPassword(rs.getString("mdp"));
                 retour.setCredit(rs.getInt("credit"));
                 retour.setAdmin(rs.getBoolean("administrateur"));
