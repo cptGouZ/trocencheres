@@ -14,10 +14,14 @@
     <header class="row">
         <div class="col">ENI-Enchères</div>
         <div class="col">${title}</div>
-        <div class="col">Se connecter</div>
-        <div class="col">Déconnexion</div>
-        <div class="col">Profil</div>
-        <div class="col">Enchère</div>
-        <div class="col">Nouvelle vente</div>
+        <c:if test="${empty sessionScope.get('connectedUser')}">
+            <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>
+        </c:if>
+        <c:if test="${!empty sessionScope.get('connectedUser')}">
+            <div class="col">Déconnexion</div>
+            <div class="col"><a href="${pageContext.request.contextPath}/gestioncompte?userId${connectedUser.id}">Mon Profil</a></div>
+            <div class="col">Enchère</div>
+            <div class="col">Nouvelle vente</div>
+        </c:if>
     </header>
 
