@@ -4,13 +4,18 @@ import bll.interfaces.IConnexionManager;
 import bo.Utilisateur;
 import dal.IGenericDao;
 import dal.FactoriesDao;
+import exception.GlobalException;
+import exception.exceptionEnums.UserException;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 public class ConnexionManager implements IConnexionManager {
 
     @Override
-    public Utilisateur connexionAuSite(String login, String mdp) {
+    public Utilisateur connexionAuSite(String login, String mdp) throws GlobalException {
 
-        Utilisateur utilisateurLog = new Utilisateur();
+        Utilisateur utilisateurLog = null ;
+        Utilisateur utilisateurOk = null ;
+
         Utilisateur utilisateurByEmail;
         Utilisateur utilisateurByPseudo;
 
@@ -19,36 +24,24 @@ public class ConnexionManager implements IConnexionManager {
         utilisateurByEmail = cDao.selectByEmail(login);
         utilisateurByPseudo = cDao.selectByPseudo(login);
 
+
         if (utilisateurByEmail != null) {
-            utilisateurLog = utilisateurByEmail;
-            System.out.println("passage1" + utilisateurLog.getNom());
+            utilisateurOk = utilisateurByEmail;
+            System.out.println("passage1" + utilisateurOk.getNom());
         }
         if (utilisateurByPseudo != null) {
-            utilisateurLog = utilisateurByPseudo;
-            System.out.println("passage2" + utilisateurLog.getNom());
+            utilisateurOk = utilisateurByPseudo;
+            System.out.println("passage2" + utilisateurOk.getNom());
         }
 
-        if (mdp.equals(utilisateurLog.getPassword())) {
+        if (mdp.equals(utilisateurOk.getPassword())) {
+            utilisateurLog = utilisateurOk ;
+        } else{
+            GlobalException.getInstance().addError(UserException.CONNEXION_USER_FAIL);
+            throw GlobalException.getInstance() ;
+        }
+
             return utilisateurLog ;
-        }else{
-            return null;
-        }
-
-        //Pour Alex, à modifier :
-        /*
-        Utilisateur utilisateurLog = new Utilisateur();
-            devient
-        Utilisateur utilisateurLog = null;
-        Utilisateur =
-
-
-        if (mdp.equals(utilisateurLog.getPassword())) {
-            return utilisateurLog ;
-        }else{
-            return null;
-        }
-        if (utilisateurLog != null && mdp.equals(utilisateurLog.getPassword())){
-
-         */
     }
+
 }

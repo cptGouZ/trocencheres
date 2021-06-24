@@ -10,7 +10,8 @@ public interface UserException extends EnumException {
     int PSEUDO_INVALID = 1110;
     int EMAIL_INVALID = 1120;
     int EMAIL_EXISTANT = 1130;
-
+    int CONNEXION_USER_FAIL = 1140 ;
     //IHM Exception 12**
+
 
 }
