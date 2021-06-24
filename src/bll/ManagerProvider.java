@@ -1,8 +1,10 @@
 package bll;
 
+import bll.impl.AdresseManager;
 import bll.impl.ArticleManager;
 import bll.impl.ConnexionManager;
 import bll.impl.UserManager;
+import bll.interfaces.IAdresseManager;
 import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bll.interfaces.IUserManager;

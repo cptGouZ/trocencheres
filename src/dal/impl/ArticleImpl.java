@@ -115,6 +115,7 @@ public class ArticleImpl implements IGenericDao<Article> {
             else {sqlConstruction.append(", catName = sports&loisirs");};
 
             //Choix des checkbox
+            //TODO attente la création des article pour pouvoir gérer les période de vente
             if(openedEnchere) {
                 sqlConstruction.append(", openedEnchere == true"); }
             if(inprogressEnchere) {
