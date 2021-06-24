@@ -34,8 +34,10 @@ public class ConnexionManager implements IConnexionManager {
             System.out.println("passage2" + utilisateurOk.getNom());
         }
 
-        if (mdp.equals(utilisateurOk.getPassword())) {
-            utilisateurLog = utilisateurOk ;
+        if(utilisateurOk != null){
+            if (mdp.equals(utilisateurOk.getPassword())) {
+                utilisateurLog = utilisateurOk ;
+            }
         } else{
             GlobalException.getInstance().addError(UserException.CONNEXION_USER_FAIL);
             throw GlobalException.getInstance() ;
