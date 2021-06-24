@@ -64,6 +64,7 @@ public class Connexion extends HttpServlet {
             e.printStackTrace();
             String erreurLog = "Email ou mot de passe invalide";
             req.setAttribute("messageErreurLog", erreurLog);
+            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }
 
 
