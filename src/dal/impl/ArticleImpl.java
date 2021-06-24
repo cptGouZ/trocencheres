@@ -16,8 +16,11 @@ import java.util.List;
 
 public class ArticleImpl implements IGenericDao<Article> {
 
-    private static final String SQL_SELECT_BY_ARTICLES = "SELECT u.id, u.pseudo, a.id, a.nom, a.prixVente, a.dateFin FROM Utilisateurs u left join Articles a on u.id = a.id";
-    private static final String SQL_SELECT_ARTICLES_BY_CRITERIAS = "";
+    private static final String SQL_SELECT_BY_ARTICLES = "SELECT u.id, u.pseudo, a.id, a.article, a.prixVente, a.dateFin" +
+                                                         "FROM Utilisateurs u INNER JOIN Articles a ON u.id = a.id";
+    private static final String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT u.id, u.pseudo, a.id, a.article, a.prixVente, a.dateFin, c.id, c.libelle" +
+                                                                  "FROM Utilisateurs u INNER JOIN Articles a ON u.id = a.id" +
+                                                                  "INNER JOIN Categories c ON a.id = c.id";
 
     @Override
     public void insert(Article obj) throws GlobalException {
@@ -56,13 +59,8 @@ public class ArticleImpl implements IGenericDao<Article> {
 
             //On choisit les paramètres de son objet avec le get
             while (rs.next()) {
-                a.setId(rs.getInt("id"));
-                a.getUtilisateur();
-                a.getCategorie();
                 a.setArticle(rs.getString("article"));
-                a.setDescription(rs.getString("description"));
-                //a.setDateDebut(rs.getDate("dateDebut".toLocalDateTime()));
-                //a.setDateFin(rs.getDate("dateFin".toLocalDateTime()));
+                a.setDateFin(rs.getDate("dateFin".toLocalDateTime()));
                 a.setPrixVente(rs.getInt("prixVente"));
                 pstt.executeQuery();
             }
@@ -77,7 +75,7 @@ public class ArticleImpl implements IGenericDao<Article> {
 
     @SneakyThrows
     @Override
-    public List<Article> selectByCriterias(String articleName, String catName, boolean openedEnchere,
+    public List<Article> selectByCriteres(String articleName, String catName, boolean openedEnchere,
                                            boolean inprogressEnchere, boolean winEnchere,
                                            boolean inprogressVente, boolean beforeVente, boolean finishedVente) {
         List<Article> list = new ArrayList<>();
@@ -85,7 +83,7 @@ public class ArticleImpl implements IGenericDao<Article> {
         try (
                 Connection con = ConnectionProvider.getConnection()
         ) {
-            PreparedStatement pstt = con.prepareCall(SQL_SELECT_ARTICLES_BY_CRITERIAS);
+            PreparedStatement pstt = con.prepareCall(SQL_SELECT_ARTICLES_BY_CRITERES);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
 
