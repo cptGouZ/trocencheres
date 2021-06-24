@@ -2,6 +2,7 @@ package servlets;
 
 import bll.interfaces.IUserManager;
 import bll.ManagerProvider;
+import bo.Adresse;
 import bo.Utilisateur;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
@@ -79,25 +80,27 @@ public class GestionCompte extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         IUserManager um = ManagerProvider.getUserManager();
 
-        //Récupération des données de la page
+        //Récupération des données de la page partie user
         String pseudo = req.getParameter("pseudo").trim();
         String nom = req.getParameter("nom").trim();
         String prenom = req.getParameter("prenom").trim();
         String email = req.getParameter("email").trim();
         String tel = req.getParameter("tel").trim();
-        String rue = req.getParameter("rue").trim();
-        String cpo = req.getParameter("cpo").trim();
-        String ville = req.getParameter("ville").trim();
         String password = req.getParameter("password").trim();
         String newPassword = req.getParameter("newPassword").trim();
         String confirmPassword = req.getParameter("confirmPassword").trim();
         String action = req.getParameter("action").trim();
+        //Récupération des données de la page partie adresse
+        String rue = req.getParameter("rue").trim();
+        String cpo = req.getParameter("cpo").trim();
+        String ville = req.getParameter("ville").trim();
 
-
-        Utilisateur newUser = new Utilisateur(null, pseudo, nom, prenom, email, tel, 0, false);
+        //Objet à créer pour une création d'utilisateur
+        Adresse newAdresse = new Adresse(rue, cpo, ville);
+        Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
 
         try {
-            um.create(newUser, newPassword, confirmPassword);
+            um.creer(newUser, newPassword, confirmPassword);
         } catch (GlobalException e) {
             e.printStackTrace();
             System.out.println(e.getMessageErrors());

@@ -1,7 +1,7 @@
 package bll.impl;
 
 import bo.Article;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
@@ -13,7 +13,7 @@ public class ArticleManagerTest {
     public List<Article> getAll() throws GlobalException {
         List<Article> articleList = new ArrayList<>();
         try {
-            IGenericDao<Article> IDao = FactoriesDao.getArticleDao();
+            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             articleList = IDao.selectAll();
         } catch (GlobalException e) {
             e.printStackTrace();

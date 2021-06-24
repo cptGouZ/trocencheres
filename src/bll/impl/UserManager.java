@@ -5,50 +5,49 @@ import bll.interfaces.IAdresseManager;
 import bll.interfaces.IUserManager;
 import bo.Adresse;
 import bo.Utilisateur;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
-import sun.security.util.Password;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserManager implements IUserManager {
-    private final String PATTERN_USER = "^[\\p{L}0-9]*$";
-    private final String PATTERN_PRENOM = "^[\\p{L}0-9]*$";
-    private final String PATTERN_NOM = "^[\\p{L}0-9]*$";
-    private final String PATTERN_EMAIL = "^[\\w-]*@[a-z0-9-]*\\.[a-z]*$";
-    private final String PATTERN_TELEPHONE = "^\\d{10}$";
-    private final String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
 
     @Override
-    public Utilisateur getById(int id) throws GlobalException {
+    public Utilisateur getById(int userId) throws GlobalException {
         Utilisateur retour = null;
-        IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
-        retour = userDao.selectById(id);
+        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+        retour = userDao.selectById(userId);
         return retour;
     }
 
     @Override
     public void mettreAJour(Utilisateur user) throws GlobalException {
-        IGenericDao<Utilisateur>userDao = FactoriesDao.getUtilisateurDao();
-        IGenericDao<Adresse> adresseDao = FactoriesDao.getAdresseDao();
+        IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
+        IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
         userDao.update(user);
         adresseDao.update(user.getAdresse());
     }
 
+    //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ?
     @Override
-    public void remove(int id) throws GlobalException {
-        IGenericDao<Utilisateur>userDao = FactoriesDao.getUtilisateurDao();
-        IGenericDao<Adresse> adresseDao = FactoriesDao.getAdresseDao();
-        Utilisateur user = getById(id);
-        adresseDao.delete(user.getAdresse().getId());
+    public void supprimer(int userId) throws GlobalException {
+        IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
+        IAdresseManager am = ManagerProvider.getAdresseManager();
+        Utilisateur user = getById(userId);
+        for (Adresse a : am.getAdresseByUser(userId)){
+            am.supprimer(user.getAdresse().getId());
+        }
         userDao.delete(user.getId());
     }
 
+    //TODO contrôler l'insertion de données
     @Override
-    public void create(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
+    public void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
+        IAdresseManager am = ManagerProvider.getAdresseManager();
+        IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
+        //Validation des données saisies et association du MDP saisi à l'utilisateur
         validerPseudo(user);
         validerNom(user);
         validerPrenom(user);
@@ -58,26 +57,42 @@ public class UserManager implements IUserManager {
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
         user.setPassword(newPassword);
-        IAdresseManager am = ManagerProvider.getAdresseManager();
-        am.creer(user.getAdresse(), user.getId());
-        IGenericDao<Utilisateur>userDao = FactoriesDao.getUtilisateurDao();
+
+        //Enregistrement de l'adresse fournie pas l'utilisateur
+        am.creer(user.getAdresse());
         try {
+            //On essai de créer l'utilisateur, si ca se passe mal, on supprimer l'adresse créée en base précédemment
             userDao.insert(user);
         }catch (GlobalException e) {
             am.supprimer(user.getAdresse().getId());
             throw e;
         }
-        //Mise à jour
+        //Mise à jour de l'id utilisateur dans l'adresse
         user.getAdresse().setUserId(user.getId());
         am.mettreAJour(user.getAdresse());
     }
 
 
-    private void validerPseudo(Utilisateur user) {
+
+
+    /*****************************/
+    /*CONTROLES DE L'UTILISATEUR */
+    /*****************************/
+    private final String PATTERN_USER = "^[\\p{L}0-9]*$";
+    private final String PATTERN_PRENOM = "^[\\p{L}0-9]*$";
+    private final String PATTERN_NOM = "^[\\p{L}0-9]*$";
+    private final String PATTERN_EMAIL = "^[\\w-]*@[a-z0-9-]*\\.[a-z]*$";
+    private final String PATTERN_TELEPHONE = "^\\d{10}$";
+    private final String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
+
+    private void validerPseudo(Utilisateur user) throws GlobalException {
+        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
         if (user.getPseudo().isEmpty())
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
         if (!Pattern.matches(PATTERN_USER,user.getPseudo()))
             GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
+        if (userDao.selectByPseudo(user.getPseudo())!=null)
+            GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
     }
 
     private void validerNom(Utilisateur user) {
@@ -94,8 +109,8 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
     }
 
-    private void validerEmail(Utilisateur user){
-        IGenericDao<Utilisateur> userDao = FactoriesDao.getUtilisateurDao();
+    private void validerEmail(Utilisateur user) throws GlobalException {
+        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
         if(user.getEmail().isEmpty())
             GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
         if(!Pattern.matches(PATTERN_EMAIL, user.getEmail()))

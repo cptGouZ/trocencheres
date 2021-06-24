@@ -2,7 +2,7 @@ package bll.impl;
 
 import bll.interfaces.IArticleManager;
 import bo.Article;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
@@ -14,7 +14,7 @@ public class ArticleManager implements IArticleManager {
     @Override
     public Article getByID(int id) throws GlobalException {
         Article art = null;
-        IGenericDao<Article> IDao = FactoriesDao.getArticleDao();
+        IGenericDao<Article> IDao = DaoProvider.getArticleDao();
         art.setId(id);
         return art;
     }
@@ -23,7 +23,7 @@ public class ArticleManager implements IArticleManager {
     public List<Article> getAll() throws GlobalException {
         List<Article> articleList = new ArrayList<>();
         try {
-            IGenericDao<Article> IDao = FactoriesDao.getArticleDao();
+            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             articleList = IDao.selectAll();
         } catch (GlobalException e) {
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class ArticleManager implements IArticleManager {
     public List<Article> getByCriteres(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
         List<Article> articleList2 = new ArrayList<>();
         try {
-            IGenericDao<Article> IDao = FactoriesDao.getArticleDao();
+            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             articleList2 = IDao.selectByCriteres(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
         } catch (GlobalException e) {
             e.printStackTrace();

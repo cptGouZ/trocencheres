@@ -5,6 +5,7 @@ import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bo.Adresse;
 import bo.Article;
+import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -62,9 +63,10 @@ public class Vente extends HttpServlet {
         System.out.println(cpo);
         System.out.println(ville);
 
-        IArticleManager icm = ManagerProvider.getArticleManager();
+        try {
+            IArticleManager icm = ManagerProvider.getArticleManager();
 
-        Article newArticle = null ;
+            Article newArticle = null ;
                 newArticle = icm.insertNewArticle(
                             article,
                             descritpion,
@@ -73,12 +75,15 @@ public class Vente extends HttpServlet {
                             debutEnchereBll,
                             finEnchereBll);
 
-        Adresse newAdresse = null ;
-                newAdresse = icm.insertNewAdresse(
-                            rue,
-                            cpo,
-                            ville);
+            Adresse newAdresse = null ;
+                    newAdresse = icm.insertNewAdresse(
+                                rue,
+                                cpo,
+                                ville);
 
+        } catch (GlobalException e) {
+            e.printStackTrace();
+        }
 
 
     }

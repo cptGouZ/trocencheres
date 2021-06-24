@@ -4,7 +4,7 @@ import bll.interfaces.IArticleManager;
 import bo.Adresse;
 import bo.Article;
 import bo.Categorie;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
@@ -31,11 +31,11 @@ public class ArticleManagerTestAlex implements IArticleManager {
 
 
     @Override
-    public Article insertNewArticle(String article, String descritpion, Integer categorie, Integer prixDepart, LocalDateTime debutEnchere, LocalDateTime finEnchere) {
+    public Article insertNewArticle(String article, String descritpion, Integer categorie, Integer prixDepart, LocalDateTime debutEnchere, LocalDateTime finEnchere) throws GlobalException {
 
         Article nouvelArticle = null ;
 
-        IGenericDao<Article> cDao = FactoriesDao.getArticleDao();
+        IGenericDao<Article> cDao = DaoProvider.getArticleDao();
         nouvelArticle.setArticle(article);
         nouvelArticle.setDescription(descritpion);
         nouvelArticle.setCategorie(new Categorie(categorie));
@@ -50,7 +50,7 @@ public class ArticleManagerTestAlex implements IArticleManager {
     }
 
     @Override
-    public Adresse insertNewAdresse(String rue, String cpo, String ville) {
+    public Adresse insertNewAdresse (String rue, String cpo, String ville) throws GlobalException {
         return null;
     }
 }

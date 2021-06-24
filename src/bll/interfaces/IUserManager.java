@@ -4,8 +4,8 @@ import bo.Utilisateur;
 import exception.GlobalException;
 
 public interface IUserManager {
-    Utilisateur getById(int id) throws GlobalException;
+    Utilisateur getById(int userId) throws GlobalException;
     void mettreAJour(Utilisateur user) throws GlobalException;
-    void remove(int id) throws  GlobalException;
-    void create(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException;
+    void supprimer(int userId) throws  GlobalException;
+    void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException;
 }
