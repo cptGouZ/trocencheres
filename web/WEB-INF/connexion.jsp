@@ -6,6 +6,10 @@
 
 <%@ include file="fragments/header.jsp"%>
 
+<%--Message d'erreur de connexion--%>
+<% String affichMessageErr = (String) request.getAttribute("messageErreurLog"); %>
+<%= affichMessageErr %>
+
             <%--BLOC CONNEXION--%>
             <br>
             <div class="row">

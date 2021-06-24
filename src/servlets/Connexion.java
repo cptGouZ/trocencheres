@@ -3,6 +3,7 @@ package servlets;
 import bll.interfaces.IConnexionManager;
 import bll.ManagerProvider;
 import bo.Utilisateur;
+import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,11 +54,19 @@ public class Connexion extends HttpServlet {
         System.out.println(mdp);
 
         IConnexionManager icm = ManagerProvider.getConnexionManager();
-        Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
+        Utilisateur utilisateurConnecte = null;
+        try {
+            utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
+            req.getSession().setAttribute("userConnected",utilisateurConnecte);
+            req.getRequestDispatcher("accueilS").forward(req, resp);
 
-        req.getSession().setAttribute("userConnected",utilisateurConnecte);
+        } catch (GlobalException e) {
+            e.printStackTrace();
+            String erreurLog = "Email ou mot de passe invalide";
+            req.setAttribute("messageErreurLog", erreurLog);
+        }
 
-        req.getRequestDispatcher("accueilS").forward(req, resp);
+
 
     }
 }

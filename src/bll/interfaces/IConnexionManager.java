@@ -1,7 +1,8 @@
 package bll.interfaces;
 
 import bo.Utilisateur;
+import exception.GlobalException;
 
 public interface IConnexionManager {
-    Utilisateur connexionAuSite(String login, String mdp) ;
+    Utilisateur connexionAuSite(String login, String mdp) throws GlobalException;
 }
