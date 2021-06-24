@@ -24,7 +24,7 @@
 
      <%--Form VENTE--%>
      <div class="col">
-         <form method="" action="vente">
+         <form method="post" action="vente">
              <%--ARTICLE--%>
              <div class="input-group mb-3">
                  <span class="input-group-text" >Article : </span>
@@ -40,10 +40,10 @@
                  <label for="categorie">Catégorie :</label>
                  <select name="categorie" id="categorie" required>
                      <option value="">--Sélectionner une catégorie--</option>
-                     <option name="categorie" value="informatique">Informatique</option>
-                     <option name="categorie" value="ameublement">Ameublement</option>
-                     <option name="categorie" value="vetement">Vetement</option>
-                     <option name="categorie" value="sport&loisirs">Sport&Loisirs</option>
+                     <option name="categorie" value="1">Sports</option>
+                     <option name="categorie" value="2">Vêtements</option>
+                     <option name="categorie" value="3">Meubles</option>
+                     <option name="categorie" value="4">Sport&Loisirs</option>
                  </select>
              </div>
              <br>
@@ -65,7 +65,7 @@
                      <label for="debutEnchere">Début de l'enchère :</label>
                      <input type="date" id="debutEnchere" name="debutEnchere"
                             value="${dateDuJour}"
-                            min="2018-01-01" max="2050-12-31">
+                            min="${dateDuJour}" max="2050-12-31" required>
                  </div>
 
              <%--FIN ENCHERE--%>
@@ -73,7 +73,7 @@
                      <label for="finEnchere">Fin de l'enchère :</label>
                      <input type="date" id="finEnchere" name="finEnchere"
                         value=""
-                        min="2018-01-01" max="2018-12-31">
+                        min="${dateDuJour}" max="2050-12-31">
                  </div>
                  <br>
 
@@ -92,7 +92,7 @@
                 <%--VILLE--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Ville : </span>
-                        <input type="text" class="form-control" placeholder="ville" name="article" required>
+                        <input type="text" class="form-control" placeholder="ville" name="ville" required>
                     </div>
                  </div>
                  <br>

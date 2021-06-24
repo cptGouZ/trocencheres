@@ -1,5 +1,11 @@
 package servlets;
 
+import bll.ManagerProvider;
+import bll.interfaces.IArticleManager;
+import bll.interfaces.IConnexionManager;
+import bo.Adresse;
+import bo.Article;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @WebServlet("/vente")
@@ -32,10 +39,15 @@ public class Vente extends HttpServlet {
 
         String article = req.getParameter("article");
         String descritpion = req.getParameter("description");
-        String categorie = req.getParameter("categorie");
-        String prixDepart = req.getParameter("prixDepart");
-        String dateDebut = req.getParameter("dateDebut");
-        String dateFin = req.getParameter("dateFin");
+        Integer categorie = Integer.valueOf(req.getParameter("categorie"));
+        Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart"));
+
+        String debutEnchere = req.getParameter("debutEnchere");
+        LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEnchere);
+
+        String finEnchere = req.getParameter("finEnchere");
+        LocalDateTime finEnchereBll = LocalDateTime.parse("finEnchere");
+
         String rue = req.getParameter("rue");
         String cpo = req.getParameter("cpo");
         String ville = req.getParameter("ville");
@@ -44,11 +56,28 @@ public class Vente extends HttpServlet {
         System.out.println(descritpion);
         System.out.println(categorie);
         System.out.println(prixDepart);
-        System.out.println(dateDebut);
-        System.out.println(dateFin);
+        System.out.println(debutEnchere);
+        System.out.println(finEnchere);
         System.out.println(rue);
         System.out.println(cpo);
         System.out.println(ville);
+
+        IArticleManager icm = ManagerProvider.getArticleManager();
+
+        Article newArticle = null ;
+                newArticle = icm.insertNewArticle(
+                            article,
+                            descritpion,
+                            categorie,
+                            prixDepart,
+                            debutEnchereBll,
+                            finEnchereBll);
+
+        Adresse newAdresse = null ;
+                newAdresse = icm.insertNewAdresse(
+                            rue,
+                            cpo,
+                            ville);
 
 
 

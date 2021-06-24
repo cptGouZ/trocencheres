@@ -17,10 +17,10 @@ public class deconnexion extends HttpServlet {
 
         deconnexion = Boolean.parseBoolean((req.getParameter("seDeconnecter")));
 
-        System.out.println("test1 " + deconnexion);
+        //System.out.println("test1 " + deconnexion);
 
         if(deconnexion == true) {
-            System.out.println("test2 " + deconnexion);
+           // System.out.println("test2 " + deconnexion);
             req.getSession().setAttribute("userConnected",null);
             deconnexion = false ;
             req.getRequestDispatcher("accueilS").forward(req, resp);

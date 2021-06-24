@@ -1,6 +1,7 @@
 package bll;
 
 import bll.impl.ArticleManager;
+import bll.impl.ArticleManagerTestAlex;
 import bll.impl.ConnexionManager;
 import bll.impl.UserManager;
 import bll.interfaces.IArticleManager;
@@ -12,5 +13,5 @@ public class ManagerProvider {
         return new ConnexionManager();
     }
     public static IUserManager getUserManager(){ return new UserManager(); }
-    public static IArticleManager getArticleManager(){ return new ArticleManager();}
+    public static IArticleManager getArticleManager(){ return new ArticleManagerTestAlex();}
 }
