@@ -36,6 +36,7 @@ public class ArticleManager implements IArticleManager {
         List<Article> articleList2 = new ArrayList<>();
         try {
             IGenericDao<Article> IDao = DaoProvider.getArticleDao();
+            System.out.println("manager" + articleName);
             articleList2 = IDao.selectByCriteres(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
         } catch (GlobalException e) {
             e.printStackTrace();

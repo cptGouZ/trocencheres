@@ -103,49 +103,51 @@ public class ArticleImpl implements IGenericDao<Article> {
 
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
-            //Texte libre
-            String choix = null;
-            if("textechoix" != null) {
-                choix = "textechoix";
-                sqlConstruction.append("a.article = " + choix + "");}
+
+                sqlConstruction.append("a.article = '" + articleName  + "',");
 
             //Choix catégorie
-            if("categorie" == "toutes") { sqlConstruction.append(", c.libelle = toutes");}
-            else if("categorie" == "informatique") { sqlConstruction.append(", c.libelle = informatique");}
-            else if("categorie" == "ameublement") { sqlConstruction.append(", c.libelle = ameublement");}
-            else if("categorie" == "vetement") { sqlConstruction.append(", c.libelle = vetement");}
-            else {sqlConstruction.append(", c.libelle = sports&loisirs");};
+            System.out.println("tutu" + catName);
+            if("toutes".equals(catName)) { sqlConstruction.append(" c.libelle = 'toutes',");}
+            else if("informatique".equals(catName)) { sqlConstruction.append(" c.libelle = 'informatique',");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" c.libelle = 'ameublement',");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement',");}
+            else {sqlConstruction.append(" c.libelle = 'sports&loisirs',");}
 
-            //Choix des checkbox
-            //TODO attente la création des article pour pouvoir gérer les période de vente
-            if(openedEnchere) {
-                sqlConstruction.append(", openedEnchere == true"); }
-            if(inprogressEnchere) {
-                sqlConstruction.append(", inprogressEnchere == true"); }
-            if(winEnchere) {
-                sqlConstruction.append(", winEnchere == true"); }
-            if(inprogressVente) {
-                sqlConstruction.append(", inprogressVente == true"); }
-            if(beforeVente) {
-                sqlConstruction.append(", beforeVente == true"); }
-            if(finishedVente) {
-                sqlConstruction.append(", finishedVente == true"); }
-            System.out.println(sqlConstruction);
 
-            ResultSet rs = pstt.executeQuery();
-//            while (rs.next()) {
-//                //Je choisis les paramètres de l'objet avec le get
-//                Article artAjout = new Article();
-//                artAjout.setArticle(rs.getString("article"));
-//                artAjout.setPrixVente(rs.getInt("prix_vente"));
-//                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-//                //J'ajoute l'item "Vendeur"
-//                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-//                artAjout.setUtilisateur(ut);
-//                }
-//                //J'acjoute l'article à la liste
-//                //list.add(artAjout);
-//            }
+            //sqlConstruction.append("c.libelle = '" + catName + "',");
+
+
+//            //Choix des checkbox
+//            //TODO attente la création des article pour pouvoir gérer les période de vente
+//            if(openedEnchere) {
+//                sqlConstruction.append(" openedEnchere = true,"); }
+//            if(inprogressEnchere) {
+//                sqlConstruction.append("inprogressEnchere = true,"); }
+//            if(winEnchere) {
+//                sqlConstruction.append(" winEnchere = true,"); }
+//            if(inprogressVente) {
+//                sqlConstruction.append(" inprogressVente = true,"); }
+//            if(beforeVente) {
+//                sqlConstruction.append(" beforeVente = true,"); }
+//            if(finishedVente) {
+//                sqlConstruction.append(" finishedVente =  true,"); }
+                System.out.println(sqlConstruction);
+//
+//            ResultSet rs = pstt.executeQuery();
+////            while (rs.next()) {
+////                //Je choisis les paramètres de l'objet avec le get
+////                Article artAjout = new Article();
+////                artAjout.setArticle(rs.getString("article"));
+////                artAjout.setPrixVente(rs.getInt("prix_vente"));
+////                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+////                //J'ajoute l'item "Vendeur"
+////                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+////                artAjout.setUtilisateur(ut);
+////                }
+////                //J'acjoute l'article à la liste
+////                //list.add(artAjout);
+//
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
