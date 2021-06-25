@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleImpl implements IGenericDao<Article> {
+public class ArticleDal implements IGenericDao<Article> {
 
 
     private static final String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES";

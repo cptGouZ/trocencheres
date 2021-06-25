@@ -3,7 +3,6 @@ package dal;
 import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
-import dal.impl.UtilisateurImpl;
 import exception.GlobalException;
 
 import java.util.List;
