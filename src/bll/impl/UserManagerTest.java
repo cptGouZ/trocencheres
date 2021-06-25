@@ -19,12 +19,14 @@ public class UserManagerTest implements IUserManager {
     }
 
     @Override
-    public void remove(int id) throws GlobalException {
+    public void supprimer(int userId) throws GlobalException {
 
     }
 
     @Override
-    public void create(Utilisateur user) throws GlobalException {
+    public void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
 
     }
+
+
 }

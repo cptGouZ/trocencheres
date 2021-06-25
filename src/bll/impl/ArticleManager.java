@@ -2,10 +2,12 @@ package bll.impl;
 
 import bll.interfaces.IArticleManager;
 import bo.Article;
+import bo.Categorie;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,4 +45,39 @@ public class ArticleManager implements IArticleManager {
         return articleList2;
     }
 
+
+    @Override
+    public Article insertNewArticle(String article, String descritpion, Integer categorie, Integer prixDepart, LocalDateTime debutEnchere, LocalDateTime finEnchere) throws GlobalException {
+
+
+        System.out.println("test arrivée BLL : " + article);
+        System.out.println("test arrivée BLL :" + descritpion);
+        System.out.println("test arrivée BLL :" + categorie);
+        System.out.println("test arrivée BLL : " + prixDepart);
+        System.out.println("test arrivée BLL : " + debutEnchere);
+        System.out.println("test arrivée BLL :" + finEnchere);
+
+        Article nouvelArticle = new Article();
+
+        IGenericDao<Article> cDao = DaoProvider.getArticleDao();
+
+        nouvelArticle.setArticle(article);
+        nouvelArticle.setDescription(descritpion);
+        nouvelArticle.setCategorie(new Categorie(categorie));
+        nouvelArticle.setPrixInitiale(prixDepart);
+        nouvelArticle.setDateDebut(debutEnchere);
+        nouvelArticle.setDateFin(finEnchere);
+
+        System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
+        System.out.println("test sortie BLL : " + nouvelArticle.getDescription());
+        System.out.println("test sortie BLL : " + nouvelArticle.getCategorie());
+        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());
+        System.out.println("test sortie BLL : " + nouvelArticle.getDateDebut());
+        System.out.println("test sortie BLL : " + nouvelArticle.getDateFin());
+
+
+        cDao.insertNewArticle(nouvelArticle);
+
+        return nouvelArticle ;
+    }
 }

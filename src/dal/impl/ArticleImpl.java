@@ -1,5 +1,6 @@
 package dal.impl;
 
+import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
@@ -7,25 +8,36 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleImpl implements IGenericDao<Article> {
 
-
     private static final String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES";
 
     private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE id = ?";
 
+    private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initiale) values(?,?,?,?,?);";
 
     @Override
-    public void insert(Article obj) throws GlobalException {}
+    public Utilisateur selectByEmail(String email) throws GlobalException {
+        return IGenericDao.super.selectByEmail(email);
+    }
+    @Override
+    public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
+        return IGenericDao.super.selectByPseudo(pseudo);
+    }
+    @Override
+    public Article selectByArticle(String article) throws GlobalException {
+        return IGenericDao.super.selectByArticle(article);
+    }
+    @Override
+    public void insert(Article obj) throws GlobalException {
 
+    }
     @Override
     public void update(Article obj) throws GlobalException {}
-
     @Override
     public void delete(int id) throws GlobalException {}
 
@@ -151,6 +163,40 @@ public class ArticleImpl implements IGenericDao<Article> {
             throwables.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
+        return IGenericDao.super.selectAllAdresseByUser(userId);
+    }
+
+    @Override
+    public Article insertNewArticle(Article newArticle) throws GlobalException {
+
+        try(Connection uneConnection = ConnectionProvider.getConnection();
+            PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);
+        ){
+
+            if(newArticle.getId()==0){
+
+            pStmt.setString(1,newArticle.getArticle());
+            pStmt.setString(2,newArticle.getDescription());
+            pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(newArticle.getDateDebut()));
+            pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(newArticle.getDateFin()));
+            pStmt.setInt(5,newArticle.getPrixInitiale());
+            pStmt.executeUpdate();
+            ResultSet rs = pStmt.getGeneratedKeys() ;
+                if(rs.next()){
+                newArticle.setId(rs.getInt(1));
+                }
+            rs.close();
+            pStmt.close();
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return newArticle;
     }
 
 }
