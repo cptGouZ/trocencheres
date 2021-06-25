@@ -135,10 +135,8 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
                 retour = new Utilisateur();
                 retour.setId(rs.getInt("no_utilisateur"));
-                retour.setAdresse(ad.selectUserDomicile(id));
                 retour.setPseudo(rs.getString("pseudo"));
                 retour.setNom(rs.getString("nom"));
                 retour.setPrenom(rs.getString("prenom"));
@@ -147,6 +145,8 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
                 retour.setPassword(rs.getString("mdp"));
                 retour.setCredit(rs.getInt("credit"));
                 retour.setAdmin(rs.getBoolean("administrateur"));
+                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
+                retour.setAdresse(ad.selectUserDomicile(id));
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();

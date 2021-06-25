@@ -14,7 +14,6 @@
             <div>Rue : ${userDisplayed.adresse.rue} </div>
             <div>Code postal : ${userDisplayed.adresse.cpo} </div>
             <div>Ville : ${userDisplayed.adresse.ville} </div>
-
         </div>
     </div>
 
@@ -26,7 +25,9 @@
                 <button class="btn btn-primary mb-3" type="submit">Back</button>
             </form>
             <c:if test="${empty sessionScope.get(connectedUser.id)}">
-            <a class="btn btn-primary mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">
+            <div class="row">
+                <a class="btn btn-primary mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">Modifier</a>
+            <div>
             </c:if>
         </div>
     </div>

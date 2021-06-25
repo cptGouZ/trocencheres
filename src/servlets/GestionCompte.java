@@ -102,7 +102,7 @@ public class GestionCompte extends HttpServlet {
                 userToUpdate.setPassword(password);
                 userToUpdate.setPhone(tel);
                 userToUpdate.setPrenom(prenom);
-                um.mettreAJour(userToUpdate);
+                um.mettreAJour(userToUpdate, password);
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
             }
 
