@@ -14,6 +14,11 @@
 
 <%@ include file="fragments/header.jsp"%>
 <div class="row">
+    <%--Message d'erreur de connexion--%>
+    <p class="col text-decoration-underline text-danger">
+        ${empty messageErreur ? "" : messageErreur}
+    </p>
+
     <form method="post" action="${pageContext.request.contextPath}/gestioncompte?userId=${userId}" class="col">
         <%--Pseudo / Nom--%>
         <div class="row">

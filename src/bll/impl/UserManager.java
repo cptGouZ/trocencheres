@@ -42,7 +42,6 @@ public class UserManager implements IUserManager {
         userDao.delete(user.getId());
     }
 
-    //TODO contrôler l'insertion de données
     @Override
     public void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
         IAdresseManager am = ManagerProvider.getAdresseManager();

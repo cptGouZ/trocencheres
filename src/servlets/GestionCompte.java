@@ -20,6 +20,8 @@ public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
+/*             if(req.getParameter("messageErreur")!=null)
+                req.setAttribute("messageErreur", req.getAttribute("messageErreur"));*/
             IUserManager um = ManagerProvider.getUserManager();
             boolean isUserCreation = Boolean.parseBoolean(req.getParameter("createUser"));
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
@@ -34,6 +36,7 @@ public class GestionCompte extends HttpServlet {
                     req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
                 }
             }
+
             if(userConnected!=null){
                 //Utilisateur est déjà connecté et demande la modification d'un profil
                 Integer userId = Integer.parseInt(req.getParameter("userId"));
@@ -109,7 +112,22 @@ public class GestionCompte extends HttpServlet {
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
             }*/
         }catch(GlobalException e){
-            System.out.println(e.getMessageErrors());
+            if("creer".equals(action)) {
+                req.setAttribute("createUser", true);
+                req.removeAttribute("userId");
+                req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+                req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
+            }
+            if("maj".equals(action) && userId == userConnected.getId()) {
+                req.setAttribute("userId", userId);
+                req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+                req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
+            }
+            if("remove".equals(action)){
+                req.setAttribute("userId", userId);
+                req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+                req.getRequestDispatcher("profil").forward(req, resp);
+            }
         }
     }
 }
