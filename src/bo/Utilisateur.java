@@ -4,22 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
-    Integer id =0;
-    Adresse adresse=null;
-    String pseudo="Gouz"+id;
-    String nom="toto";
-    String prenom="julien";
-    String email="julien@gmail.com";
-    String phone ="0628187989";
-    String password="toto";
-    java.lang.Integer credit=200;
-    boolean admin;
-
+    private Integer id =0;
+    private Adresse adresse=null;
+    private String pseudo="Gouz"+id;
+    private String nom="toto";
+    private String prenom="julien";
+    private String email="julien@gmail.com";
+    private String phone ="0628187989";
+    private String password="toto";
+    private Integer credit=200;
+    private boolean admin;
+    private List<Adresse> adresses = new ArrayList<>();
 
     // Constructeur pour CONNEXION
     public Utilisateur(String pseudo, String password) {
@@ -39,6 +41,18 @@ public class Utilisateur implements Serializable {
         this.admin = admin;
     }
 
+    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone, int credit, boolean admin) {
+        this.adresse = adresse;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.phone = phone;
+        this.credit = credit;
+        this.admin = admin;
+    }
+
+    //TODO A supprimer plus tard ?
     public Utilisateur(String pseudo) {
         this.pseudo = pseudo;
     }

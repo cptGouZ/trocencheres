@@ -95,7 +95,7 @@
 
         <%--Créer / Annuler
         Afficher en cas de création de compte--%>
-        <c:if test="${empty sessionScope.get('connectedUser')}">
+        <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="row">
                 <div class="col">
                     <button type="submit" class="btn btn-secondary" name="action" value="save">Créer</button>
@@ -108,7 +108,7 @@
       
         <%--Enregistrer / Supprimer
         Afficher si le profil de session est celui de l'utilisateur--%>
-        <c:if test="${!empty sessionScope.get('connectedUser')}">
+        <c:if test="${!empty sessionScope.get('userConnected')}">
             <div class="row">
                 <div class="col">
                     Credit : 640

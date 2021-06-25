@@ -8,12 +8,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Adresse {
-    Integer id;
-    String rue;
-    String cpo;
-    String ville;
-    boolean domicile;
+    private Integer id;
+    private String rue;
+    private String cpo;
+    private String ville;
+    private boolean domicile;
+    private Integer userId;
 
+    public Adresse(String rue, String cpo, String ville) {
+        this.rue = rue;
+        this.cpo = cpo;
+        this.ville = ville;
+    }
     public Adresse(String rue, String cpo, String ville, boolean domicile) {
+        this.rue = rue;
+        this.cpo = cpo;
+        this.ville = ville;
+        this.domicile = domicile;
+    }
+    public Adresse(String rue, String cpo, String ville, int userId) {
+        this.rue = rue;
+        this.cpo = cpo;
+        this.ville = ville;
+        this.userId = userId;
+    }
+    public Adresse(String rue, String cpo, String ville, int userId, boolean domicile) {
+        this.rue = rue;
+        this.cpo = cpo;
+        this.ville = ville;
+        this.domicile = domicile;
+        this.userId = userId;
     }
 }

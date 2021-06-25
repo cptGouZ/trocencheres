@@ -10,6 +10,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categorie implements Serializable {
-    Integer id;
-    String libelle;
+    private Integer id;
+    private String libelle;
+
+    public Categorie(Integer id) {
+        this.id = id;
+    }
 }

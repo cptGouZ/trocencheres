@@ -3,7 +3,7 @@ package dal.impl;
 import bo.Article;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
@@ -46,7 +46,7 @@ public class ArticleImpl implements IGenericDao<Article> {
                 artAjout.setPrixVente(rs.getInt("prix_vente"));
                 artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
                 //J'ajoute l'item "Vendeur"
-                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
                 artAjout.setUtilisateur(ut);
                 //J'acjoute l'article à la liste
                 list.add(artAjout);
@@ -74,7 +74,7 @@ public class ArticleImpl implements IGenericDao<Article> {
                 art.setPrixVente(rs.getInt("prix-vente"));
                 art.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
                 //J'ajoute l'item "Vendeur"
-                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
                 art.setUtilisateur(ut);
                 pstt.executeQuery();
             }
@@ -117,6 +117,7 @@ public class ArticleImpl implements IGenericDao<Article> {
             else {sqlConstruction.append(", c.libelle = sports&loisirs");};
 
             //Choix des checkbox
+            //TODO attente la création des article pour pouvoir gérer les période de vente
             if(openedEnchere) {
                 sqlConstruction.append(", openedEnchere == true"); }
             if(inprogressEnchere) {

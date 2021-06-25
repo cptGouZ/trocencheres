@@ -32,4 +32,9 @@ public class AdresseImpl implements IGenericDao<Adresse> {
     public List<Adresse> selectAll() throws GlobalException {
         return new ArrayList<>();
     }
+
+    @Override
+    public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
+        return IGenericDao.super.selectAllAdresseByUser(userId);
+    }
 }

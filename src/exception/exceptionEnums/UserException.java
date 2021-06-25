@@ -5,6 +5,7 @@ import exception.EnumException;
 public interface UserException extends EnumException {
     //DAL Exception 10**
     int SELECT_BY_USER_ID = 1000;
+    int USER_INSERTION_ERROR = 1010;
     //BLL Exception 11**
     int PSEUDO_EXISTANT = 1100;
     int PSEUDO_VIDE = 1105;
@@ -17,8 +18,12 @@ public interface UserException extends EnumException {
     int PRENOM_VIDE=1155;
     int PRENOM_INVALIDE=1156;
     int PASSWORD_VIDE=1160;
-    int PASSWORD_INVALIDE=1161;
-    int CONFIRMATION_PASSWORD = 1165;
+    int PASSWORD_NO_MATCH=1161;
+    int NEW_PASSWORD_VIDE=1162;
+    int NEW_PASSWORD_INVALIDE=1163;
+    int CONFIRMATION_PASSWORD_VIDE = 1164;
+    int CONFIRMATION_PASSWORD_NO_MATCH = 1165;
+    int TELEPHONE_INVALIDE = 1166;
     //IHM Exception 12**
 
 }

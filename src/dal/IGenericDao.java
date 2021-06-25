@@ -1,5 +1,6 @@
 package dal;
 
+import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
 import dal.impl.UtilisateurImpl;
@@ -16,15 +17,16 @@ public interface IGenericDao<T> {
     List<T> selectAll() throws GlobalException;
 
     //Méthode spécifique à Utilisateur
-    default Utilisateur selectByEmail(String email) {return null;}
-    default Utilisateur selectByPseudo(String pseudo) {return null;}
+    default Utilisateur selectByEmail(String email) throws GlobalException {return null;}
+    default Utilisateur selectByPseudo(String pseudo) throws GlobalException {return null;}
 
     //Méthodes spécifiques à Article
     default Article selectByArticle(String article) throws GlobalException {return null;}
+    default Article insertNewArticle(T nouvelArticle) throws GlobalException {return null;}
     default List<Article> selectByCriteres(String articleName, String catName, boolean openedEnchere,
                                             boolean inprogressEnchere, boolean winEnchere,
                                             boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {return null;}
 
-
-    //Méthode spécifique à Article
+    //Méthode spécifique à Adresse
+    default List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {return null;}
 }

@@ -3,10 +3,9 @@ package bll.impl;
 import bll.interfaces.IConnexionManager;
 import bo.Utilisateur;
 import dal.IGenericDao;
-import dal.FactoriesDao;
+import dal.DaoProvider;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 public class ConnexionManager implements IConnexionManager {
 
@@ -19,7 +18,7 @@ public class ConnexionManager implements IConnexionManager {
         Utilisateur utilisateurByEmail;
         Utilisateur utilisateurByPseudo;
 
-        IGenericDao<Utilisateur> cDao = FactoriesDao.getUtilisateurDao();
+        IGenericDao<Utilisateur> cDao = DaoProvider.getUtilisateurDao();
 
         utilisateurByEmail = cDao.selectByEmail(login);
         utilisateurByPseudo = cDao.selectByPseudo(login);

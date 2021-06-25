@@ -7,7 +7,7 @@ import dal.impl.AdresseImpl;
 import dal.impl.ArticleImpl;
 import dal.impl.UtilisateurImpl;
 
-public class FactoriesDao {
+public class DaoProvider {
     public static IGenericDao<Utilisateur> getUtilisateurDao() {
         return new UtilisateurImpl();
     }

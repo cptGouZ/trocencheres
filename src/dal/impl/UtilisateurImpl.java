@@ -78,7 +78,28 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
 
     @Override
     public void insert(Utilisateur obj) throws GlobalException {
-
+        final String INSERT = "INSERT INTO utilisateurs (pseudo, nom, prenom, email, telephone, mdp, credit, administrateur) " +
+                              "VALUES (?, ?, ?, ?, ?, ?, 0, 0)";
+        try (
+                Connection uneConnection = ConnectionProvider.getConnection();
+                PreparedStatement pstmt = uneConnection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+        ){
+            pstmt.setString(1, obj.getPseudo());
+            pstmt.setString(2, obj.getNom());
+            pstmt.setString(3, obj.getPrenom());
+            pstmt.setString(4, obj.getEmail());
+            pstmt.setString(5, obj.getPhone());
+            pstmt.setString(6, obj.getPassword());
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            while(rs.next()){
+                obj.setId(rs.getInt(1));
+            }
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            GlobalException.getInstance().addError(UserException.USER_INSERTION_ERROR);
+            throw GlobalException.getInstance();
+        }
     }
 
     @Override

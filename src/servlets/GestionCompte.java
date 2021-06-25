@@ -6,7 +6,6 @@ import bo.Adresse;
 import bo.Utilisateur;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
-import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -77,32 +76,45 @@ public class GestionCompte extends HttpServlet {
         }
     }
 
-    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         IUserManager um = ManagerProvider.getUserManager();
 
-        //Récupération des données de la page
+        //Récupération des données de la page partie user
         String pseudo = req.getParameter("pseudo").trim();
         String nom = req.getParameter("nom").trim();
         String prenom = req.getParameter("prenom").trim();
         String email = req.getParameter("email").trim();
         String tel = req.getParameter("tel").trim();
-        String rue = req.getParameter("rue").trim();
-        String cpo = req.getParameter("cpo").trim();
-        String ville = req.getParameter("ville").trim();
         String password = req.getParameter("password").trim();
         String newPassword = req.getParameter("newPassword").trim();
         String confirmPassword = req.getParameter("confirmPassword").trim();
         String action = req.getParameter("action").trim();
-        Utilisateur concernedUser = um.getById(Integer.parseInt(req.getParameter("userId")));
+        //Récupération des données de la page partie adresse
+        String rue = req.getParameter("rue").trim();
+        String cpo = req.getParameter("cpo").trim();
+        String ville = req.getParameter("ville").trim();
 
+        //Objet à créer pour une création d'utilisateur
+        Adresse newAdresse = new Adresse(rue, cpo, ville);
+        Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
+
+        try {
+            um.creer(newUser, newPassword, confirmPassword);
+        } catch (GlobalException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessageErrors());
+        }
+
+        /*if(req.getParameter("userId")!=null){
+            Utilisateur concernedUser = um.getById(Integer.parseInt(req.getParameter("userId")));}
+        Utilisateur concernedUser = null;
         //Création de l'utilisateur
         Utilisateur userToUpdate = null;
         if(concernedUser==null){
             Adresse adresse = new Adresse(rue, cpo, ville, true);
             userToUpdate = new Utilisateur(adresse, pseudo, nom, prenom, email, tel, password, 0, false);
-            um.create(userToUpdate);
+            um.create(userToUpdate, newPassword, confirmPassword);
             req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
         }
 
@@ -128,6 +140,6 @@ public class GestionCompte extends HttpServlet {
             um.remove(concernedUser.getId());
             req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
         }
-        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);*/
     }
 }
