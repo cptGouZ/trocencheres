@@ -1,5 +1,6 @@
 package dal.impl;
 
+import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
@@ -7,25 +8,36 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDal implements IGenericDao<Article> {
 
-
     private static final String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES";
 
     private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE id = ?";
 
+    private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie,no_adresse) values(?,?,?,?,?,0,?,?,?);";
 
     @Override
-    public void insert(Article obj) throws GlobalException {}
+    public Utilisateur selectByEmail(String email) throws GlobalException {
+        return IGenericDao.super.selectByEmail(email);
+    }
+    @Override
+    public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
+        return IGenericDao.super.selectByPseudo(pseudo);
+    }
+    @Override
+    public Article selectByArticle(String article) throws GlobalException {
+        return IGenericDao.super.selectByArticle(article);
+    }
+    @Override
+    public void insert(Article obj) throws GlobalException {
 
+    }
     @Override
     public void update(Article obj) throws GlobalException {}
-
     @Override
     public void delete(int id) throws GlobalException {}
 
@@ -103,54 +115,94 @@ public class ArticleDal implements IGenericDao<Article> {
 
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
-            //Texte libre
-            String choix = null;
-            if("textechoix" != null) {
-                choix = "textechoix";
-                sqlConstruction.append("a.article = " + choix + "");}
+
+                sqlConstruction.append("a.article = '" + articleName  + "',");
 
             //Choix catégorie
-            if("categorie" == "toutes") { sqlConstruction.append(", c.libelle = toutes");}
-            else if("categorie" == "informatique") { sqlConstruction.append(", c.libelle = informatique");}
-            else if("categorie" == "ameublement") { sqlConstruction.append(", c.libelle = ameublement");}
-            else if("categorie" == "vetement") { sqlConstruction.append(", c.libelle = vetement");}
-            else {sqlConstruction.append(", c.libelle = sports&loisirs");};
+            System.out.println("tutu" + catName);
+            if("toutes".equals(catName)) { sqlConstruction.append(" c.libelle = 'toutes',");}
+            else if("informatique".equals(catName)) { sqlConstruction.append(" c.libelle = 'informatique',");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" c.libelle = 'ameublement',");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement',");}
+            else {sqlConstruction.append(" c.libelle = 'sports&loisirs',");}
 
-            //Choix des checkbox
-            //TODO attente la création des article pour pouvoir gérer les période de vente
-            if(openedEnchere) {
-                sqlConstruction.append(", openedEnchere == true"); }
-            if(inprogressEnchere) {
-                sqlConstruction.append(", inprogressEnchere == true"); }
-            if(winEnchere) {
-                sqlConstruction.append(", winEnchere == true"); }
-            if(inprogressVente) {
-                sqlConstruction.append(", inprogressVente == true"); }
-            if(beforeVente) {
-                sqlConstruction.append(", beforeVente == true"); }
-            if(finishedVente) {
-                sqlConstruction.append(", finishedVente == true"); }
-            System.out.println(sqlConstruction);
 
-            ResultSet rs = pstt.executeQuery();
-//            while (rs.next()) {
-//                //Je choisis les paramètres de l'objet avec le get
-//                Article artAjout = new Article();
-//                artAjout.setArticle(rs.getString("article"));
-//                artAjout.setPrixVente(rs.getInt("prix_vente"));
-//                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-//                //J'ajoute l'item "Vendeur"
-//                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-//                artAjout.setUtilisateur(ut);
-//                }
-//                //J'acjoute l'article à la liste
-//                //list.add(artAjout);
-//            }
+            //sqlConstruction.append("c.libelle = '" + catName + "',");
+
+
+//            //Choix des checkbox
+//            //TODO attente la création des article pour pouvoir gérer les période de vente
+//            if(openedEnchere) {
+//                sqlConstruction.append(" openedEnchere = true,"); }
+//            if(inprogressEnchere) {
+//                sqlConstruction.append("inprogressEnchere = true,"); }
+//            if(winEnchere) {
+//                sqlConstruction.append(" winEnchere = true,"); }
+//            if(inprogressVente) {
+//                sqlConstruction.append(" inprogressVente = true,"); }
+//            if(beforeVente) {
+//                sqlConstruction.append(" beforeVente = true,"); }
+//            if(finishedVente) {
+//                sqlConstruction.append(" finishedVente =  true,"); }
+                System.out.println(sqlConstruction);
+//
+//            ResultSet rs = pstt.executeQuery();
+////            while (rs.next()) {
+////                //Je choisis les paramètres de l'objet avec le get
+////                Article artAjout = new Article();
+////                artAjout.setArticle(rs.getString("article"));
+////                artAjout.setPrixVente(rs.getInt("prix_vente"));
+////                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+////                //J'ajoute l'item "Vendeur"
+////                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+////                artAjout.setUtilisateur(ut);
+////                }
+////                //J'acjoute l'article à la liste
+////                //list.add(artAjout);
+//
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
+        return IGenericDao.super.selectAllAdresseByUser(userId);
+    }
+
+    @Override
+    public Article insertNewArticle(Article newArticle) throws GlobalException {
+
+        try(Connection uneConnection = ConnectionProvider.getConnection();
+            PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);
+        ){
+
+            //if(newArticle.getId()==0){
+
+            pStmt.setString(1,newArticle.getArticle());
+            pStmt.setString(2,newArticle.getDescription());
+            pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(newArticle.getDateDebut()));
+            pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(newArticle.getDateFin()));
+            pStmt.setInt(5,newArticle.getPrixInitiale());
+            pStmt.setInt(6,newArticle.getUtilisateur().getId());
+            pStmt.setInt(7,newArticle.getCategorie().getId());
+            pStmt.setInt(8,newArticle.getUtilisateur().getAdresse().getId());
+            pStmt.executeUpdate();
+            ResultSet rs = pStmt.getGeneratedKeys() ;
+                while(rs.next()){
+                newArticle.setId(rs.getInt(1));
+                }
+            rs.close();
+            pStmt.close();
+
+            //}
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return newArticle;
     }
 
 }

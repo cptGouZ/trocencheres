@@ -5,6 +5,7 @@ import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bo.Adresse;
 import bo.Article;
+import bo.Utilisateur;
 import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @WebServlet("/vente")
@@ -38,27 +40,35 @@ public class Vente extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        //LocalTime heureEnchere = LocalTime.now();
+        Integer idUtilisateur = ((Utilisateur) req.getSession().getAttribute("userConnected")).getId();
+        Utilisateur userEnCours = (Utilisateur) req.getSession().getAttribute("userConnected");
+
         String article = req.getParameter("article");
-        String descritpion = req.getParameter("description");
+        String description = req.getParameter("description");
         Integer categorie = Integer.valueOf(req.getParameter("categorie"));
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart"));
 
         String debutEnchere = req.getParameter("debutEnchere");
-        LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEnchere);
+        String debutEncherePrecis = (debutEnchere + "T00:00:00") ;
+        LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEncherePrecis);
 
         String finEnchere = req.getParameter("finEnchere");
-        LocalDateTime finEnchereBll = LocalDateTime.parse("finEnchere");
+        String finEncherePrecis = (finEnchere + "T23:59:59") ;
+        LocalDateTime finEnchereBll = LocalDateTime.parse(finEncherePrecis);
 
         String rue = req.getParameter("rue");
         String cpo = req.getParameter("cpo");
         String ville = req.getParameter("ville");
 
+
+        System.out.println(idUtilisateur);
         System.out.println(article);
-        System.out.println(descritpion);
+        System.out.println(description);
         System.out.println(categorie);
         System.out.println(prixDepart);
-        System.out.println(debutEnchere);
-        System.out.println(finEnchere);
+        System.out.println("test 3 : " + debutEnchereBll);
+        System.out.println("test 4 : " + finEnchereBll);
         System.out.println(rue);
         System.out.println(cpo);
         System.out.println(ville);
@@ -68,12 +78,13 @@ public class Vente extends HttpServlet {
 
             Article newArticle = null ;
                 newArticle = icm.insertNewArticle(
-                            article,
-                            descritpion,
+                            userEnCours,
                             categorie,
-                            prixDepart,
+                            article,
+                            description,
                             debutEnchereBll,
-                            finEnchereBll);
+                            finEnchereBll,
+                            prixDepart);
 
             Adresse newAdresse = null ;
                     newAdresse = icm.insertNewAdresse(

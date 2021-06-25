@@ -2,7 +2,6 @@ package bll.interfaces;
 
 import bo.Adresse;
 import bo.Article;
-import bo.Categorie;
 import bo.Utilisateur;
 import exception.GlobalException;
 
@@ -14,7 +13,9 @@ public interface IArticleManager {
     List<Article> getAll() throws GlobalException;
     List<Article> getByCriteres(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException;
 
-    default Article insertNewArticle(String article, String descritpion, Integer categorie, Integer prixDepart, LocalDateTime debutEnchere, LocalDateTime finEnchere) throws GlobalException {return null;}
+
 
     default Adresse insertNewAdresse(String rue, String cpo, String ville) throws GlobalException { return null;}
+
+    Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchereBll, LocalDateTime finEnchereBll, Integer prixDepart) throws GlobalException;
 }
