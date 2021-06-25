@@ -33,12 +33,9 @@ public class GestionCompte extends HttpServlet {
             int userId = DEFAULT;
             if( req.getParameter("userId") != null )
                 userId = Integer.parseInt(req.getParameter("userId"));
-
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
             Utilisateur userToDisplay = null;
             userToDisplay = um.getById(userId);
-            System.out.println(userToDisplay);
-            System.out.println(userId);
             //L'utilisateur n'existe pas et nous ne demandons pas une création de compte
             if(userToDisplay==null && userId != NEW_ACCOUNT) {
                 req.getRequestDispatcher("accueilS").forward(req, resp);
@@ -68,7 +65,6 @@ public class GestionCompte extends HttpServlet {
                     req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
                 }
             }
-            req.getRequestDispatcher("accueilS").forward(req, resp);
         } catch (GlobalException e) {
             System.out.println(e.getMessageErrors());
         } catch (IOException e) {
@@ -98,7 +94,7 @@ public class GestionCompte extends HttpServlet {
 
             //Création de l'utilisateur
             if (Integer.parseInt(req.getParameter("userId")) == NEW_ACCOUNT) {
-                Adresse newAdresse = new Adresse(rue, cpo, ville);
+                Adresse newAdresse = new Adresse(rue, cpo, ville,true);
                 Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
                 um.creer(newUser, newPassword, confirmPassword);
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
@@ -129,6 +125,5 @@ public class GestionCompte extends HttpServlet {
         }catch(GlobalException e){
             System.out.println(e.getMessageErrors());
         }
-        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);
     }
 }

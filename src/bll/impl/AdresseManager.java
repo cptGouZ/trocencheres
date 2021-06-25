@@ -77,7 +77,7 @@ public class AdresseManager implements IAdresseManager {
     /**************************/
     private final String PATTERN_RUE = "^[\\p{L}\\p{Z}-]*$";
     private final String PATTERN_CPO = "^[\\d]{5}$";
-    private final String PATTERN_VILLE = "^[A-Z\\p{Z}-]*$";
+    private final String PATTERN_VILLE = "^[\\p{L}\\p{Z}-]*$";
 
     private void validerRue(Adresse adresse) throws GlobalException{
         if(adresse.getRue().isEmpty())

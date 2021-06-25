@@ -12,7 +12,7 @@ public class Adresse {
     private String rue;
     private String cpo;
     private String ville;
-    private boolean domicile;
+    private Boolean domicile;
     private Integer userId;
 
     public Adresse(String rue, String cpo, String ville) {
@@ -39,4 +39,5 @@ public class Adresse {
         this.domicile = domicile;
         this.userId = userId;
     }
+
 }

@@ -11,11 +11,10 @@
 <c:set var="defaultRue" value="value=\"${userConnected.adresse.rue}\""/>
 <c:set var="defaultCpo" value="value=\"${userConnected.adresse.cpo}\""/>
 <c:set var="defaultVille" value="value=\"${userConnected.adresse.ville}\""/>
-<c:set var="userId" value="?userId=${userConnected.id}"/>
 
 <%@ include file="fragments/header.jsp"%>
 <div class="row">
-    <form method="post" action="${pageContext.request.contextPath}/gestioncompte?${userId}" class="col">
+    <form method="post" action="${pageContext.request.contextPath}/gestioncompte?userId=${userId}" class="col">
         <%--Pseudo / Nom--%>
         <div class="row">
             <div class="col input-group mb-3">
