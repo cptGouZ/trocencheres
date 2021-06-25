@@ -2,6 +2,8 @@ package bll.interfaces;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Categorie;
+import bo.Utilisateur;
 import exception.GlobalException;
 
 import java.time.LocalDateTime;

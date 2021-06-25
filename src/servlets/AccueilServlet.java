@@ -24,8 +24,8 @@ public class AccueilServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //On recupere la categorie et le nom quand l'utilisateur les saisit
-        String textArticle = req.getParameter("texteart");
+        //On recupere la categorie, et le nom quand l'utilisateur le saisit
+        String textArticle = req.getParameter("textechoix");
         String categorie = req.getParameter("categorie");
         System.out.println(categorie);
 
@@ -59,9 +59,9 @@ public class AccueilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Test affichage article
-        Article objet1 = new Article();
+        //Article objet1 = new Article();
         //La servlet envoie l'info à la JSP
-        req.setAttribute("objet1", objet1);
+        //req.setAttribute("objet1", objet1);
 
         //Affichage de tous les articles
         //On fait appel a ArticleManager
