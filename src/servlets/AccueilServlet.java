@@ -43,7 +43,7 @@ public class AccueilServlet extends HttpServlet {
         List<Article> articleList2 = new ArrayList<>();
         IArticleManager am2 = ManagerProvider.getArticleManager();
         //Mettre les valeurs de checkbox dans les paramètres de la requête
-        System.out.println("servlet"+textArticle);
+        System.out.println("servlet" + textArticle);
             articleList2 = am2.getByCriteres(textArticle, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
             System.out.println("toto" + articleList2);
 
