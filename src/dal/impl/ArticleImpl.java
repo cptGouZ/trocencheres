@@ -7,6 +7,7 @@ import dal.FactoriesDao;
 import dal.IGenericDao;
 import exception.GlobalException;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ public class ArticleImpl implements IGenericDao<Article> {
                                           boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, c.no_categorie, c.libelle " +
-                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE";
+                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
 
         //Je crée une liste
         List<Article> list = new ArrayList<Article>();
@@ -103,16 +104,17 @@ public class ArticleImpl implements IGenericDao<Article> {
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
             //Texte libre
-            if("nomtext" != null) {
-                sqlConstruction.append(" articleName = nomtext");
-            }
+            String choix = null;
+            if("textechoix" != null) {
+                choix = "textechoix";
+                sqlConstruction.append("a.article = " + choix + "");}
 
             //Choix catégorie
-            if("categorie" == "toutes") { sqlConstruction.append(", catName = toutes");}
-            else if("categorie" == "informatique") { sqlConstruction.append(", catName = informatique");}
-            else if("categorie" == "ameublement") { sqlConstruction.append(", catName = ameublement");}
-            else if("categorie" == "vetement") { sqlConstruction.append(", catName = vetement");}
-            else {sqlConstruction.append(", catName = sports&loisirs");};
+            if("categorie" == "toutes") { sqlConstruction.append(", c.libelle = toutes");}
+            else if("categorie" == "informatique") { sqlConstruction.append(", c.libelle = informatique");}
+            else if("categorie" == "ameublement") { sqlConstruction.append(", c.libelle = ameublement");}
+            else if("categorie" == "vetement") { sqlConstruction.append(", c.libelle = vetement");}
+            else {sqlConstruction.append(", c.libelle = sports&loisirs");};
 
             //Choix des checkbox
             if(openedEnchere) {
@@ -128,8 +130,8 @@ public class ArticleImpl implements IGenericDao<Article> {
             if(finishedVente) {
                 sqlConstruction.append(", finishedVente == true"); }
             System.out.println(sqlConstruction);
-            ResultSet rs = pstt.executeQuery();
 
+            ResultSet rs = pstt.executeQuery();
 //            while (rs.next()) {
 //                //Je choisis les paramètres de l'objet avec le get
 //                Article artAjout = new Article();

@@ -2,7 +2,6 @@ package bll.impl;
 
 import bll.interfaces.IUserManager;
 import bo.Utilisateur;
-import exception.BLLException;
 import exception.GlobalException;
 
 public class UserManagerTest implements IUserManager {

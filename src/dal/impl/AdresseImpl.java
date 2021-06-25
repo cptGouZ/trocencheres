@@ -2,7 +2,6 @@ package dal.impl;
 
 import bo.Adresse;
 import dal.IGenericDao;
-import exception.DALException;
 import exception.GlobalException;
 
 import java.util.ArrayList;

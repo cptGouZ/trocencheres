@@ -4,7 +4,6 @@ import bll.interfaces.IUserManager;
 import bll.ManagerProvider;
 import bo.Adresse;
 import bo.Utilisateur;
-import exception.BLLException;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
 import lombok.SneakyThrows;

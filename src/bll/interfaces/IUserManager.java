@@ -1,7 +1,6 @@
 package bll.interfaces;
 
 import bo.Utilisateur;
-import exception.BLLException;
 import exception.GlobalException;
 
 public interface IUserManager {

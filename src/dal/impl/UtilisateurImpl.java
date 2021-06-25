@@ -3,7 +3,6 @@ package dal.impl;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
 import dal.IGenericDao;
-import exception.DALException;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
 

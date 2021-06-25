@@ -3,7 +3,6 @@ package bll.interfaces;
 import bo.Article;
 import bo.Categorie;
 import bo.Utilisateur;
-import exception.BLLException;
 import exception.GlobalException;
 
 import java.util.List;
