@@ -41,7 +41,8 @@ public class UserManager implements IUserManager {
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
         userDao.update(user);
-
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
         adresseDao.update(user.getAdresse());
     }
 
@@ -64,10 +65,8 @@ public class UserManager implements IUserManager {
         /************************/
         /* CONTROLE DES DONNEES */
         /************************/
-        validerPseudo(user);
         validerNom(user);
         validerPrenom(user);
-        validerEmail(user);
         validerTelephone(user);
         validerPasswordCreation(newPassword, confirmationPassword);
         if(GlobalException.getInstance().hasErrors())

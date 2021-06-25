@@ -107,9 +107,25 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         }
     }
 
+    //TODO mise à jour du statut administrateur
     @Override
     public void update(Utilisateur obj) throws GlobalException {
-
+        final String UPDATE = "UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, mdp=?, credit=?, administrateur=0";
+        try (Connection cnx = ConnectionProvider.getConnection();
+             PreparedStatement pstmt = cnx.prepareStatement(UPDATE)) {
+            pstmt.setString(1, obj.getPseudo());
+            pstmt.setString(2, obj.getNom());
+            pstmt.setString(3, obj.getPrenom());
+            pstmt.setString(4, obj.getEmail());
+            pstmt.setString(5, obj.getPhone());
+            pstmt.setString(6, obj.getPassword());
+            pstmt.setInt(7, obj.getCredit());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            GlobalException.getInstance().addError(UserException.USER_UPDATE_ERROR);
+            throw GlobalException.getInstance();
+        }
     }
 
     @Override
