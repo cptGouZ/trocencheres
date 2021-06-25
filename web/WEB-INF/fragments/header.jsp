@@ -21,7 +21,7 @@
             <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true">Déconnexion</a></div>
             <div class="col"><a href="${pageContext.request.contextPath}/gestioncompte?userId=${userConnected.id}">Mon Profil</a></div>
             <div class="col">Enchère</div>
-            <div class="col">Nouvelle vente</div>
+            <div class="col"><a href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
         </c:if>
     </header>
 
