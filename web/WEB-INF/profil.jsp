@@ -26,9 +26,7 @@
                 <button class="btn btn-primary mb-3" type="submit">Back</button>
             </form>
             <c:if test="${empty sessionScope.get(connectedUser.id)}">
-            <form action="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}" method="get">
-                <button class="btn btn-primary mb-3" type="submit">Modifier</button>
-            </form>
+            <a class="btn btn-primary mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">
             </c:if>
         </div>
     </div>
