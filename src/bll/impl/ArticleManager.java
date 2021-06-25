@@ -62,7 +62,7 @@ public class ArticleManager implements IArticleManager {
         Article nouvelArticle = new Article();
 
         IGenericDao<Article> cDao = DaoProvider.getArticleDao();
-
+        System.out.println("totototo" +userEnCours.getId());
         nouvelArticle.setUtilisateur(userEnCours);
         nouvelArticle.setCategorie(new Categorie(categorie));
         nouvelArticle.setArticle(article);

@@ -6,13 +6,15 @@ import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.AdresseException;
 import exception.exceptionEnums.AppException;
-import sun.net.www.content.text.Generic;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdresseDal implements IGenericDao<Adresse> {
+
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_utilisateur=? AND domicile=1 " ;
+
     /**
      * Permet d'enregistrer une nouvelle adresse en BDD
      * L'adresse transmise doit contenir ses infos y compris le n° d'utilisateur et si il s'agit du domicile
@@ -79,5 +81,29 @@ public class AdresseDal implements IGenericDao<Adresse> {
     @Override
     public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
         return IGenericDao.super.selectAllAdresseByUser(userId);
+    }
+
+    public Adresse selectUserDomicile(int idUtilisateur) {
+
+        Adresse adresseRecherchee = null;
+
+        try (
+                Connection uneConnection = ConnectionProvider.getConnection();
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_ID);
+        ) {
+            pStmt.setInt(1, idUtilisateur);
+            ResultSet rs = pStmt.executeQuery();
+
+            while (rs.next()) {
+                adresseRecherchee = new Adresse();
+                adresseRecherchee.setId(rs.getInt("no_adresse"));
+
+                System.out.println("test recup adresse : " + adresseRecherchee.getId());
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return adresseRecherchee ;
     }
 }

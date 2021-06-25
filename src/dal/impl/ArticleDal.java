@@ -18,7 +18,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
     private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE id = ?";
 
-    private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie,no_adresse) values(?,?,?,?,?,0,?,?,?);";
+    private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
 
     @Override
     public Utilisateur selectByEmail(String email) throws GlobalException {
@@ -179,8 +179,6 @@ public class ArticleDal implements IGenericDao<Article> {
             PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);
         ){
 
-            //if(newArticle.getId()==0){
-
             pStmt.setString(1,newArticle.getArticle());
             pStmt.setString(2,newArticle.getDescription());
             pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(newArticle.getDateDebut()));
@@ -188,16 +186,16 @@ public class ArticleDal implements IGenericDao<Article> {
             pStmt.setInt(5,newArticle.getPrixInitiale());
             pStmt.setInt(6,newArticle.getUtilisateur().getId());
             pStmt.setInt(7,newArticle.getCategorie().getId());
+
+            System.out.println("test adresse : " + newArticle.getUtilisateur().getAdresse().getId());
             pStmt.setInt(8,newArticle.getUtilisateur().getAdresse().getId());
+
             pStmt.executeUpdate();
             ResultSet rs = pStmt.getGeneratedKeys() ;
                 while(rs.next()){
                 newArticle.setId(rs.getInt(1));
                 }
             rs.close();
-            pStmt.close();
-
-            //}
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

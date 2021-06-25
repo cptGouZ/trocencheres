@@ -1,7 +1,9 @@
 package dal.impl;
 
+import bo.Adresse;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
+import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
@@ -14,7 +16,6 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
 
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email=?";
     private static final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
-
 
     @Override
     public Utilisateur selectByEmail(String login) {
@@ -38,6 +39,8 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
                 utilisateurEnBdd.setPassword(rs.getString("mdp"));
                 utilisateurEnBdd.setCredit(rs.getInt("credit"));
                 utilisateurEnBdd.setAdmin(rs.getBoolean("administrateur"));
+                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
+                utilisateurEnBdd.setAdresse(ad.selectUserDomicile(utilisateurEnBdd.getId()));
 
             }
         } catch (SQLException throwables) {
@@ -68,6 +71,8 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
                 utilisateurEnBdd.setPassword(rs.getString("mdp"));
                 utilisateurEnBdd.setCredit(rs.getInt("credit"));
                 utilisateurEnBdd.setAdmin(rs.getBoolean("administrateur"));
+                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
+                utilisateurEnBdd.setAdresse(ad.selectUserDomicile(utilisateurEnBdd.getId()));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -130,9 +135,10 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
+                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
                 retour = new Utilisateur();
                 retour.setId(rs.getInt("no_utilisateur"));
-                retour.setAdresse(null);
+                retour.setAdresse(ad.selectUserDomicile(id));
                 retour.setPseudo(rs.getString("pseudo"));
                 retour.setNom(rs.getString("nom"));
                 retour.setPrenom(rs.getString("prenom"));
