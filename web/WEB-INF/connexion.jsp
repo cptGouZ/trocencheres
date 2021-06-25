@@ -52,7 +52,7 @@
                             <br>
 
                             <%--BOUTON CREER COMPTE/PROFIL--%>
-                            <a href="${pageContext.request.contextPath}/gestioncompte?userId=0" class="btn btn-secondary"> Créer un compte </a>
+                            <a href="${pageContext.request.contextPath}/gestioncompte?createUser=true" class="btn btn-secondary"> Créer un compte </a>
                             <br>
 
                             <%--LIEN REINIT MDP--%>

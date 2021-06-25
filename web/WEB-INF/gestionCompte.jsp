@@ -97,7 +97,7 @@
         <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-secondary" name="action" value="save">Créer</button>
+                    <button type="submit" class="btn btn-secondary" name="action" value="creer">Créer</button>
                 </div>
                 <div class="col">
                     <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueilS">Annuler</a>
@@ -115,10 +115,10 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-secondary" name="action" value="save">Enregistrer</button>
+                    <button type="submit" class="btn btn-secondary" name="action" value="maj">Enregistrer</button>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-secondary" name="action" value="delete">Supprimer</button>
+                    <button type="submit" class="btn btn-secondary" name="action" value="supprimer">Supprimer</button>
                 </div>
             </div>
         </c:if>

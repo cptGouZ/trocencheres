@@ -16,51 +16,33 @@ import java.io.IOException;
 
 @WebServlet("/gestioncompte")
 public class GestionCompte extends HttpServlet {
-    public final static int DEFAULT = -1;
     public final static int NEW_ACCOUNT = 0;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
         try {
-            GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
-            throw GlobalException.getInstance();
-        }catch (GlobalException e){
-            System.out.println(e.getMessageErrors());
-        }
-
-
-        try {
             IUserManager um = ManagerProvider.getUserManager();
-            int userId = DEFAULT;
-            if( req.getParameter("userId") != null )
-                userId = Integer.parseInt(req.getParameter("userId"));
+            boolean isUserCreation = Boolean.parseBoolean(req.getParameter("createUser"));
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
-            Utilisateur userToDisplay = null;
-            userToDisplay = um.getById(userId);
-            //L'utilisateur n'existe pas et nous ne demandons pas une création de compte
-            if(userToDisplay==null && userId != NEW_ACCOUNT) {
-                req.getRequestDispatcher("accueilS").forward(req, resp);
-            }
-            //L'utilisateur n'est pas connecté
-            if(userConnected==null) {
-                //Demande d'affichage du profil
-                if(userToDisplay!=null) {
-                    req.setAttribute("userDisplayed", userToDisplay);
-                    req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
-                }
-                //Demande de création de compte
-                if(userId==NEW_ACCOUNT) {
-                    req.setAttribute("userId", userId);
+            if(isUserCreation){
+                //La demande est une création de compte
+                if(userConnected!=null) {
+                    //Utilisateur déjà connecté qui demande un nouveau compte je redirige vers accueil
+                    req.getRequestDispatcher("accueilS").forward(req, resp);
+                }else{
+                    //Création du compte autorisé
+                    req.setAttribute("createUser", true);
                     req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
                 }
             }
             if(userConnected!=null){
-                //Demande d'affichage du profil
-                if(userToDisplay.getId()!=userConnected.getId()) {
-                    req.setAttribute("userDisplayed", userToDisplay);
-                    req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
-                }
-                //Demande de modification de compte
-                if(userToDisplay.getId()==userConnected.getId()) {
+                //Utilisateur est déjà connecté et demande la modification d'un profil
+                Integer userId = Integer.parseInt(req.getParameter("userId"));
+                Utilisateur userToModify = um.getById(userId);
+                if(userConnected.getId()!=userToModify.getId()){
+                    //L'utilisateur qui demande la modification de profil n'est pas lui même
+                    req.getRequestDispatcher("accueilS").forward(req, resp);
+                }else{
+                    //Modification du profil autorisé
                     req.setAttribute("userId", userId);
                     req.getRequestDispatcher("WEB-INF/gestionCompte.jsp").forward(req, resp);
                 }
@@ -75,6 +57,11 @@ public class GestionCompte extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IUserManager um = ManagerProvider.getUserManager();
+        String action = req.getParameter("action").trim();
+        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
+        Integer userId = null;
+        if(!req.getParameter("userId").isEmpty())
+            userId = Integer.parseInt(req.getParameter("userId"));
         try {
             //Récupération des données de la page partie user
             String pseudo = req.getParameter("pseudo").trim();
@@ -85,7 +72,6 @@ public class GestionCompte extends HttpServlet {
             String password = req.getParameter("password").trim();
             String newPassword = req.getParameter("newPassword").trim();
             String confirmPassword = req.getParameter("confirmPassword").trim();
-            String action = req.getParameter("action").trim();
             //Récupération des données de la page partie adresse
             String rue = req.getParameter("rue").trim();
             String cpo = req.getParameter("cpo").trim();
@@ -93,7 +79,7 @@ public class GestionCompte extends HttpServlet {
 
 
             //Création de l'utilisateur
-            if (Integer.parseInt(req.getParameter("userId")) == NEW_ACCOUNT) {
+            if("creer".equals(action)){
                 Adresse newAdresse = new Adresse(rue, cpo, ville,true);
                 Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
                 um.creer(newUser, newPassword, confirmPassword);
@@ -101,7 +87,7 @@ public class GestionCompte extends HttpServlet {
             }
 
             //Mise à jour utilisateur
-            if (req.getParameter("userId") == req.getSession().getAttribute("userConnected") && "update".equals(action)) {
+            if ("maj".equals(action) && userId == userConnected.getId()) {
                 Utilisateur userToUpdate = um.getById(Integer.parseInt(req.getParameter("userId")));
                 userToUpdate.setPseudo(pseudo);
                 //userToUpdate.setAdmin();

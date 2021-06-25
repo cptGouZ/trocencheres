@@ -16,15 +16,6 @@
         <url-pattern>/accueilS</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>ProfilServlet</servlet-name>
-        <servlet-class>servlets.ProfilServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProfilServlet</servlet-name>
-        <url-pattern>/profilS</url-pattern>
-    </servlet-mapping>
-
 <!--    <context-param>-->
 <!--        <param-name>javax.faces.CONFIG_FILES</param-name>-->
 <!--        <param-value>/META-INF/config.xml</param-value>-->
