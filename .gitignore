@@ -5,3 +5,4 @@ out
 *.project
 *eclipse*
 *.iml
+/META-INF/context.xml
