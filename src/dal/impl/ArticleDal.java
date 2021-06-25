@@ -60,7 +60,7 @@ public class ArticleDal implements IGenericDao<Article> {
                 //J'ajoute l'item "Vendeur"
                 Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
                 artAjout.setUtilisateur(ut);
-                //J'acjoute l'article à la liste
+                //J'ajoute l'article à la liste
                 list.add(artAjout);
             }
         } catch (SQLException throwables) {
@@ -116,19 +116,18 @@ public class ArticleDal implements IGenericDao<Article> {
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
 
-                sqlConstruction.append("a.article = '" + articleName  + "',");
+                sqlConstruction.append("a.article = '" + articleName  + "' AND");
 
             //Choix catégorie
             System.out.println("tutu" + catName);
             if("toutes".equals(catName)) { sqlConstruction.append(" c.libelle = 'toutes',");}
             else if("informatique".equals(catName)) { sqlConstruction.append(" c.libelle = 'informatique',");}
             else if("ameublement".equals(catName)) { sqlConstruction.append(" c.libelle = 'ameublement',");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement',");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement'");}
             else {sqlConstruction.append(" c.libelle = 'sports&loisirs',");}
 
 
             //sqlConstruction.append("c.libelle = '" + catName + "',");
-
 
 //            //Choix des checkbox
 //            //TODO attente la création des article pour pouvoir gérer les période de vente
@@ -144,22 +143,28 @@ public class ArticleDal implements IGenericDao<Article> {
 //                sqlConstruction.append(" beforeVente = true,"); }
 //            if(finishedVente) {
 //                sqlConstruction.append(" finishedVente =  true,"); }
-                System.out.println(sqlConstruction);
-//
-//            ResultSet rs = pstt.executeQuery();
-////            while (rs.next()) {
-////                //Je choisis les paramètres de l'objet avec le get
-////                Article artAjout = new Article();
-////                artAjout.setArticle(rs.getString("article"));
-////                artAjout.setPrixVente(rs.getInt("prix_vente"));
-////                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-////                //J'ajoute l'item "Vendeur"
-////                Utilisateur ut = FactoriesDao.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-////                artAjout.setUtilisateur(ut);
-////                }
-////                //J'acjoute l'article à la liste
-////                //list.add(artAjout);
-//
+
+            System.out.println(sqlConstruction);
+            String machaine = null;
+            machaine = sqlConstruction.toString();
+            machaine.substring(0, machaine.length()-1);
+
+            System.out.println(machaine);
+
+
+            ResultSet rs = pstt.executeQuery();
+            while (rs.next()) {
+                //Je choisis les paramètres de l'objet avec le get
+                Article artAjout2 = new Article();
+                artAjout2.setArticle(rs.getString("article"));
+                artAjout2.setPrixVente(rs.getInt("prix_vente"));
+                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+                //J'ajoute l'item "Vendeur"
+                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                artAjout2.setUtilisateur(ut);
+                //J'ajoute l'article à la liste
+                list.add(artAjout2);
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

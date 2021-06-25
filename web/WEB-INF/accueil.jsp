@@ -8,7 +8,7 @@
 
 <!-- PARTIE RECHERCHE-->
 <%--Voir les informations Ventes et Achats si le profil est connecté--%>
-<c:if test="${empty sessionScope.user}">
+<c:if test="${!empty sessionScope.get('userConnected')}">
     <div class="input-group mb-3">
         <div class="col-auto">
             <p>Liste des encheres</p>
@@ -51,7 +51,7 @@
 </c:if>
 
 <%--Ne pas voir les informations Ventes et Achats si le profil n'est pas connecté--%>
-<c:if test="${!empty sessionScope.user}">
+<c:if test="${empty sessionScope.get('userConnected')}">
     <div class="input-group mb-3">
         <div class="col-auto">
             <p>Liste des encheres</p>
@@ -74,7 +74,7 @@
 
 <!-- PARTIE RESULTATS-->
 <%--Pas de lien vers profil vendeur si le profil est déconnecté--%>
-<c:if test="${empty sessionScope.user}">
+<c:if test="${empty sessionScope.get('userConnected')}">
 <div class="row mb-3">
     <div class="col-auto">
         <div class="row">
@@ -95,7 +95,7 @@
 </c:if>
 
 <%--Lien vers profil vendeur si le profil est connecté--%>
-<c:if test="${!empty sessionScope.user}">
+<c:if test="${!empty sessionScope.get('userConnected')}">
 <div class="row mb-3">
     <div class="col-auto">
         <div class="row">
@@ -108,7 +108,7 @@
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
                         out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div>");
                     %>
-                <div class="col"><a href="${pageContext.request.contextPath}/gestioncompte?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a></div></br>
+                <div class="col"><a href="${pageContext.request.contextPath}/profil?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a></div></br>
                     <% }
                 %>
             </div>
