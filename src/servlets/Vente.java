@@ -5,6 +5,7 @@ import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bo.Adresse;
 import bo.Article;
+import bo.Utilisateur;
 import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
@@ -40,9 +41,11 @@ public class Vente extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         //LocalTime heureEnchere = LocalTime.now();
+        Integer idUtilisateur = ((Utilisateur) req.getSession().getAttribute("userConnected")).getId();
+        Utilisateur userEnCours = (Utilisateur) req.getSession().getAttribute("userConnected");
 
         String article = req.getParameter("article");
-        String descritpion = req.getParameter("description");
+        String description = req.getParameter("description");
         Integer categorie = Integer.valueOf(req.getParameter("categorie"));
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart"));
 
@@ -58,8 +61,10 @@ public class Vente extends HttpServlet {
         String cpo = req.getParameter("cpo");
         String ville = req.getParameter("ville");
 
+
+        System.out.println(idUtilisateur);
         System.out.println(article);
-        System.out.println(descritpion);
+        System.out.println(description);
         System.out.println(categorie);
         System.out.println(prixDepart);
         System.out.println("test 3 : " + debutEnchereBll);
@@ -73,12 +78,13 @@ public class Vente extends HttpServlet {
 
             Article newArticle = null ;
                 newArticle = icm.insertNewArticle(
-                            article,
-                            descritpion,
+                            userEnCours,
                             categorie,
-                            prixDepart,
+                            article,
+                            description,
                             debutEnchereBll,
-                            finEnchereBll);
+                            finEnchereBll,
+                            prixDepart);
 
             Adresse newAdresse = null ;
                     newAdresse = icm.insertNewAdresse(

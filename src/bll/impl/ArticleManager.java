@@ -3,6 +3,7 @@ package bll.impl;
 import bll.interfaces.IArticleManager;
 import bo.Article;
 import bo.Categorie;
+import bo.Utilisateur;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
@@ -47,11 +48,11 @@ public class ArticleManager implements IArticleManager {
 
 
     @Override
-    public Article insertNewArticle(String article, String descritpion, Integer categorie, Integer prixDepart, LocalDateTime debutEnchere, LocalDateTime finEnchere) throws GlobalException {
+    public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart) throws GlobalException {
 
 
         System.out.println("test arrivée BLL : " + article);
-        System.out.println("test arrivée BLL :" + descritpion);
+        System.out.println("test arrivée BLL :" + description);
         System.out.println("test arrivée BLL :" + categorie);
         System.out.println("test arrivée BLL : " + prixDepart);
         System.out.println("test arrivée BLL : " + debutEnchere);
@@ -61,19 +62,20 @@ public class ArticleManager implements IArticleManager {
 
         IGenericDao<Article> cDao = DaoProvider.getArticleDao();
 
-        nouvelArticle.setArticle(article);
-        nouvelArticle.setDescription(descritpion);
+        nouvelArticle.setUtilisateur(userEnCours);
         nouvelArticle.setCategorie(new Categorie(categorie));
-        nouvelArticle.setPrixInitiale(prixDepart);
+        nouvelArticle.setArticle(article);
+        nouvelArticle.setDescription(description);
         nouvelArticle.setDateDebut(debutEnchere);
         nouvelArticle.setDateFin(finEnchere);
+        nouvelArticle.setPrixInitiale(prixDepart);
 
         System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
         System.out.println("test sortie BLL : " + nouvelArticle.getDescription());
         System.out.println("test sortie BLL : " + nouvelArticle.getCategorie());
-        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateDebut());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateFin());
+        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());
 
 
         cDao.insertNewArticle(nouvelArticle);
