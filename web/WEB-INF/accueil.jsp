@@ -13,11 +13,11 @@
         <div class="col-auto">
             <p>Liste des encheres</p>
             <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
-                <input type="text" name="texteart"  class="form-control" id="idtext" value="" placeholder="Le nom de l'article contient"/>
+                <input type="text" name="textechoix"  class="form-control" id="idtext" value="" placeholder="Le nom de l'article contient"/>
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie">
                     <option value="toutes">Toutes</option>
-                    <option value="informatique">Informatique</option>
+                    <option value="informatique"> Informatique</option>
                     <option value="ameublement">Ameublement</option>
                     <option value="vetement">Vetement</option>
                     <option value="sports&loisirs">Sports&Loisirs</option>
@@ -56,7 +56,7 @@
         <div class="col-auto">
             <p>Liste des encheres</p>
             <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
-                <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
+                <input type="text" name="textechoix"  class="form-control" id="idtext2" placeholder="Le nom de l'article contient"/>
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie2">
                     <option value="toutes">Toutes</option>
@@ -73,24 +73,19 @@
 
 
 <!-- PARTIE RESULTATS-->
-<%--Pas de vers profil vendeur ok si le profil est déconnecté--%>
+<%--Pas de lien vers profil vendeur si le profil est déconnecté--%>
 <c:if test="${empty sessionScope.user}">
 <div class="row mb-3">
     <div class="col-auto">
         <div class="row">
             <div class="col-auto">
-                <!--<div>Objet : ${a.getArticle()}</div>-->
                 <%
                     List<Article> articleList2 = (List<Article>) request.getAttribute("listedesarticles");
-                    //request.getAttribute("objet1");
                     for (Article item : articleList2) {
                         out.print("<div>Objet : " + item.getArticle() + "</div>");
-                        request.getAttribute("montant");
                         out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
-                        request.getAttribute("debut");
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
-                        request.getAttribute("dateDebut");
-                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br/>");
+                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div></br>");
                     }
                 %>
             </div>
@@ -100,24 +95,21 @@
 </c:if>
 
 <%--Lien vers profil vendeur si le profil est connecté--%>
-<c:if test="${empty sessionScope.user}">
+<c:if test="${!empty sessionScope.user}">
 <div class="row mb-3">
     <div class="col-auto">
         <div class="row">
             <div class="col-auto">
-                <!--<div>Objet : ${a.getArticle()}</div>-->
                 <%
                     List<Article> articleList3 = (List<Article>) request.getAttribute("listedesarticles");
-                    //request.getAttribute("objet1");
                     for (Article item : articleList3) {
                         out.print("<div>Objet : " + item.getArticle() + "</div>");
-                        request.getAttribute("montant");
                         out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
-                        request.getAttribute("debut");
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
-                        request.getAttribute("dateDebut");
-                        out.print("<div><a href=Vendeur : " + item.getUtilisateur().getPseudo() + " ></div><br/>");
-                    }
+                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div>");
+                    %>
+                <div class="col"><a href="${pageContext.request.contextPath}/gestioncompte?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a></div></br>
+                    <% }
                 %>
             </div>
         </div>

@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtilisateurImpl implements IGenericDao<Utilisateur> {
+public class UtilisateurDal implements IGenericDao<Utilisateur> {
 
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email=?";
     private static final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
@@ -109,7 +109,16 @@ public class UtilisateurImpl implements IGenericDao<Utilisateur> {
 
     @Override
     public void delete(int id) throws GlobalException {
-
+        final String DELETE = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+        try (Connection cnx = ConnectionProvider.getConnection();
+             PreparedStatement pstmt = cnx.prepareStatement(DELETE)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            GlobalException.getInstance().addError(UserException.USER_DELETION_ERROR);
+            throw GlobalException.getInstance();
+        }
     }
 
     @Override

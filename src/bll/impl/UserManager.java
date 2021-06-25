@@ -47,7 +47,9 @@ public class UserManager implements IUserManager {
     public void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
         IAdresseManager am = ManagerProvider.getAdresseManager();
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
-        //Validation des données saisies et association du MDP saisi à l'utilisateur
+        /************************/
+        /* CONTROLE DES DONNEES */
+        /************************/
         validerPseudo(user);
         validerNom(user);
         validerPrenom(user);
@@ -56,20 +58,21 @@ public class UserManager implements IUserManager {
         validerPasswordCreation(newPassword, confirmationPassword);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
-        user.setPassword(newPassword);
+        user.setPassword(newPassword); //Association du mot de passe validé à l'utilisateur
 
-        //Enregistrement de l'adresse fournie pas l'utilisateur
-        am.creer(user.getAdresse());
+        /**************************/
+        /* MANIPULATION DE LA DAL */
+        /**************************/
+        userDao.insert(user);
+        user.getAdresse().setUserId(user.getId());
+        user.getAdresse().setDomicile(true);
         try {
-            //On essai de créer l'utilisateur, si ca se passe mal, on supprimer l'adresse créée en base précédemment
-            userDao.insert(user);
+            //On essai de créer l'adresse, si ca se passe mal, on supprimer l'utilisateur créé précédement
+            am.creer(user.getAdresse());
         }catch (GlobalException e) {
-            am.supprimer(user.getAdresse().getId());
+            userDao.delete(user.getId());
             throw e;
         }
-        //Mise à jour de l'id utilisateur dans l'adresse
-        user.getAdresse().setUserId(user.getId());
-        am.mettreAJour(user.getAdresse());
     }
 
 

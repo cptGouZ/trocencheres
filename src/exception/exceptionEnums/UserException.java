@@ -6,6 +6,7 @@ public interface UserException extends EnumException {
     //DAL Exception 10**
     int SELECT_BY_USER_ID = 1000;
     int USER_INSERTION_ERROR = 1010;
+    int USER_DELETION_ERROR = 1020;
     //BLL Exception 11**
     int PSEUDO_EXISTANT = 1100;
     int PSEUDO_VIDE = 1105;

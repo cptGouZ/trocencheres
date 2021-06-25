@@ -5,7 +5,7 @@ import exception.EnumException;
 //Groupe de codes 4000
 public interface AdresseException extends EnumException {
     //DAL Exception 40**
-
+    int INSERT_ABORT = 4000;
     //BLL Exception 41**
     int RUE_VIDE = 4100;
     int RUE_INVALIDE = 4110;

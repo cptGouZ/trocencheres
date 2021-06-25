@@ -3,16 +3,16 @@ package dal;
 import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
-import dal.impl.AdresseImpl;
-import dal.impl.ArticleImpl;
-import dal.impl.UtilisateurImpl;
+import dal.impl.AdresseDal;
+import dal.impl.ArticleDal;
+import dal.impl.UtilisateurDal;
 
 public class DaoProvider {
     public static IGenericDao<Utilisateur> getUtilisateurDao() {
-        return new UtilisateurImpl();
+        return new UtilisateurDal();
     }
     public static IGenericDao<Article> getArticleDao() {
-        return new ArticleImpl();
+        return new ArticleDal();
     }
-    public static IGenericDao<Adresse> getAdresseDao() { return new AdresseImpl(); }
+    public static IGenericDao<Adresse> getAdresseDao() { return new AdresseDal(); }
 }
