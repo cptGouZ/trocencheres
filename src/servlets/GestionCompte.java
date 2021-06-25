@@ -77,69 +77,58 @@ public class GestionCompte extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IUserManager um = ManagerProvider.getUserManager();
-
-        //Récupération des données de la page partie user
-        String pseudo = req.getParameter("pseudo").trim();
-        String nom = req.getParameter("nom").trim();
-        String prenom = req.getParameter("prenom").trim();
-        String email = req.getParameter("email").trim();
-        String tel = req.getParameter("tel").trim();
-        String password = req.getParameter("password").trim();
-        String newPassword = req.getParameter("newPassword").trim();
-        String confirmPassword = req.getParameter("confirmPassword").trim();
-        String action = req.getParameter("action").trim();
-        //Récupération des données de la page partie adresse
-        String rue = req.getParameter("rue").trim();
-        String cpo = req.getParameter("cpo").trim();
-        String ville = req.getParameter("ville").trim();
-
-        //Objet à créer pour une création d'utilisateur
-        Adresse newAdresse = new Adresse(rue, cpo, ville);
-        Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
-
         try {
-            um.creer(newUser, newPassword, confirmPassword);
-        } catch (GlobalException e) {
-            e.printStackTrace();
+            //Récupération des données de la page partie user
+            String pseudo = req.getParameter("pseudo").trim();
+            String nom = req.getParameter("nom").trim();
+            String prenom = req.getParameter("prenom").trim();
+            String email = req.getParameter("email").trim();
+            String tel = req.getParameter("tel").trim();
+            String password = req.getParameter("password").trim();
+            String newPassword = req.getParameter("newPassword").trim();
+            String confirmPassword = req.getParameter("confirmPassword").trim();
+            String action = req.getParameter("action").trim();
+            //Récupération des données de la page partie adresse
+            String rue = req.getParameter("rue").trim();
+            String cpo = req.getParameter("cpo").trim();
+            String ville = req.getParameter("ville").trim();
+
+
+            //Création de l'utilisateur
+            if (Integer.parseInt(req.getParameter("userId")) == NEW_ACCOUNT) {
+                Adresse newAdresse = new Adresse(rue, cpo, ville);
+                Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel, 0, false);
+                um.creer(newUser, newPassword, confirmPassword);
+                req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
+            }
+
+            //Mise à jour utilisateur
+            if (req.getParameter("userId") == req.getSession().getAttribute("userConnected") && "update".equals(action)) {
+                Utilisateur userToUpdate = um.getById(Integer.parseInt(req.getParameter("userId")));
+                userToUpdate.setPseudo(pseudo);
+                //userToUpdate.setAdmin();
+                userToUpdate.getAdresse().setRue(rue);
+                userToUpdate.getAdresse().setCpo(cpo);
+                userToUpdate.getAdresse().setVille(ville);
+                userToUpdate.setEmail(email);
+                userToUpdate.setNom(nom);
+                userToUpdate.setPassword(password);
+                userToUpdate.setPhone(tel);
+                userToUpdate.setPrenom(prenom);
+                um.mettreAJour(userToUpdate);
+                req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
+            }
+
+            /*//Suppression utilisateur
+            if(concernedUser!=null && "remove".equals(action)){
+                um.remove(concernedUser.getId());
+                req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
+            }*/
+        }catch(GlobalException e){
             System.out.println(e.getMessageErrors());
         }
-
-        /*if(req.getParameter("userId")!=null){
-            Utilisateur concernedUser = um.getById(Integer.parseInt(req.getParameter("userId")));}
-        Utilisateur concernedUser = null;
-        //Création de l'utilisateur
-        Utilisateur userToUpdate = null;
-        if(concernedUser==null){
-            Adresse adresse = new Adresse(rue, cpo, ville, true);
-            userToUpdate = new Utilisateur(adresse, pseudo, nom, prenom, email, tel, password, 0, false);
-            um.create(userToUpdate, newPassword, confirmPassword);
-            req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
-        }
-
-        //Mise à jour utilisateur
-        if(concernedUser!=null && "update".equals(action)){
-            userToUpdate = concernedUser;
-            userToUpdate.setPseudo(pseudo);
-            //userToUpdate.setAdmin();
-            userToUpdate.getAdresse().setRue(rue);
-            userToUpdate.getAdresse().setCpo(cpo);
-            userToUpdate.getAdresse().setVille(ville);
-            userToUpdate.setEmail(email);
-            userToUpdate.setNom(nom);
-            userToUpdate.setPassword(password);
-            userToUpdate.setPhone(tel);
-            userToUpdate.setPrenom(prenom);
-            um.mettreAJour(userToUpdate);
-            req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
-        }
-
-        //Suppression utilisateur
-        if(concernedUser!=null && "remove".equals(action)){
-            um.remove(concernedUser.getId());
-            req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
-        }
-        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);*/
+        req.getRequestDispatcher("WEB-INF/accueilS").forward(req, resp);
     }
 }

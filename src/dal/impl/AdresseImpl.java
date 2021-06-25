@@ -1,16 +1,21 @@
 package dal.impl;
 
 import bo.Adresse;
+import dal.ConnectionProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdresseImpl implements IGenericDao<Adresse> {
     @Override
     public void insert(Adresse obj) throws GlobalException {
-
+        try(Connection cnx = ConnectionProvider.getConnection()){} catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override

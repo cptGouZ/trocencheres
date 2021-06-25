@@ -30,7 +30,15 @@ public class AdresseManager implements IAdresseManager {
 
     @Override
     public void mettreAJour(Adresse adresse) throws GlobalException {
-
+        IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
+        validerRue(adresse);
+        validerCpo(adresse);
+        validerVille(adresse);
+        if(adresse.getUserId()!=null)
+            validerUtilisateur(adresse);
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
+        adresseDao.update(adresse);
     }
 
     //TODO vérifier si des enchères sont liées ?
@@ -64,9 +72,9 @@ public class AdresseManager implements IAdresseManager {
         return retour;
     }
 
-    /*************************/
-    /*CONTROLES DE L'ADRESSE */
-    /*************************/
+    /**************************/
+    /* CONTROLES DE L'ADRESSE */
+    /**************************/
     private final String PATTERN_RUE = "^[\\p{L}\\p{Z}-]*$";
     private final String PATTERN_CPO = "^[\\d]{5}$";
     private final String PATTERN_VILLE = "^[A-Z\\p{Z}-]*$";
