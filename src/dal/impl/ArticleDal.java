@@ -139,14 +139,15 @@ public class ArticleDal implements IGenericDao<Article> {
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
 
-                sqlConstruction.append("a.article like '%" + articleName  + "%' AND");
+                sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
+                System.out.println("momo" + articleName);
 
             //Choix catégorie
             System.out.println("tutu" + catName);
-            if("sports&loisirs".equals(catName)) { sqlConstruction.append(" c.libelle = 'sports&loisirs'");}
-            else if("informatique".equals(catName)) { sqlConstruction.append(" c.libelle = 'informatique'");}
-            else if("ameublement".equals(catName)) { sqlConstruction.append(" c.libelle = 'ameublement'");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement'");}
+            if("sports&loisirs".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sports&loisirs'");}
+            else if("informatique".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'informatique'");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
 
 
             //sqlConstruction.append("c.libelle = '" + catName + "',");

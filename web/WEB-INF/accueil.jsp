@@ -87,12 +87,12 @@
                     }
                 %>
             </div>
-            <c:if test="">
+            <b><c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col-auto">
                 <%
-                            out.print("Aucun article ne correspond à votre recherche");
+                            out.print("En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)");
                 %>
-            </div>
+            </b></div>
             </c:if>
         </div>
     </div>
@@ -117,12 +117,12 @@
                     <% }
                 %>
             </div>
-            <c:if test="">
-                <div class="col-auto">
+            <b><c:if test="${!empty sessionScope.get('userConnected')}">
+                <div class="col-auto"><b>
                     <%
-                        out.print("Aucun article ne correspond à votre recherche");
+                        out.print("En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)");
                     %>
-                </div>
+            </b></div>
             </c:if>
         </div>
     </div>

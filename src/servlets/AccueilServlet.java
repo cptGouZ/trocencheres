@@ -27,7 +27,7 @@ public class AccueilServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //On recupere la categorie, et le nom quand l'utilisateur le saisit
         //System.out.println("debut servlet "+ req.getParameter("textechoix"));
-        String textArticle = req.getParameter("textechoix");
+        String textechoix = req.getParameter("textechoix");
         String categorie = req.getParameter("categorie");
         //System.out.println(categorie);
 
@@ -40,7 +40,7 @@ public class AccueilServlet extends HttpServlet {
         boolean ventesTerm = req.getParameter( "ven3" ) != null;
 
         //Si un élément de tri est effectué, on appelle la requête par tri
-        if( ((textArticle != null) || encheresOuv == true || encheresEnCours == true ||
+        if( ((textechoix != null) || encheresOuv == true || encheresEnCours == true ||
                 encheresRemp == true || ventesEnCours == true || ventesNonDeb == true || ventesTerm == true) &&  !"toutes".equals(categorie)   ) {
 
             //Affichage par categorie
@@ -48,9 +48,9 @@ public class AccueilServlet extends HttpServlet {
             List<Article> articleList2 = new ArrayList<>();
             IArticleManager am2 = ManagerProvider.getArticleManager();
             //Mettre les valeurs de checkbox dans les paramètres de la requête
-            System.out.println("servlet" + textArticle);
-                articleList2 = am2.getByCriteres(textArticle, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
-                System.out.println("toto" + articleList2);
+            //System.out.println("servlet" + textArticle);
+                articleList2 = am2.getByCriteres(textechoix, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
+                //System.out.println("toto" + articleList2);
 
             //La servlet envoie l'info à la JSP !
             req.setAttribute("listedesarticles", articleList2);}
@@ -79,14 +79,14 @@ public class AccueilServlet extends HttpServlet {
 
         try {
             articleList = am.getAll();
-            System.out.println("titi" + articleList);
+            //System.out.println("titi" + articleList);
 
         } catch (GlobalException e) {
             e.printStackTrace();
         }
 
         listeCat = am.getLibellesCategorie();
-        System.out.println("tutu" + listeCat);
+        //System.out.println("tutu" + listeCat);
 
         //La servlet envoie l'info à la JSP !
         req.setAttribute("listedesarticles", articleList);
