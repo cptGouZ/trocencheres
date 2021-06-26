@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AccueilServlet extends HttpServlet {
@@ -25,10 +26,10 @@ public class AccueilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //On recupere la categorie, et le nom quand l'utilisateur le saisit
-        System.out.println("debut servlet "+ req.getParameter("textechoix"));
+        //System.out.println("debut servlet "+ req.getParameter("textechoix"));
         String textArticle = req.getParameter("textechoix");
         String categorie = req.getParameter("categorie");
-        System.out.println(categorie);
+        //System.out.println(categorie);
 
         //Récupérer eglt les checkbox
         boolean encheresOuv = req.getParameter( "ach1" ) != null;
@@ -38,19 +39,24 @@ public class AccueilServlet extends HttpServlet {
         boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
         boolean ventesTerm = req.getParameter( "ven3" ) != null;
 
-        //Affichage par categorie
-        //On fait appel a ArticleManager
-        List<Article> articleList2 = new ArrayList<>();
-        IArticleManager am2 = ManagerProvider.getArticleManager();
-        //Mettre les valeurs de checkbox dans les paramètres de la requête
-        System.out.println("servlet" + textArticle);
-            articleList2 = am2.getByCriteres(textArticle, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
-            System.out.println("toto" + articleList2);
+        //Si un élément de tri est effectué, on appelle la requête par tri
+        if( ((textArticle != null) || encheresOuv == true || encheresEnCours == true ||
+                encheresRemp == true || ventesEnCours == true || ventesNonDeb == true || ventesTerm == true) &&  !"toutes".equals(categorie)   ) {
 
-        //La servlet envoie l'info à la JSP !
-        req.setAttribute("listedesarticles", articleList2);
+            //Affichage par categorie
+            //On fait appel a ArticleManager
+            List<Article> articleList2 = new ArrayList<>();
+            IArticleManager am2 = ManagerProvider.getArticleManager();
+            //Mettre les valeurs de checkbox dans les paramètres de la requête
+            System.out.println("servlet" + textArticle);
+                articleList2 = am2.getByCriteres(textArticle, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
+                System.out.println("toto" + articleList2);
 
-        this.doGet(req, resp); // Je rappelle la méthode doGet
+            //La servlet envoie l'info à la JSP !
+            req.setAttribute("listedesarticles", articleList2);}
+
+            //Si un élément de tri est effectué, on appelle le SelectAll
+        else {this.doGet(req, resp);} // Je rappelle la méthode doGet afin d'afficher tous les articles
 
         //Je déclare le RequestDispatcher
         RequestDispatcher rd;
@@ -66,6 +72,11 @@ public class AccueilServlet extends HttpServlet {
         //On fait appel a ArticleManager
         List<Article> articleList = new ArrayList<>();
         IArticleManager am = ManagerProvider.getArticleManager();
+
+        //Recuperation des libellés de catégories
+        List<String> listeCat;
+        am.getLibellesCategorie();
+
         try {
             articleList = am.getAll();
             System.out.println("titi" + articleList);
@@ -74,8 +85,12 @@ public class AccueilServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+        listeCat = am.getLibellesCategorie();
+        System.out.println("tutu" + listeCat);
+
         //La servlet envoie l'info à la JSP !
         req.setAttribute("listedesarticles", articleList);
+        req.setAttribute("libellesCategories", listeCat);
 
         //Je déclare le RequestDispatcher
         RequestDispatcher rd;

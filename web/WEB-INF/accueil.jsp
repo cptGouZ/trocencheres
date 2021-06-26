@@ -16,11 +16,10 @@
                 <input type="text" name="textechoix"  class="form-control" id="idtext" value="" placeholder="Le nom de l'article contient"/>
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie">
-                    <option value="toutes">Toutes</option>
-                    <option value="informatique"> Informatique</option>
-                    <option value="ameublement">Ameublement</option>
-                    <option value="vetement">Vetement</option>
-                    <option value="sports&loisirs">Sports&Loisirs</option>
+                    <option value="toutes">toutes</option>
+                    <c:forEach items="${libellesCategories}" var="libelleCategorie">
+                        <option value="${libelleCategorie}">${libelleCategorie}</option>
+                    </c:forEach>
                 </select>
                 <div class="row mb-3">
                     <div class="col-auto">
@@ -56,14 +55,13 @@
         <div class="col-auto">
             <p>Liste des encheres</p>
             <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
-                <input type="text" name="textechoix"  class="form-control" id="idtext2" placeholder="Le nom de l'article contient"/>
+                <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie2">
-                    <option value="toutes">Toutes</option>
-                    <option value="informatique">Informatique</option>
-                    <option value="ameublement">Ameublement</option>
-                    <option value="vetement">Vetement</option>
-                    <option value="sports&loisirs">Sports&Loisirs</option>
+                    <option value="toutes">toutes</option>
+                    <c:forEach items="${libellesCategories}" var="libelleCategorie">
+                        <option value="${libelleCategorie}">${libelleCategorie}</option>
+                    </c:forEach>
                 </select>
                 <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
             </form>
@@ -89,6 +87,13 @@
                     }
                 %>
             </div>
+            <c:if test="">
+            <div class="col-auto">
+                <%
+                            out.print("Aucun article ne correspond à votre recherche");
+                %>
+            </div>
+            </c:if>
         </div>
     </div>
 </div>
@@ -112,6 +117,13 @@
                     <% }
                 %>
             </div>
+            <c:if test="">
+                <div class="col-auto">
+                    <%
+                        out.print("Aucun article ne correspond à votre recherche");
+                    %>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>

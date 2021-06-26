@@ -2,6 +2,7 @@ package dal;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Categorie;
 import bo.Utilisateur;
 import dal.impl.AdresseDal;
 import dal.impl.ArticleDal;

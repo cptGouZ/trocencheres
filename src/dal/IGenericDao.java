@@ -29,4 +29,8 @@ public interface IGenericDao<T> {
     //Méthode spécifique à Adresse
     default List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {return null;}
     default Adresse selectUserDomicile(int id) {return null ;}
+
+    //Methode spécifique à Categorie
+    default List<String> selectLibelleCategories() throws GlobalException {return null;}
+
 }
