@@ -90,7 +90,7 @@
             <b><c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col-auto">
                 <%
-                            out.print("En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)");
+                   out.print("En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)");
                 %>
             </b></div>
             </c:if>
@@ -118,7 +118,7 @@
                 %>
             </div>
             <b><c:if test="${!empty sessionScope.get('userConnected')}">
-                <div class="col-auto"><b>
+                <div class="col-auto">
                     <%
                         out.print("En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)");
                     %>

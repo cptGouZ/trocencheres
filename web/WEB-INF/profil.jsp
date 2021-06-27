@@ -4,33 +4,42 @@
 <%@ include file="fragments/header.jsp"%>
 
 
-    <div class="row g-3">
-        <div class="col-auto">
+</br>
+</br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
             <div>Pseudo : ${userDisplayed.pseudo}</div>
-            <div>Nom : ${userDisplayed.nom}</div>
-            <div>Prenom : ${userDisplayed.prenom}</div>
-            <div>Email : ${userDisplayed.email}</div>
+                <div>Nom : ${userDisplayed.nom}</div>
+                <div>Prenom : ${userDisplayed.prenom}</div>
+                <div>Email : ${userDisplayed.email}</div></br></br>
+        </div>
+
+        <div class="col-xs-12 col-md-6">
             <div>Telephone : ${userDisplayed.phone} </div>
             <div>Rue : ${userDisplayed.adresse.rue} </div>
             <div>Code postal : ${userDisplayed.adresse.cpo} </div>
-            <div>Ville : ${userDisplayed.adresse.ville} </div>
+            <div>Ville : ${userDisplayed.adresse.ville} </div></br></br>
         </div>
     </div>
 
-
     <%--Pouvoir modifier les informations si le profil est celui de l'utilisateur--%>
-    <div class="row g-3">
-        <div class="col-auto">
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
             <form action="${pageContext.request.contextPath}/accueilS" method="get">
-                <button class="btn btn-primary mb-3" type="submit">Back</button>
+                <button class="btn btn-success mb-3" type="submit">Back</button>
             </form>
+        </div>
+
+        <div class="col-xs-12 col-md-6">
             <c:if test="${empty sessionScope.get(connectedUser.id)}">
-            <div class="row">
-                <a class="btn btn-primary mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">Modifier</a>
+                <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">Modifier</a>
             <div>
             </c:if>
         </div>
     </div>
+</div>
 
 <%@ include file="fragments/footer.jsp"%>
 

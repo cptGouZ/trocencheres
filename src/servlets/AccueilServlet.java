@@ -55,7 +55,7 @@ public class AccueilServlet extends HttpServlet {
             //La servlet envoie l'info à la JSP !
             req.setAttribute("listedesarticles", articleList2);}
 
-            //Si un élément de tri est effectué, on appelle le SelectAll
+            //Si absence de tri, on appelle le SelectAll
         else {this.doGet(req, resp);} // Je rappelle la méthode doGet afin d'afficher tous les articles
 
         //Je déclare le RequestDispatcher
