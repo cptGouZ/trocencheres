@@ -12,7 +12,7 @@
 </head>
 <body class="container">
     <header class="row">
-        <div class="col">ENI-Enchères</div>
+        <div class="col"><img src="images/logo-site.png"></div>
         <div class="col">${title}</div>
         <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>
