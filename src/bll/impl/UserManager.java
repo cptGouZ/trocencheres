@@ -23,10 +23,26 @@ public class UserManager implements IUserManager {
     }
 
     @Override
-    public void mettreAJour(Utilisateur user) throws GlobalException {
+    public void mettreAJour(Utilisateur user, String userPassword) throws GlobalException {
+        /************************/
+        /* CONTROLE DES DONNEES */
+        /************************/
+        validerPseudo(user);
+        validerNom(user);
+        validerPrenom(user);
+        validerEmail(user);
+        validerTelephone(user);
+        validerProfilPassword(user,userPassword);
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
+        /*****************************************/
+        /* Modification de l'utilisateur en base */
+        /*****************************************/
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
         userDao.update(user);
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
         adresseDao.update(user.getAdresse());
     }
 
@@ -49,10 +65,8 @@ public class UserManager implements IUserManager {
         /************************/
         /* CONTROLE DES DONNEES */
         /************************/
-        validerPseudo(user);
         validerNom(user);
         validerPrenom(user);
-        validerEmail(user);
         validerTelephone(user);
         validerPasswordCreation(newPassword, confirmationPassword);
         if(GlobalException.getInstance().hasErrors())

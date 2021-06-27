@@ -84,4 +84,17 @@ public class ArticleManager implements IArticleManager {
 
         return nouvelArticle ;
     }
+
+    @Override
+    public List<String> getLibellesCategorie() {
+        List<String> listCateg = new ArrayList<>();
+        try {
+            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
+            listCateg = IDao.selectLibelleCategories();
+        } catch (GlobalException e) {
+            e.printStackTrace();
+        }
+        return listCateg;
+    }
+
 }

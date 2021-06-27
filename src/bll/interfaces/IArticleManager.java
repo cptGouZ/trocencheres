@@ -4,6 +4,7 @@ import bo.Adresse;
 import bo.Article;
 import bo.Utilisateur;
 import exception.GlobalException;
+import org.w3c.dom.ls.LSInput;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,4 +19,6 @@ public interface IArticleManager {
     default Adresse insertNewAdresse(String rue, String cpo, String ville) throws GlobalException { return null;}
 
     Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchereBll, LocalDateTime finEnchereBll, Integer prixDepart) throws GlobalException;
+
+    List<String> getLibellesCategorie();
 }

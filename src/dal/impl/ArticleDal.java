@@ -2,6 +2,7 @@ package dal.impl;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Categorie;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
 import dal.DaoProvider;
@@ -19,6 +20,29 @@ public class ArticleDal implements IGenericDao<Article> {
     private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE id = ?";
 
     private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
+
+    private static final String SQL_SELECT_BY_CATEGORIES = "SELECT libelle FROM CATEGORIES";
+
+    @Override
+    public List<String> selectLibelleCategories() throws GlobalException {
+        //Je crée une liste
+        List<String> listCate = new ArrayList<String>();
+        //Je lance la connexion
+        try (
+                Connection con = ConnectionProvider.getConnection()
+        ) {
+            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_CATEGORIES);
+            ResultSet rs = pstt.executeQuery();
+            while (rs.next()) {
+                //Je choisis le paramètre de l'objet avec le get
+                listCate.add(rs.getString("libelle"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //Je renvoie l'article
+        return listCate;
+    }
 
     @Override
     public Utilisateur selectByEmail(String email) throws GlobalException {
@@ -102,7 +126,7 @@ public class ArticleDal implements IGenericDao<Article> {
                                           boolean inprogressEnchere, boolean winEnchere,
                                           boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
 
-        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, c.no_categorie, c.libelle " +
+        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
 
         //Je crée une liste
@@ -111,20 +135,20 @@ public class ArticleDal implements IGenericDao<Article> {
         try (
                 Connection con = ConnectionProvider.getConnection()
         ) {
-            PreparedStatement pstt = con.prepareCall(String.valueOf(SQL_SELECT_ARTICLES_BY_CRITERES));
 
             //Je trie en fonction du choix utilisateur
             StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
 
-                sqlConstruction.append("a.article = '" + articleName  + "' AND");
+                sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
+                System.out.println("momo" + articleName);
 
             //Choix catégorie
             System.out.println("tutu" + catName);
-            if("toutes".equals(catName)) { sqlConstruction.append(" c.libelle = 'toutes',");}
-            else if("informatique".equals(catName)) { sqlConstruction.append(" c.libelle = 'informatique',");}
-            else if("ameublement".equals(catName)) { sqlConstruction.append(" c.libelle = 'ameublement',");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" c.libelle = 'vetement'");}
-            else {sqlConstruction.append(" c.libelle = 'sports&loisirs',");}
+            if("sports&loisirs".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sports&loisirs'");}
+            else if("informatique".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'informatique'");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
+            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
 
 
             //sqlConstruction.append("c.libelle = '" + catName + "',");
@@ -132,26 +156,26 @@ public class ArticleDal implements IGenericDao<Article> {
 //            //Choix des checkbox
 //            //TODO attente la création des article pour pouvoir gérer les période de vente
 //            if(openedEnchere) {
-//                sqlConstruction.append(" openedEnchere = true,"); }
+//                sqlConstruction.append(" ,openedEnchere = true,"); }
 //            if(inprogressEnchere) {
-//                sqlConstruction.append("inprogressEnchere = true,"); }
+//                sqlConstruction.append(" ,inprogressEnchere = true,"); }
 //            if(winEnchere) {
-//                sqlConstruction.append(" winEnchere = true,"); }
+//                sqlConstruction.append(" ,winEnchere = true,"); }
 //            if(inprogressVente) {
-//                sqlConstruction.append(" inprogressVente = true,"); }
+//                sqlConstruction.append(" ,inprogressVente = true,"); }
 //            if(beforeVente) {
-//                sqlConstruction.append(" beforeVente = true,"); }
+//                sqlConstruction.append(" ,beforeVente = true,"); }
 //            if(finishedVente) {
-//                sqlConstruction.append(" finishedVente =  true,"); }
+//                sqlConstruction.append(" ,finishedVente =  true,"); }
 
+//            System.out.println(sqlConstruction);
+//            String machaine = null;
+//            machaine = sqlConstruction.toString();
+//            machaine.substring(0, machaine.length()-1);
+//
             System.out.println(sqlConstruction);
-            String machaine = null;
-            machaine = sqlConstruction.toString();
-            machaine.substring(0, machaine.length()-1);
 
-            System.out.println(machaine);
-
-
+            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
                 //Je choisis les paramètres de l'objet avec le get
@@ -165,6 +189,7 @@ public class ArticleDal implements IGenericDao<Article> {
                 //J'ajoute l'article à la liste
                 list.add(artAjout2);
             }
+            System.out.println("didi" + list);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

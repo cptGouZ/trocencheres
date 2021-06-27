@@ -16,4 +16,8 @@ public class Categorie implements Serializable {
     public Categorie(Integer id) {
         this.id = id;
     }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
 }

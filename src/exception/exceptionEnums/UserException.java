@@ -7,6 +7,7 @@ public interface UserException extends EnumException {
     int SELECT_BY_USER_ID = 1000;
     int USER_INSERTION_ERROR = 1010;
     int USER_DELETION_ERROR = 1020;
+    int USER_UPDATE_ERROR = 1030;
     //BLL Exception 11**
     int PSEUDO_EXISTANT = 1100;
     int PSEUDO_VIDE = 1105;

@@ -25,7 +25,9 @@
             <div class="col input-group mb-3">
                 <span class="col-2 input-group-text" id="idPseudo">Pseudo</span>
                 <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo"
-                    ${!empty userConnected.pseudo ? defaultPseudo : null}>
+                    ${!empty userConnected.pseudo ? defaultPseudo : null}
+                    ${empty sessionScope.get('userConnected') ? "" : "disabled"}
+                >
 
             </div>
             <div class="col input-group mb-3">
@@ -45,7 +47,9 @@
             <div class="col input-group mb-3">
                 <span class="input-group-text" id="idEmail">Email :</span>
                 <input type="email" class="form-control" placeholder="E-mail" name="email"
-                    ${!empty userConnected.email ? defaultEmail : null}>
+                    ${!empty userConnected.email ? defaultEmail : null}
+                    ${empty sessionScope.get('userConnected') ? "" : "disabled"}
+                >
             </div>
         </div>
 
