@@ -14,7 +14,7 @@
 <body class="container">
     <%@ include file="background.jsp"%>
     <header class="row">
-        <div class="col"> <a href="${pageContext.request.contextPath}/accueilS" ><img src="<%=request.getContextPath()%>/images/logos.png" ></a>  </div>
+        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true"><img src="<%=request.getContextPath()%>/images/logos.png" ></a>  </div>
         <div class="col">${title}</div>
         <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>

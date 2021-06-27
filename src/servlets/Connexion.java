@@ -61,11 +61,10 @@ public class Connexion extends HttpServlet {
             req.setAttribute("messageErreurLog", e.getMessageErrors());
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
 
-            //Mettre un cookie sur la durée de connexion après 5min d'inactivité
-         /*   Cookie[] cookies = req.getCookies();
-            Cookie deconnectionCookie = new Cookie ("deconnexionAuto", "");
-            deconnectionCookie.setMaxAge(15);
-            resp.addCookie(deconnectionCookie);*/
+       /*     //Mettre un cookie sur la case se souvenir de moi
+            Cookie[] cookies = req.getCookies();
+            Cookie cMoiCookie = new Cookie ();
+            resp.addCookie(cMoiCookie);*/
         }
     }
 }
