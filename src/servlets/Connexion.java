@@ -40,11 +40,6 @@ public class Connexion extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        //Mettre un cookie sur le rester connecté
-       /* Cookie[] cookies = req.getCookies();
-        Cookie connectionCookie = new Cookie ()*/
-
-
         //Récupérer l'identifiant et le mot de passe
 
         String identifiant = req.getParameter("login");
@@ -65,6 +60,12 @@ public class Connexion extends HttpServlet {
 
             req.setAttribute("messageErreurLog", e.getMessageErrors());
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
+
+            //Mettre un cookie sur la durée de connexion après 5min d'inactivité
+         /*   Cookie[] cookies = req.getCookies();
+            Cookie deconnectionCookie = new Cookie ("deconnexionAuto", "");
+            deconnectionCookie.setMaxAge(15);
+            resp.addCookie(deconnectionCookie);*/
         }
     }
 }

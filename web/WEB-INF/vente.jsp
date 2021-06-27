@@ -6,13 +6,11 @@
 
 <%@ include file="fragments/header.jsp"%>
 
-
 <html>
 <head>
     <title>Vente</title>
 </head>
 <body>
- <h3>Vente</h3>
 
  <%--BLOC VENTE--%>
  <br>
@@ -23,21 +21,21 @@
      </div>
 
      <%--Form VENTE--%>
-     <div class="col">
+     <div class="col"><h3>Nouvelle Vente</h3>
          <form method="post" action="vente">
              <%--ARTICLE--%>
              <div class="input-group mb-3">
-                 <span class="input-group-text" >Article : </span>
-                 <input type="text" class="form-control" placeholder="nom de l'article" name="article" required>
+                 <span class="input-group-text" >Article :  <p class="text-danger">* </p>
+                 <input type="text" class="form-control" placeholder="nom de l'article" name="article" required></span>
              </div>
              <%--DESCRIPTION--%>
                  <div class="input-group">
-                     <span class="input-group-text" >Description : </span>
-                     <textarea class="form-control" placeholder="décrire l'article" id="floatingTextarea2" style="height: 100px" name="description" required></textarea>
+                     <span class="input-group-text" >Description :  <p class="text-danger">* </p>
+                     <textarea class="form-control" placeholder="décrire l'article" id="floatingTextarea2" style="height: 100px" name="description" required></textarea></span>
                  </div><br>
              <%--CATEGORIES--%>
              <div>
-                 <label for="categorie">Catégorie :</label>
+                 <span class="input-group-text" for="categorie">Catégorie :  <p class="text-danger">* </p>
                  <select name="categorie" id="categorie" required>
                      <option value="">--Sélectionner une catégorie--</option>
                      <option name="categorie" value="1">Sports</option>
@@ -56,24 +54,24 @@
 
              <%--MISE A PRIX--%>
              <div>
-                 <label for="tentacles">Mise à prix :</label>
-                 <input type="number" id="tentacles" name="prixDepart" min="1" max="" required>
+                 <span class="input-group-text" for="tentacles">Mise à prix :  <p class="text-danger">* </p>
+                 <input type="number" id="tentacles" name="prixDepart" min="1" max="" required></span>
              </div><br>
 
              <%--DEBUT ENCHERE--%>
                  <div>
-                     <label for="debutEnchere">Début de l'enchère :</label>
+                     <span class="input-group-text" for="debutEnchere">Début de l'enchère : <p class="text-danger">* </p>
                      <input type="date" id="debutEnchere" name="debutEnchere"
                             value="${dateDuJour}"
-                            min="${dateDuJour}" max="2050-12-31" required>
+                            min="${dateDuJour}" max="2050-12-31" required></span>
                  </div>
 
              <%--FIN ENCHERE--%>
                  <div>
-                     <label for="finEnchere">Fin de l'enchère :</label>
+                     <span class="input-group-text" for="debutEnchere">Fin de l'enchère : <p class="text-danger">* </p>
                      <input type="date" id="finEnchere" name="finEnchere"
                         value=""
-                        min="${dateDuJour}" max="2050-12-31">
+                        min="${dateDuJour}" max="2050-12-31"></span>
                  </div>
                  <br>
 
@@ -109,9 +107,5 @@
      <div class="col">
      </div>
  </div>
-
-
-
-
 
  <%@ include file="fragments/footer.jsp"%>
