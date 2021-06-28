@@ -7,10 +7,12 @@ import bo.Utilisateur;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
+import exception.exceptionEnums.ArticleException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ArticleManager implements IArticleManager {
 
@@ -61,16 +63,10 @@ public class ArticleManager implements IArticleManager {
     }
 
 
+
+
     @Override
     public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart) throws GlobalException {
-
-
-        System.out.println("test arrivée BLL : " + article);
-        System.out.println("test arrivée BLL :" + description);
-        System.out.println("test arrivée BLL :" + categorie);
-        System.out.println("test arrivée BLL : " + prixDepart);
-        System.out.println("test arrivée BLL : " + debutEnchere);
-        System.out.println("test arrivée BLL :" + finEnchere);
 
         Article nouvelArticle = new Article();
 
@@ -84,17 +80,55 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
 
-        System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
+        validerNomArticle(nouvelArticle);
+        validerDescription(nouvelArticle);
+        validerPrix(nouvelArticle);
+
+       /* System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
         System.out.println("test sortie BLL : " + nouvelArticle.getDescription());
         System.out.println("test sortie BLL : " + nouvelArticle.getCategorie());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateDebut());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateFin());
-        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());
-
+        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());*/
 
         cDao.insertNewArticle(nouvelArticle);
 
         return nouvelArticle ;
     }
+
+    /**************************/
+    /* CONTROLES DE L'ARTICLE */
+    /**************************/
+
+    private final String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
+    private final String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
+    private final String PATTERN_PRIX = "[0-9]{1,10}" ;
+
+    private void validerNomArticle(Article articleAVerifier){
+
+        if (articleAVerifier.getArticle().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleAVerifier.getArticle()))
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_INVALIDE);
+    }
+
+    private void validerDescription(Article articleAVerifier){
+
+        if (articleAVerifier.getDescription().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_DESCRIPTION, articleAVerifier.getDescription()))
+            GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_INVALIDE);
+    }
+
+    private void validerPrix(Article articleAVerifier){
+
+        if (articleAVerifier.getPrixInitiale().toString().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_PRIX, articleAVerifier.getPrixInitiale().toString()))
+            GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_INVALIDE);
+    }
+
+
+
 
 }

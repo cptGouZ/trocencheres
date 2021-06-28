@@ -22,6 +22,8 @@
 
      <%--Form VENTE--%>
      <div class="col"><h3>Nouvelle Vente</h3>
+         <%--Message d'erreur de connexion--%>
+         <p class="text-decoration-underline text-danger">${empty messageErreurArticle ? "" : messageErreurArticle}</p>
          <form method="post" action="vente">
              <%--ARTICLE--%>
              <div class="input-group mb-3">
@@ -38,11 +40,13 @@
                  <span class="input-group-text" for="categorie">Catégorie :  <p class="text-danger">* </p>
                  <select name="categorie" id="categorie" required>
                      <option value="">--Sélectionner une catégorie--</option>
-                     <option name="categorie" value="1">Sports</option>
-                     <option name="categorie" value="2">Vêtements</option>
-                     <option name="categorie" value="3">Meubles</option>
-                     <option name="categorie" value="4">Sport&Loisirs</option>
+                     <option name="categorie" value="1">Sport</option>
+                     <option name="categorie" value="2">Vêtement</option>
+                     <option name="categorie" value="3">Ameublement</option>
+                     <option name="categorie" value="4">Alimentation</option>
+                     <option name="categorie" value="5">Divers</option>
                  </select>
+                 </span>
              </div>
              <br>
 

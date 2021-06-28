@@ -1,6 +1,7 @@
 package servlets;
 
 import bll.ManagerProvider;
+import bll.interfaces.IAdresseManager;
 import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bo.Adresse;
@@ -33,8 +34,6 @@ public class Vente extends HttpServlet {
         RequestDispatcher rd ;
         rd = req.getRequestDispatcher("WEB-INF/vente.jsp") ;
         rd.forward(req,resp);
-
-
     }
 
     @Override
@@ -44,22 +43,22 @@ public class Vente extends HttpServlet {
         Integer idUtilisateur = ((Utilisateur) req.getSession().getAttribute("userConnected")).getId();
         Utilisateur userEnCours = (Utilisateur) req.getSession().getAttribute("userConnected");
 
-        String article = req.getParameter("article");
-        String description = req.getParameter("description");
-        Integer categorie = Integer.valueOf(req.getParameter("categorie"));
-        Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart"));
+        String article = req.getParameter("article").trim();
+        String description = req.getParameter("description").trim();
+        Integer categorie = Integer.valueOf(req.getParameter("categorie").trim());
+        Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart").trim());
 
-        String debutEnchere = req.getParameter("debutEnchere");
-        String debutEncherePrecis = (debutEnchere + "T00:00:00") ;
+        String debutEnchere = req.getParameter("debutEnchere").trim();
+        String debutEncherePrecis = (debutEnchere + "T00:00:00").trim();
         LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEncherePrecis);
 
-        String finEnchere = req.getParameter("finEnchere");
-        String finEncherePrecis = (finEnchere + "T23:59:59") ;
+        String finEnchere = req.getParameter("finEnchere").trim();
+        String finEncherePrecis = (finEnchere + "T23:59:59").trim() ;
         LocalDateTime finEnchereBll = LocalDateTime.parse(finEncherePrecis);
 
-        String rue = req.getParameter("rue");
-        String cpo = req.getParameter("cpo");
-        String ville = req.getParameter("ville");
+        String rue = req.getParameter("rue").trim();
+        String cpo = req.getParameter("cpo").trim();
+        String ville = req.getParameter("ville").trim();
 
 
         System.out.println(idUtilisateur);
@@ -75,6 +74,7 @@ public class Vente extends HttpServlet {
 
         try {
             IArticleManager icm = ManagerProvider.getArticleManager();
+            IAdresseManager iam = ManagerProvider.getAdresseManager();
 
             Article newArticle = null ;
                 newArticle = icm.insertNewArticle(
@@ -87,13 +87,16 @@ public class Vente extends HttpServlet {
                             prixDepart);
 
             Adresse newAdresse = null ;
-                    newAdresse = icm.insertNewAdresse(
-                                rue,
-                                cpo,
-                                ville);
+            newAdresse = new Adresse(rue,cpo,ville,idUtilisateur,false);
+            iam.creer(newAdresse);
 
         } catch (GlobalException e) {
             e.printStackTrace();
+
+            //Affiche un message d'erreur si la vérification article a échoué
+            req.setAttribute("messageErreurArticle", GlobalException.getInstance().getMessageErrors());
+            //Et renvoi à la page de création de la vente
+            req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req, resp);
         }
 
 

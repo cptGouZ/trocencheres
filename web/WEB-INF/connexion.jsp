@@ -21,13 +21,13 @@
                     <form method="post" action="connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" >Identifiant : <p class="text-danger">* </p>
-                            <input type="text" class="form-control" placeholder="pseudo / email" name="login" required></span>
+                            <span class="input-group-text" >Identifiant : <sup class="text-danger">* </sup></span>
+                            <input type="text" class="form-control" placeholder="pseudo / email" name="login" required>
                         </div>
                         <%--MDP--%>
                         <div class="input-group mb-3">
-                            <span class="input-group-text" >Mot de passe : <p class="text-danger">* </p>
-                            <input type="password" class="form-control" placeholder="mot de passe" name="mdp" required ></span>
+                            <span class="input-group-text" >Mot de passe : <sup class="text-danger">* </sup></span>
+                            <input type="password" class="form-control" placeholder="mot de passe" name="mdp" required >
                         </div>
 
                         <%--Message d'erreur de connexion--%>
