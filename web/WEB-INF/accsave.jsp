@@ -12,7 +12,7 @@
     <div class="input-group mb-3">
         <div class="col-auto">
             <p>Liste des encheres</p>
-            <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
+            <form action="${pageContext.request.contextPath}/accueilS" method="post">
                 <input type="text" name="textechoix"  class="form-control" id="idtext" value="" placeholder="Le nom de l'article contient"/>
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie">

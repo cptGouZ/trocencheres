@@ -9,7 +9,7 @@
 <div class="input-group mb-3">
     <div class="col-auto">
         <p>Liste des encheres</p>
-        <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
+        <form action="${pageContext.request.contextPath}/accueilS" method="post">
             <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
             <!-- Import fragment Categorie-->
             <jsp:include page="fragments/categorie.jsp">
@@ -57,7 +57,7 @@
                         out.print("<div>Objet : " + item.getArticle() + "</div>");
                         out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
-                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div></br>");
+                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br>");
                 %>
             <%--Lien vers profil vendeur si le profil est connecté--%>
             <c:if test="${!empty sessionScope.get('userConnected')}">

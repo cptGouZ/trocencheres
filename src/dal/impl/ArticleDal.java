@@ -23,6 +23,10 @@ public class ArticleDal implements IGenericDao<Article> {
 
     private static final String SQL_SELECT_BY_CATEGORIES = "SELECT libelle FROM CATEGORIES";
 
+    private static final String SQL_SELECT_BY_CHECK = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE date_fin_encheres < CAST(GETDATE() AS datetime) OR " +
+            "CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres OR " +
+            "date_debut_encheres > CAST(GETDATE() AS datetime)";
+
     @Override
     public List<String> selectLibelleCategories() throws GlobalException {
         //Je crée une liste
@@ -43,6 +47,35 @@ public class ArticleDal implements IGenericDao<Article> {
         //Je renvoie la liste d'articles
         return listCate;
     }
+
+    @Override
+    public List<Article> selectByCheck() throws GlobalException {
+        //Je crée une liste
+        List<Article> list = new ArrayList<Article>();
+        //Je lance la connexion
+        try (
+                Connection con = ConnectionProvider.getConnection()
+        ) {
+            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_CHECK);
+            ResultSet rs = pstt.executeQuery();
+            while (rs.next()) {
+                //Je choisis les paramètres de l'objet avec le get
+                Article artAjout = new Article();
+                artAjout.setArticle(rs.getString("article"));
+                artAjout.setPrixVente(rs.getInt("prix_vente"));
+                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+                //J'ajoute l'item "Vendeur"
+                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                artAjout.setUtilisateur(ut);
+                //J'ajoute l'article à la liste
+                list.add(artAjout);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //Je renvoie la liste d'articles
+            return list;
+        }
 
     @Override
     public Utilisateur selectByEmail(String email) throws GlobalException {
@@ -122,9 +155,7 @@ public class ArticleDal implements IGenericDao<Article> {
     }
 
     @Override
-    public List<Article> selectByCriteres(String articleName, String catName, boolean openedEnchere,
-                                          boolean inprogressEnchere, boolean winEnchere,
-                                          boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
+    public List<Article> selectByCriteres(String articleName, String catName) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
@@ -150,29 +181,6 @@ public class ArticleDal implements IGenericDao<Article> {
             else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
             else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
 
-
-            //sqlConstruction.append("c.libelle = '" + catName + "',");
-
-//            //Choix des checkbox
-//            //TODO attente la création des article pour pouvoir gérer les période de vente
-//            if(openedEnchere) {
-//                sqlConstruction.append(" ,openedEnchere = true,"); }
-//            if(inprogressEnchere) {
-//                sqlConstruction.append(" ,inprogressEnchere = true,"); }
-//            if(winEnchere) {
-//                sqlConstruction.append(" ,winEnchere = true,"); }
-//            if(inprogressVente) {
-//                sqlConstruction.append(" ,inprogressVente = true,"); }
-//            if(beforeVente) {
-//                sqlConstruction.append(" ,beforeVente = true,"); }
-//            if(finishedVente) {
-//                sqlConstruction.append(" ,finishedVente =  true,"); }
-
-//            System.out.println(sqlConstruction);
-//            String machaine = null;
-//            machaine = sqlConstruction.toString();
-//            machaine.substring(0, machaine.length()-1);
-//
             System.out.println(sqlConstruction);
 
             PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());

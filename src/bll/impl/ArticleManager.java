@@ -7,12 +7,23 @@ import bo.Utilisateur;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleManager implements IArticleManager {
+
+    @Override
+    public List<Article> selectByCheck() throws GlobalException {
+        List<Article> articleList3 = new ArrayList<>();
+        try {
+            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
+            articleList3 = IDao.selectByCheck(enc);
+        } catch (GlobalException e) {
+            e.printStackTrace();
+        }
+        return articleList3;
+    }
 
     @Override
     public List<String> getLibellesCategorie() {
@@ -24,14 +35,6 @@ public class ArticleManager implements IArticleManager {
             e.printStackTrace();
         }
         return listCateg;
-    }
-
-    @Override
-    public Article getByID(int id) throws GlobalException {
-        Article art = null;
-        IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-        art.setId(id);
-        return art;
     }
 
     @Override
@@ -47,12 +50,12 @@ public class ArticleManager implements IArticleManager {
     }
 
     @Override
-    public List<Article> getByCriteres(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
+    public List<Article> getByCriteres(String articleName, String catName) throws GlobalException {
         List<Article> articleList2 = new ArrayList<>();
         try {
             IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             System.out.println("manager" + articleName);
-            articleList2 = IDao.selectByCriteres(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
+            articleList2 = IDao.selectByCriteres(articleName, catName);
             System.out.println("dada" + articleList2);
         } catch (GlobalException e) {
             e.printStackTrace();
@@ -60,6 +63,13 @@ public class ArticleManager implements IArticleManager {
         return articleList2;
     }
 
+    @Override
+    public Article getByID(int id) throws GlobalException {
+        Article art = null;
+        IGenericDao<Article> IDao = DaoProvider.getArticleDao();
+        art.setId(id);
+        return art;
+    }
 
     @Override
     public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart) throws GlobalException {
