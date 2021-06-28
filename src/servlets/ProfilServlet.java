@@ -24,13 +24,14 @@ public class ProfilServlet extends HttpServlet {
             Utilisateur userToDisplay = um.getById(userId);
             Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
             if(userToDisplay==null){
-                //userId inconnu -> page d'accueil
+                //Redirection : userId inconnu -> page d'accueil
                 req.getRequestDispatcher("accueilS").forward(req, resp);
             }else{
                 boolean isMe = (userConnected !=null && userToDisplay.getId()== userConnected.getId()) ? true:false;
                 req.setAttribute("userId", userId);
                 req.setAttribute("userDisplayed", userToDisplay );
                 req.setAttribute("showModifButton", isMe);
+                //Redirection vers accueil
                 req.getRequestDispatcher("WEB-INF/profil.jsp").forward(req, resp);
             }
         } catch (GlobalException e) {

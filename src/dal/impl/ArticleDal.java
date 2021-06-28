@@ -40,7 +40,7 @@ public class ArticleDal implements IGenericDao<Article> {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        //Je renvoie l'article
+        //Je renvoie la liste d'articles
         return listCate;
     }
 
