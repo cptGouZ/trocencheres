@@ -63,7 +63,7 @@ public class CompteModif extends HttpServlet {
             }
 
             //Suppression utilisateur
-            if("remove".equals(action)){
+            if("supprimer".equals(action)){
                 um.supprimer(userConnected.getId());
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
             }
@@ -73,7 +73,7 @@ public class CompteModif extends HttpServlet {
                 req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
                 req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
             }
-            if("remove".equals(action)){
+            if("supprimer".equals(action)){
                 req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
                 req.getRequestDispatcher("profil").forward(req, resp);
             }

@@ -30,17 +30,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
             ResultSet rs = pStmt.executeQuery();
 
             while (rs.next()) {
-                utilisateurEnBdd = new Utilisateur();
-                utilisateurEnBdd.setId(rs.getInt("no_utilisateur"));
-                utilisateurEnBdd.setPseudo(rs.getString("pseudo"));
-                utilisateurEnBdd.setNom(rs.getString("nom"));
-                utilisateurEnBdd.setPrenom(rs.getString("prenom"));
-                utilisateurEnBdd.setEmail(rs.getString("email"));
-                utilisateurEnBdd.setPassword(rs.getString("mdp"));
-                utilisateurEnBdd.setCredit(rs.getInt("credit"));
-                utilisateurEnBdd.setAdmin(rs.getBoolean("administrateur"));
-                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
-                utilisateurEnBdd.setAdresse(ad.selectUserDomicile(utilisateurEnBdd.getId()));
+                utilisateurEnBdd = userFromRs(rs);
 
             }
         } catch (SQLException throwables) {
@@ -62,17 +52,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
             ResultSet rs = pStmt.executeQuery();
 
             while (rs.next()) {
-                utilisateurEnBdd = new Utilisateur();
-                utilisateurEnBdd.setId(rs.getInt("no_utilisateur"));
-                utilisateurEnBdd.setPseudo(rs.getString("pseudo"));
-                utilisateurEnBdd.setNom(rs.getString("nom"));
-                utilisateurEnBdd.setPrenom(rs.getString("prenom"));
-                utilisateurEnBdd.setEmail(rs.getString("email"));
-                utilisateurEnBdd.setPassword(rs.getString("mdp"));
-                utilisateurEnBdd.setCredit(rs.getInt("credit"));
-                utilisateurEnBdd.setAdmin(rs.getBoolean("administrateur"));
-                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
-                utilisateurEnBdd.setAdresse(ad.selectUserDomicile(utilisateurEnBdd.getId()));
+                utilisateurEnBdd = userFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -152,24 +132,29 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                retour = new Utilisateur();
-                retour.setId(rs.getInt("no_utilisateur"));
-                retour.setPseudo(rs.getString("pseudo"));
-                retour.setNom(rs.getString("nom"));
-                retour.setPrenom(rs.getString("prenom"));
-                retour.setEmail(rs.getString("email"));
-                retour.setPhone(rs.getString("telephone"));
-                retour.setPassword(rs.getString("mdp"));
-                retour.setCredit(rs.getInt("credit"));
-                retour.setAdmin(rs.getBoolean("administrateur"));
-                IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
-                retour.setAdresse(ad.selectUserDomicile(id));
+                retour = userFromRs(rs);
             }
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             GlobalException.getInstance().addError(UserException.SELECT_BY_USER_ID);
             throw GlobalException.getInstance();
         }
+        return retour;
+    }
+
+    private Utilisateur userFromRs(ResultSet rs) throws SQLException {
+        Utilisateur retour = new Utilisateur();
+        retour.setId(rs.getInt("no_utilisateur"));
+        retour.setPseudo(rs.getString("pseudo"));
+        retour.setNom(rs.getString("nom"));
+        retour.setPrenom(rs.getString("prenom"));
+        retour.setEmail(rs.getString("email"));
+        retour.setPhone(rs.getString("telephone"));
+        retour.setPassword(rs.getString("mdp"));
+        retour.setCredit(rs.getInt("credit"));
+        retour.setAdmin(rs.getBoolean("administrateur"));
+        IGenericDao<Adresse> ad = DaoProvider.getAdresseDao();
+        retour.setAdresse(ad.selectUserDomicile(retour.getId()));
         return retour;
     }
 

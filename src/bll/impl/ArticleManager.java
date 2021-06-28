@@ -7,23 +7,14 @@ import bo.Utilisateur;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
+import exception.exceptionEnums.ArticleException;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class ArticleManager implements IArticleManager {
-
-    @Override
-    public List<Article> selectByCheck() throws GlobalException {
-        List<Article> articleList3 = new ArrayList<>();
-        try {
-            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-            articleList3 = IDao.selectByCheck(enc);
-        } catch (GlobalException e) {
-            e.printStackTrace();
-        }
-        return articleList3;
-    }
 
     @Override
     public List<String> getLibellesCategorie() {
@@ -35,6 +26,14 @@ public class ArticleManager implements IArticleManager {
             e.printStackTrace();
         }
         return listCateg;
+    }
+
+    @Override
+    public Article getByID(int id) throws GlobalException {
+        Article art = null;
+        IGenericDao<Article> IDao = DaoProvider.getArticleDao();
+        art.setId(id);
+        return art;
     }
 
     @Override
@@ -50,12 +49,12 @@ public class ArticleManager implements IArticleManager {
     }
 
     @Override
-    public List<Article> getByCriteres(String articleName, String catName) throws GlobalException {
+    public List<Article> getByCriteres(String articleName, String catName, boolean openedEnchere, boolean inprogressEnchere, boolean winEnchere, boolean inprogressVente, boolean beforeVente, boolean finishedVente) throws GlobalException {
         List<Article> articleList2 = new ArrayList<>();
         try {
             IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             System.out.println("manager" + articleName);
-            articleList2 = IDao.selectByCriteres(articleName, catName);
+            articleList2 = IDao.selectByCriteres(articleName, catName, openedEnchere, inprogressEnchere, winEnchere, inprogressVente, beforeVente, finishedVente);
             System.out.println("dada" + articleList2);
         } catch (GlobalException e) {
             e.printStackTrace();
@@ -63,24 +62,11 @@ public class ArticleManager implements IArticleManager {
         return articleList2;
     }
 
-    @Override
-    public Article getByID(int id) throws GlobalException {
-        Article art = null;
-        IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-        art.setId(id);
-        return art;
-    }
+
+
 
     @Override
     public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart) throws GlobalException {
-
-
-        System.out.println("test arrivée BLL : " + article);
-        System.out.println("test arrivée BLL :" + description);
-        System.out.println("test arrivée BLL :" + categorie);
-        System.out.println("test arrivée BLL : " + prixDepart);
-        System.out.println("test arrivée BLL : " + debutEnchere);
-        System.out.println("test arrivée BLL :" + finEnchere);
 
         Article nouvelArticle = new Article();
 
@@ -94,17 +80,55 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
 
-        System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
+        validerNomArticle(nouvelArticle);
+        validerDescription(nouvelArticle);
+        validerPrix(nouvelArticle);
+
+       /* System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
         System.out.println("test sortie BLL : " + nouvelArticle.getDescription());
         System.out.println("test sortie BLL : " + nouvelArticle.getCategorie());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateDebut());
         System.out.println("test sortie BLL : " + nouvelArticle.getDateFin());
-        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());
-
+        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());*/
 
         cDao.insertNewArticle(nouvelArticle);
 
         return nouvelArticle ;
     }
+
+    /**************************/
+    /* CONTROLES DE L'ARTICLE */
+    /**************************/
+
+    private final String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
+    private final String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
+    private final String PATTERN_PRIX = "[0-9]{1,10}" ;
+
+    private void validerNomArticle(Article articleAVerifier){
+
+        if (articleAVerifier.getArticle().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleAVerifier.getArticle()))
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_INVALIDE);
+    }
+
+    private void validerDescription(Article articleAVerifier){
+
+        if (articleAVerifier.getDescription().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_DESCRIPTION, articleAVerifier.getDescription()))
+            GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_INVALIDE);
+    }
+
+    private void validerPrix(Article articleAVerifier){
+
+        if (articleAVerifier.getPrixInitiale().toString().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_PRIX, articleAVerifier.getPrixInitiale().toString()))
+            GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_INVALIDE);
+    }
+
+
+
 
 }

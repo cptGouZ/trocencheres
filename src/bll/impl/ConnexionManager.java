@@ -53,7 +53,7 @@ public class ConnexionManager implements IConnexionManager {
         }
 
         // Si aucune erreur détectée dans la vérification de l'identifiant
-        // et du mot de passe on renvoi l'utilisateur qui désirait se connecté
+        // et du mot de passe on renvoi l'utilisateur qui désirait se connecter
         return utilisateurLog ;
     }
 }
