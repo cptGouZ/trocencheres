@@ -120,10 +120,10 @@ public class UserManager implements IUserManager {
     /*****************************/
     /*CONTROLES DE L'UTILISATEUR */
     /*****************************/
-    private final String PATTERN_USER = "^[\\p{L}0-9]*$";
-    private final String PATTERN_PRENOM = "^[\\p{L}0-9]*$";
-    private final String PATTERN_NOM = "^[\\p{L}0-9]*$";
-    private final String PATTERN_EMAIL = "^[\\w-\\.]*@[a-z0-9-\\.]*\\.[a-z]*$";
+    private final String PATTERN_USER = "^[\\p{L}0-9]{0,30}$";
+    private final String PATTERN_PRENOM = "^[\\p{L}0-9]{0,30}$";
+    private final String PATTERN_NOM = "^[\\p{L}0-9]{0,30}$";
+    private final String PATTERN_EMAIL = "^[\\w\\-\\.]*@[a-z0-9-\\.]*\\.[a-z]*$";
     private final String PATTERN_TELEPHONE = "^\\d{10}$";
     private final String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
 

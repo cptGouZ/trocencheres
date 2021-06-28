@@ -9,7 +9,7 @@
 <div class="input-group mb-3">
     <div class="col-auto">
         <p>Liste des encheres</p>
-        <form action="http://localhost:8080/trocencheres_war_exploded/accueilS" method="post">
+        <form action="${pageContext.request.contextPath}/accueilS" method="post">
             <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
             <!-- Import fragment Categorie-->
             <jsp:include page="fragments/categorie.jsp">
