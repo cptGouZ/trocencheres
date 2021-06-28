@@ -4,8 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="defaultIdentifiant" value="value=\"${cookie.get(applicationScope)}\""/>
-
 <%@ include file="fragments/header.jsp"%>
 
 
