@@ -61,6 +61,7 @@ public class Connexion extends HttpServlet {
 
             //Puis on renvoi vers la page d'accueil en mode connecté
             req.getRequestDispatcher("accueilS").forward(req, resp);
+            //resp.sendRedirect("accueilS");
 
         } catch (GlobalException e) {
             e.printStackTrace();

@@ -53,15 +53,15 @@ public class AccueilServlet extends HttpServlet {
             //System.out.println("toto" + articleList2);
 
             //La servlet envoie l'info à la JSP !
-            req.setAttribute("listedesarticles", articleList2);}
+            req.setAttribute("listedesarticles", articleList2);
 
+            //Redirection vers accueil
+            RequestDispatcher rd;
+            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
+            rd.forward(req, resp);
+        }
         //Si absence de tri, on appelle le SelectAll donc on rappelle la méthode doGet afin d'afficher tous les articles
         else {this.doGet(req, resp);}
-
-        //Redirection vers accueil
-        RequestDispatcher rd;
-        rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-        rd.forward(req, resp);
     }
 
 
