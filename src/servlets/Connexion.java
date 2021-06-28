@@ -45,27 +45,32 @@ public class Connexion extends HttpServlet {
         String identifiant = req.getParameter("login");
         String mdp = req.getParameter("mdp");
 
-        System.out.println(identifiant);
-        System.out.println(mdp);
-
+        //Connexion Manager pour transmission des données à la BLL
         IConnexionManager icm = ManagerProvider.getConnexionManager();
+
+        //Créer l'utilisateur souhaitant se connecté
         Utilisateur utilisateurConnecte = null;
+
+
         try {
+            //Envoi des données à la BLL pour vérifier son existence et son mot de passe
             utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
+
+            //On enregistre l'identifiant de l'utilisateur en session
             req.getSession().setAttribute("userConnected",utilisateurConnecte);
+
+            //Puis on renvoi vers la page d'accueil en mode connecté
             req.getRequestDispatcher("accueilS").forward(req, resp);
+            //resp.sendRedirect("accueilS");
 
         } catch (GlobalException e) {
             e.printStackTrace();
 
+            //Affiche un message d'erreur si la vérification identifiant/mot de passe a échoué
             req.setAttribute("messageErreurLog", e.getMessageErrors());
+            //Et renvoi à la page de connexion
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
 
-            //Mettre un cookie sur la durée de connexion après 5min d'inactivité
-         /*   Cookie[] cookies = req.getCookies();
-            Cookie deconnectionCookie = new Cookie ("deconnexionAuto", "");
-            deconnectionCookie.setMaxAge(15);
-            resp.addCookie(deconnectionCookie);*/
         }
     }
 }

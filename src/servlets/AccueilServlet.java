@@ -49,20 +49,19 @@ public class AccueilServlet extends HttpServlet {
             IArticleManager am2 = ManagerProvider.getArticleManager();
             //Mettre les valeurs de checkbox dans les paramètres de la requête
             //System.out.println("servlet" + textArticle);
-                articleList2 = am2.getByCriteres(textechoix, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
-                //System.out.println("toto" + articleList2);
+            articleList2 = am2.getByCriteres(textechoix, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
+            //System.out.println("toto" + articleList2);
 
             //La servlet envoie l'info à la JSP !
-            req.setAttribute("listedesarticles", articleList2);}
+            req.setAttribute("listedesarticles", articleList2);
 
-            //Si absence de tri, on appelle le SelectAll
-        else {this.doGet(req, resp);} // Je rappelle la méthode doGet afin d'afficher tous les articles
-
-        //Je déclare le RequestDispatcher
-        RequestDispatcher rd;
-        //Pour aller à la JSP ACCUEIL !
-        rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-        rd.forward(req, resp);
+            //Redirection vers accueil
+            RequestDispatcher rd;
+            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
+            rd.forward(req, resp);
+        }
+        //Si absence de tri, on appelle le SelectAll donc on rappelle la méthode doGet afin d'afficher tous les articles
+        else {this.doGet(req, resp);}
     }
 
 
@@ -92,9 +91,8 @@ public class AccueilServlet extends HttpServlet {
         req.setAttribute("listedesarticles", articleList);
         req.setAttribute("libellesCategories", listeCat);
 
-        //Je déclare le RequestDispatcher
+        //Redirection vers accueil
         RequestDispatcher rd;
-        //Pour aller à la JSP ACCUEIL !
         rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
         rd.forward(req, resp);
     }
