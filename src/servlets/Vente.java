@@ -61,16 +61,16 @@ public class Vente extends HttpServlet {
         String ville = req.getParameter("ville").trim();
 
 
-        System.out.println(idUtilisateur);
-        System.out.println(article);
-        System.out.println(description);
-        System.out.println(categorie);
-        System.out.println(prixDepart);
-        System.out.println("test 3 : " + debutEnchereBll);
-        System.out.println("test 4 : " + finEnchereBll);
-        System.out.println(rue);
-        System.out.println(cpo);
-        System.out.println(ville);
+        req.setAttribute("articleSaisie",article);
+        req.setAttribute("descriptionSaisie",description);
+        req.setAttribute("categorieSaisie",categorie);
+        req.setAttribute("prixSaisie",prixDepart);
+        req.setAttribute("dateDebutSaisie",debutEnchere);
+        req.setAttribute("dateFinSaisie",finEnchere);
+        req.setAttribute("rueSaisie",rue);
+        req.setAttribute("cpoSaisie",cpo);
+        req.setAttribute("villeSaisie",ville);
+
 
         try {
             IArticleManager icm = ManagerProvider.getArticleManager();

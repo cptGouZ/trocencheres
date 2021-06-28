@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
-    private Integer id =0;
+    private int id =0;
     private Adresse adresse=null;
     private String pseudo="Gouz"+id;
     private String nom="toto";
