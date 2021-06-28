@@ -11,15 +11,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Utilisateur implements Serializable {
-    private int id =0;
-    private Adresse adresse=null;
-    private String pseudo="Gouz"+id;
-    private String nom="toto";
-    private String prenom="julien";
-    private String email="julien@gmail.com";
-    private String phone ="0628187989";
-    private String password="toto";
-    private Integer credit=200;
+    private Integer id;
+    private Adresse adresse;
+    private String pseudo;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String phone;
+    private String password;
+    private Integer credit;
     private boolean admin;
     private List<Adresse> adresses = new ArrayList<>();
 

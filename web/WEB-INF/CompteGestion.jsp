@@ -29,16 +29,14 @@
                 <%--Pseudo / Nom--%>
                 <div class="row">
                     <div class="col input-group mb-3">
-                        <span class="col-2 input-group-text" id="idPseudo">Pseudo</span>
-                        <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo"
-                            ${!empty userConnected.pseudo ? defaultPseudo : null}
-                            <!--{empty sessionScope.get('userConnected') ? "" : "disabled"}-->
-                        >
+                        <span class="col-2 input-group-text" id="idPseudo">Pseudo : <sup class="text-danger">*</sup></span>
+                        <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo" required
+                            ${!empty userConnected.pseudo ? defaultPseudo : null}>
 
                     </div>
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idNom">Nom :</span>
-                        <input type="text" class="form-control" placeholder="Nom" name="nom"
+                        <span class="input-group-text" id="idNom">Nom : <sup class="text-danger">*</sup></span>
+                        <input type="text" class="form-control" placeholder="Nom" name="nom" required
                             ${!empty userConnected.nom ? defaultNom : null}>
                     </div>
                 </div>
@@ -46,28 +44,26 @@
                 <%--Prénom / Email--%>
                 <div class="row">
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idPrenom">Prénom :</span>
-                        <input type="text" class="form-control" placeholder="Prénom" name="prenom"
+                        <span class="input-group-text" id="idPrenom">Prénom : <sup class="text-danger">*</sup></span>
+                        <input type="text" class="form-control" placeholder="Prénom" name="prenom" required
                             ${!empty userConnected.prenom ? defaultPrenom : null}>
                     </div>
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idEmail">Email :</span>
-                        <input type="email" class="form-control" placeholder="E-mail" name="email"
-                            ${!empty userConnected.email ? defaultEmail : null}
-                            <!--{empty sessionScope.get('userConnected') ? "" : "disabled"}-->
-                        >
+                        <span class="input-group-text" id="idEmail">Email : <sup class="text-danger">*</sup></span>
+                        <input type="email" class="form-control" placeholder="E-mail" name="email" required
+                            ${!empty userConnected.email ? defaultEmail : null}>
                     </div>
                 </div>
 
                 <%--Téléphone / Rue--%>
                 <div class="row">
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idTel">Tél :</span>
+                        <span class="input-group-text" id="idTel">Tél : </span>
                         <input type="text" class="form-control" placeholder="Téléphone" name="tel"
                             ${!empty userConnected.phone ? defaultPhone : null}>
                     </div>
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idRue">Rue :</span>
+                        <span class="input-group-text" id="idRue">Rue : </span>
                         <input type="text" class="form-control" placeholder="Rue" name="rue"
                             ${!empty userConnected.adresse.rue ? defaultRue : null}>
                     </div>
@@ -76,12 +72,12 @@
                 <%--Code Postal / Ville--%>
                 <div class="row">
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idCpo">Code Postal :</span>
+                        <span class="input-group-text" id="idCpo">Code Postal : </span>
                         <input type="text" class="form-control" placeholder="Code Postal" name="cpo"
                             ${!empty userConnected.adresse.cpo ? defaultCpo : null}>
                     </div>
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idVille">Ville</span>
+                        <span class="input-group-text" id="idVille">Ville : </span>
                         <input type="text" class="form-control" placeholder="Ville" name="ville"
                             ${!empty userConnected.adresse.ville ? defaultVille : null}>
                     </div>
@@ -91,8 +87,8 @@
                 <c:if test="${'modification'.equals(affichage)}">
                     <div class="row">
                         <div class="col input-group mb-3">
-                            <span class="input-group-text" id="idPassword">Mot de passe :</span>
-                            <input type="password" class="form-control" placeholder="Mot de passe" name="password">
+                            <span class="input-group-text" id="idPassword">Mot de passe : <sup class="text-danger">*</sup></span>
+                            <input type="password" class="form-control" placeholder="Mot de passe" name="password" required>
                         </div>
                     </div>
                 </c:if>
@@ -100,11 +96,12 @@
                 <%--Nouveau mot de passe / Confirmation--%>
                 <div class="row">
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idNewPassword">Nouveau mot de passe :</span>
-                        <input type="password" class="form-control" placeholder="Nouveau mot de passe" name="newPassword">
+                        <span class="input-group-text" id="idNewPassword">Nouveau mot de passe : </span>
+                        <input type="password" class="form-control" placeholder="Nouveau mot de passe" name="newPassword"
+                            ${'modification'.equals(affichage)}>
                     </div>
                     <div class="col input-group mb-3">
-                        <span class="input-group-text" id="idConfirmation">Confirmation :</span>
+                        <span class="input-group-text" id="idConfirmation">Confirmation : </span>
                         <input type="password" class="form-control" placeholder="Confirmation" name="confirmPassword">
                     </div>
                 </div>
@@ -127,7 +124,7 @@
                 <c:if test="${'modification'.equals(affichage)}">
                     <div class="row">
                         <div class="col">
-                            Credit : 640
+                            Credit : ${userConnected.credit}
                         </div>
                     </div>
                     <div class="row">
