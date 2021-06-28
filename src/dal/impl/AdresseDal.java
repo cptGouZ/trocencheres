@@ -98,7 +98,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
                 adresseRecherchee = new Adresse();
                 adresseRecherchee.setId(rs.getInt("no_adresse"));
 
-                System.out.println("test recup adresse : " + adresseRecherchee.getId());
+                //System.out.println("test recup adresse : " + adresseRecherchee.getId());
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
