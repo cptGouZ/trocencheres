@@ -144,8 +144,8 @@ public class ArticleDal implements IGenericDao<Article> {
 
             //Choix catégorie
             System.out.println("tutu" + catName);
-            if("sports&loisirs".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sports&loisirs'");}
-            else if("informatique".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'informatique'");}
+            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
+            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
             else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
             else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
             else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
