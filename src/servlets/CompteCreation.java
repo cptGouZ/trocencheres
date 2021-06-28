@@ -31,13 +31,15 @@ public class CompteCreation extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IUserManager um = ManagerProvider.getUserManager();
+        Utilisateur newUser = null;
         try {
-            Utilisateur newUser = UserManager.prepareUser(req);
+            newUser = UserManager.prepareUser(req);
             String confirmPassword = req.getParameter("confirmPassword").trim();
             um.creer(newUser, confirmPassword);
-            req.getRequestDispatcher("WEB-INF/gestionCompte/confirmCreation.jsp").forward(req, resp);
+            resp.sendRedirect("accueilS");
         } catch (GlobalException e) {
             req.setAttribute("affichage", "creation");
+            req.setAttribute("userToDisplay", newUser);
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
             req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
         }

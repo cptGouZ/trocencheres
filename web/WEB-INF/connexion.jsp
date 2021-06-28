@@ -10,16 +10,9 @@
 
 
             <%--BLOC CONNEXION--%>
-            <br>
-            <div class="row">
-                <br>
-                <br>
-                <%--Colonne Vide--%>
-                <div class="col">
-                </div>
-
+            <div class="row justify-content-center">
                 <%--Form Connexion--%>
-                <div class="col">
+                <div class="col-4">
                     <form method="post" action="connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
@@ -46,26 +39,22 @@
                         <label for="resteConnecte">Se souvenir de moi</label>
                         <br>
                     </form>
+                    <div>
+                        <div class="input-group mb-2">
+                            <%--BOUTON ANNULER--%>
+                            <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
 
-                        <div>
-                            <div class="input-group mb-2">
-                                <%--BOUTON ANNULER--%>
-                                <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
-
-                                <%--BOUTON CREER COMPTE/PROFIL--%>
-                                <a href="${pageContext.request.contextPath}/comptecreation" class="btn btn-secondary"> Créer un compte </a>
-                                <br>
-                            </div>
-
-                            <%--LIEN REINIT MDP--%>
-                            <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
+                            <%--BOUTON CREER COMPTE/PROFIL--%>
+                            <a href="${pageContext.request.contextPath}/comptecreation" class="btn btn-secondary"> Créer un compte </a>
                             <br>
                         </div>
-                </div>
-                <%--Colonne Vide--%>
-                <div class="col">
+
+                        <%--LIEN REINIT MDP--%>
+                        <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
+                        <br>
+                    </div>
                 </div>
             </div>
 
-<%@ include file="fragments/footer.jsp"%>
+<jsp:include page="fragments/footer.jsp"/>
 

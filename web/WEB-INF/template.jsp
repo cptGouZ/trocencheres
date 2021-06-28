@@ -9,5 +9,5 @@
 
 mon code html
 
-<%@ include file="fragments/footer.jsp"%>
+<jsp:include page="fragments/footer.jsp"/>
 

@@ -3,14 +3,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="defaultPseudo" value="value=\"${userConnected.pseudo}\""/>
-<c:set var="defaultNom" value="value=\"${userConnected.nom}\""/>
-<c:set var="defaultPrenom" value="value=\"${userConnected.prenom}\""/>
-<c:set var="defaultEmail" value="value=\"${userConnected.email}\""/>
-<c:set var="defaultPhone" value="value=\"${userConnected.phone}\""/>
-<c:set var="defaultRue" value="value=\"${userConnected.adresse.rue}\""/>
-<c:set var="defaultCpo" value="value=\"${userConnected.adresse.cpo}\""/>
-<c:set var="defaultVille" value="value=\"${userConnected.adresse.ville}\""/>
+<c:set var="defaultPseudo" value="value=\"${userToDisplay.pseudo}\""/>
+<c:set var="defaultNom" value="value=\"${userToDisplay.nom}\""/>
+<c:set var="defaultPrenom" value="value=\"${userToDisplay.prenom}\""/>
+<c:set var="defaultEmail" value="value=\"${userToDisplay.email}\""/>
+<c:set var="defaultPhone" value="value=\"${userToDisplay.phone}\""/>
+<c:set var="defaultRue" value="value=\"${userToDisplay.adresse.rue}\""/>
+<c:set var="defaultCpo" value="value=\"${userToDisplay.adresse.cpo}\""/>
+<c:set var="defaultVille" value="value=\"${userToDisplay.adresse.ville}\""/>
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Gestion de Profil"/>
@@ -33,13 +33,13 @@
                     <div class="col input-group mb-3">
                         <span class="col-2 input-group-text" id="idPseudo">Pseudo : <sup class="text-danger">*</sup></span>
                         <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo" required
-                            ${!empty userConnected.pseudo ? defaultPseudo : null}>
+                            ${!empty userToDisplay.pseudo ? defaultPseudo : null}>
 
                     </div>
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idNom">Nom : <sup class="text-danger">*</sup></span>
                         <input type="text" class="form-control" placeholder="Nom" name="nom" required
-                            ${!empty userConnected.nom ? defaultNom : null}>
+                            ${!empty userToDisplay.nom ? defaultNom : null}>
                     </div>
                 </div>
 
@@ -48,12 +48,12 @@
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idPrenom">Prénom : <sup class="text-danger">*</sup></span>
                         <input type="text" class="form-control" placeholder="Prénom" name="prenom" required
-                            ${!empty userConnected.prenom ? defaultPrenom : null}>
+                            ${!empty userToDisplay.prenom ? defaultPrenom : null}>
                     </div>
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idEmail">Email : <sup class="text-danger">*</sup></span>
                         <input type="email" class="form-control" placeholder="E-mail" name="email" required
-                            ${!empty userConnected.email ? defaultEmail : null}>
+                            ${!empty userToDisplay.email ? defaultEmail : null}>
                     </div>
                 </div>
 
@@ -62,12 +62,12 @@
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idTel">Tél : </span>
                         <input type="text" class="form-control" placeholder="Téléphone" name="tel"
-                            ${!empty userConnected.phone ? defaultPhone : null}>
+                            ${!empty userToDisplay.phone ? defaultPhone : null}>
                     </div>
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idRue">Rue : </span>
                         <input type="text" class="form-control" placeholder="Rue" name="rue"
-                            ${!empty userConnected.adresse.rue ? defaultRue : null}>
+                            ${!empty userToDisplay.adresse.rue ? defaultRue : null}>
                     </div>
                 </div>
 
@@ -76,12 +76,12 @@
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idCpo">Code Postal : </span>
                         <input type="text" class="form-control" placeholder="Code Postal" name="cpo"
-                            ${!empty userConnected.adresse.cpo ? defaultCpo : null}>
+                            ${!empty userToDisplay.adresse.cpo ? defaultCpo : null}>
                     </div>
                     <div class="col input-group mb-3">
                         <span class="input-group-text" id="idVille">Ville : </span>
                         <input type="text" class="form-control" placeholder="Ville" name="ville"
-                            ${!empty userConnected.adresse.ville ? defaultVille : null}>
+                            ${!empty userToDisplay.adresse.ville ? defaultVille : null}>
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@
                 <c:if test="${'modification'.equals(affichage)}">
                     <div class="row">
                         <div class="col">
-                            Credit : ${userConnected.credit}
+                            Credit : ${userToDisplay.credit}
                         </div>
                     </div>
                     <div class="row">
@@ -145,4 +145,4 @@
     </div>
 </div>
 
-<%@ include file="fragments/footer.jsp"%>
+<jsp:include page="fragments/footer.jsp"/>

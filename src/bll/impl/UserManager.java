@@ -134,7 +134,7 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
         if (!Pattern.matches(PATTERN_USER,user.getPseudo()))
             GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
-        if (userByPseudo!=null && userByPseudo.getId()!=user.getId() )
+        if (userByPseudo!=null && !userByPseudo.getId().equals(user.getId()))
             GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
     }
 
@@ -159,7 +159,7 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.EMAIL_VIDE);
         if(!Pattern.matches(PATTERN_EMAIL, user.getEmail()))
             GlobalException.getInstance().addError(UserException.EMAIL_INVALIDE);
-        if (userByMail!=null && userByMail.getId()!=user.getId() )
+        if (userByMail!=null && !userByMail.getId().equals(user.getId()))
             GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
     }
 

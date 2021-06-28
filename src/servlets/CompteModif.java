@@ -30,12 +30,13 @@ public class CompteModif extends HttpServlet {
                 Utilisateur userToModify = um.getById(userId);
                 boolean admin = false;
 
-                if(!admin && (userConnected.getId()!=userToModify.getId())){
+                if(!admin && ( !userConnected.getId().equals( userToModify.getId() ) )){
                     //L'utilisateur qui demande la modification de profil n'est pas lui même
                     resp.sendRedirect("accueilS");
                     //req.getRequestDispatcher("accueilS").forward(req, resp);
                 }else{
                     //Modification du profil autorisé
+                    req.setAttribute("userToDisplay", userConnected);
                     req.setAttribute("affichage", "modification");
                     req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
                 }
@@ -51,27 +52,35 @@ public class CompteModif extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IUserManager um = ManagerProvider.getUserManager();
         String action = req.getParameter("action").trim();
-        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
+        Utilisateur userDisplayed = (Utilisateur) req.getSession().getAttribute("userConnected");
+        Utilisateur userUpdated = null;
         try {
             //Mise à jour utilisateur
             if ("maj".equals(action)) {
-                Utilisateur userUpdated = UserManager.prepareUser(req);
+                userUpdated = UserManager.prepareUser(req);
                 String pwConfirmation = req.getParameter("confirmPassword");
                 String actualPassword = req.getParameter("password");
-                um.mettreAJour(userConnected, userUpdated, actualPassword, pwConfirmation);
-                req.getSession().setAttribute("userConnected", um.getById(userConnected.getId()));
-                req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
+                um.mettreAJour(userDisplayed, userUpdated, actualPassword, pwConfirmation);
+
+                //Préparation à l'affichage de la page de gestion avec les modifs prise en compte
+                userDisplayed = um.getById(userDisplayed.getId());
+                req.setAttribute("userToDisplay", userDisplayed);
+                req.setAttribute("affichage", "modification");
+                req.setAttribute("messageErreur", "Votre compte à bien été modifié");
+                req.getSession().setAttribute("userConnected", userDisplayed);
+                req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
             }
 
             //Suppression utilisateur
             if("supprimer".equals(action)){
-                um.supprimer(userConnected.getId());
+                um.supprimer(userDisplayed.getId());
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
             }
         }catch(GlobalException e){
             if("maj".equals(action)) {
                 req.setAttribute("affichage", "modification");
                 req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+                req.setAttribute("userToDisplay", userUpdated);
                 req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
             }
             if("supprimer".equals(action)){

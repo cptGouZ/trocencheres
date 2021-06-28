@@ -79,7 +79,7 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateDebut(debutEnchere);
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
-
+        nouvelArticle.setAdresseRetrait(userEnCours.getAdresse()); //ajouté par julien //TODO à modifier pour l'adresse indiquée dans le formulaire
         validerNomArticle(nouvelArticle);
         validerDescription(nouvelArticle);
         validerPrix(nouvelArticle);
