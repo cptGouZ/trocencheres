@@ -62,11 +62,11 @@ public class CompteModif extends HttpServlet {
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
             }
 
-            /*//Suppression utilisateur
-            if(concernedUser!=null && "remove".equals(action)){
-                um.remove(concernedUser.getId());
+            //Suppression utilisateur
+            if("remove".equals(action)){
+                um.supprimer(userConnected.getId());
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmDelete.jsp").forward(req, resp);
-            }*/
+            }
         }catch(GlobalException e){
             if("maj".equals(action)) {
                 req.setAttribute("affichage", "modification");

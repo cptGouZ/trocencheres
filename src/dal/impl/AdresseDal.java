@@ -60,6 +60,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
             pstmt.setString(3, obj.getVille());
             pstmt.setBoolean(4, obj.getDomicile());
             pstmt.setInt(5, obj.getId());
+            pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
@@ -110,8 +111,11 @@ public class AdresseDal implements IGenericDao<Adresse> {
             while (rs.next()) {
                 adresseRecherchee = new Adresse();
                 adresseRecherchee.setId(rs.getInt("no_adresse"));
-
-                //System.out.println("test recup adresse : " + adresseRecherchee.getId());
+                adresseRecherchee.setRue(rs.getString("rue"));
+                adresseRecherchee.setCpo(rs.getString("cpo"));
+                adresseRecherchee.setVille(rs.getString("ville"));
+                adresseRecherchee.setDomicile(rs.getBoolean("domicile"));
+                adresseRecherchee.setUserId(rs.getInt("no_utilisateur"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
