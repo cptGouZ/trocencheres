@@ -24,18 +24,42 @@ public class UserManager implements IUserManager {
     }
 
     @Override
-    public void mettreAJour(Utilisateur userToUpdate, Utilisateur userUpdated, String passwordConfirmation) throws GlobalException {
+    public void mettreAJour(Utilisateur userToUpdate, Utilisateur userUpdated, String actualPassword , String confPassword) throws GlobalException {
+        /***************************************/
+        /* CONTROLE DU MOT DE PASSE POUR MODIF */
+        /***************************************/
+        validerActualPassword(userToUpdate, actualPassword);
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
+
+        /****************************************/
+        /* MISE A JOUR DE L'UTILISATEUR COURANT */
+        /****************************************/
+        userToUpdate.setPseudo(userUpdated.getPseudo());
+        userToUpdate.setNom(userUpdated.getNom());
+        userToUpdate.setPrenom(userUpdated.getPrenom());
+        userToUpdate.setEmail(userUpdated.getEmail());
+        userToUpdate.setPhone(userUpdated.getPhone());
+        userToUpdate.getAdresse().setRue(userUpdated.getAdresse().getRue());
+        userToUpdate.getAdresse().setCpo(userUpdated.getAdresse().getCpo());
+        userToUpdate.getAdresse().setVille(userUpdated.getAdresse().getVille());
+
         /************************/
         /* CONTROLE DES DONNEES */
         /************************/
-        validerPseudo(userUpdated);
-        validerNom(userUpdated);
-        validerPrenom(userUpdated);
-        validerEmail(userUpdated);
-        validerTelephone(userUpdated);
-        validerProfilPassword(userUpdated,passwordConfirmation);
+        validerPseudo(userToUpdate);
+        validerNom(userToUpdate);
+        validerPrenom(userToUpdate);
+        validerEmail(userToUpdate);
+        validerTelephone(userToUpdate);
+        if(!userUpdated.getPassword().isEmpty()) {
+            //Validation du nouveau mot de passe demandé
+            validerPasswordCreation(userUpdated, confPassword);
+            userToUpdate.setPassword(userUpdated.getPassword());
+        }
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
+
         /*****************************************/
         /* Modification de l'utilisateur en base */
         /*****************************************/
@@ -99,17 +123,18 @@ public class UserManager implements IUserManager {
     private final String PATTERN_USER = "^[\\p{L}0-9]*$";
     private final String PATTERN_PRENOM = "^[\\p{L}0-9]*$";
     private final String PATTERN_NOM = "^[\\p{L}0-9]*$";
-    private final String PATTERN_EMAIL = "^[\\w-]*@[a-z0-9-]*\\.[a-z]*$";
+    private final String PATTERN_EMAIL = "^[\\w-\\.]*@[a-z0-9-\\.]*\\.[a-z]*$";
     private final String PATTERN_TELEPHONE = "^\\d{10}$";
     private final String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
 
     private void validerPseudo(Utilisateur user) throws GlobalException {
         IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+        Utilisateur userByPseudo = userDao.selectByPseudo(user.getPseudo());
         if (user.getPseudo().isEmpty())
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
         if (!Pattern.matches(PATTERN_USER,user.getPseudo()))
             GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
-        if (userDao.selectByPseudo(user.getPseudo())!=null)
+        if (userByPseudo!=null && userByPseudo.getId()!=user.getId() )
             GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
     }
 
@@ -129,11 +154,12 @@ public class UserManager implements IUserManager {
 
     private void validerEmail(Utilisateur user) throws GlobalException {
         IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+        Utilisateur userByMail = userDao.selectByEmail(user.getEmail());
         if(user.getEmail().isEmpty())
-            GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
+            GlobalException.getInstance().addError(UserException.EMAIL_VIDE);
         if(!Pattern.matches(PATTERN_EMAIL, user.getEmail()))
-            GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
-        if (userDao.selectByEmail(user.getEmail())!=null)
+            GlobalException.getInstance().addError(UserException.EMAIL_INVALIDE);
+        if (userByMail!=null && userByMail.getId()!=user.getId() )
             GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
     }
 
@@ -144,7 +170,7 @@ public class UserManager implements IUserManager {
         }
     }
 
-    private void validerProfilPassword(Utilisateur user, String password){
+    private void validerActualPassword(Utilisateur user, String password){
         if(password.isEmpty())
             GlobalException.getInstance().addError(UserException.PASSWORD_VIDE);
         if(!user.getPassword().equals(password))
@@ -176,14 +202,10 @@ public class UserManager implements IUserManager {
         String rue = req.getParameter("rue").trim();
         String cpo = req.getParameter("cpo").trim();
         String ville = req.getParameter("ville").trim();
+        String password = req.getParameter("newPassword").trim();
         Adresse newAdresse = new Adresse(rue, cpo, ville,true);
         Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel);
-
-        //Gestion des mot de passe
-        String newPassword = req.getParameter("newPassword").trim();
-        if (!newPassword.isEmpty()){
-            newUser.setPassword(newPassword);
-        }
+        newUser.setPassword(password);
         return newUser;
     }
 }

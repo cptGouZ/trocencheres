@@ -54,10 +54,11 @@ public class CompteModif extends HttpServlet {
         try {
             //Mise à jour utilisateur
             if ("maj".equals(action)) {
-                Utilisateur userToUpdate = userConnected;
                 Utilisateur userUpdated = UserManager.prepareUser(req);
                 String pwConfirmation = req.getParameter("confirmPassword");
-                um.mettreAJour(userToUpdate, userUpdated,pwConfirmation);
+                String actualPassword = req.getParameter("password");
+                um.mettreAJour(userConnected, userUpdated, actualPassword, pwConfirmation);
+                req.getSession().setAttribute("userConnected", um.getById(userConnected.getId()));
                 req.getRequestDispatcher("WEB-INF/gestionCompte/confirmUpdate.jsp").forward(req, resp);
             }
 

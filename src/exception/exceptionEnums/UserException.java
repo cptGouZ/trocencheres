@@ -12,6 +12,7 @@ public interface UserException extends EnumException {
     int PSEUDO_EXISTANT = 1100;
     int PSEUDO_VIDE = 1105;
     int PSEUDO_INVALIDE = 1110;
+    int EMAIL_VIDE = 1115;
     int EMAIL_INVALIDE = 1120;
     int EMAIL_EXISTANT = 1121;
     int CONNEXION_USER_FAIL = 1140 ;
