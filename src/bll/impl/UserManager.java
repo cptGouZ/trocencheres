@@ -10,6 +10,7 @@ import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Pattern;
 
 public class UserManager implements IUserManager {
@@ -23,16 +24,16 @@ public class UserManager implements IUserManager {
     }
 
     @Override
-    public void mettreAJour(Utilisateur user, String userPassword) throws GlobalException {
+    public void mettreAJour(Utilisateur userToUpdate, Utilisateur userUpdated, String passwordConfirmation) throws GlobalException {
         /************************/
         /* CONTROLE DES DONNEES */
         /************************/
-        validerPseudo(user);
-        validerNom(user);
-        validerPrenom(user);
-        validerEmail(user);
-        validerTelephone(user);
-        validerProfilPassword(user,userPassword);
+        validerPseudo(userUpdated);
+        validerNom(userUpdated);
+        validerPrenom(userUpdated);
+        validerEmail(userUpdated);
+        validerTelephone(userUpdated);
+        validerProfilPassword(userUpdated,passwordConfirmation);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
         /*****************************************/
@@ -40,10 +41,10 @@ public class UserManager implements IUserManager {
         /*****************************************/
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
-        userDao.update(user);
+        userDao.update(userUpdated);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
-        adresseDao.update(user.getAdresse());
+        adresseDao.update(userUpdated.getAdresse());
     }
 
     //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ?
@@ -59,19 +60,20 @@ public class UserManager implements IUserManager {
     }
 
     @Override
-    public void creer(Utilisateur user, String newPassword, String confirmationPassword) throws GlobalException {
+    public void creer(Utilisateur user, String confirmationPassword) throws GlobalException {
         IAdresseManager am = ManagerProvider.getAdresseManager();
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         /************************/
         /* CONTROLE DES DONNEES */
         /************************/
+        validerPseudo(user);
         validerNom(user);
         validerPrenom(user);
+        validerEmail(user);
         validerTelephone(user);
-        validerPasswordCreation(newPassword, confirmationPassword);
+        validerPasswordCreation(user, confirmationPassword);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
-        user.setPassword(newPassword); //Association du mot de passe validé à l'utilisateur
 
         /**************************/
         /* MANIPULATION DE LA DAL */
@@ -149,18 +151,39 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.PASSWORD_NO_MATCH);
     }
 
-    private void validerPasswordCreation(String newPassword, String confirmationPassword){
+    private void validerPasswordCreation(Utilisateur user, String confirmationPassword){
         //Contrôle du nouveau mot de passe
-        if(newPassword.isEmpty())
+        if(user.getPassword().isEmpty())
             GlobalException.getInstance().addError(UserException.NEW_PASSWORD_VIDE);
-        if(!Pattern.matches(PATTERN_PASSWORD, newPassword))
+        if(!Pattern.matches(PATTERN_PASSWORD, user.getPassword()))
             GlobalException.getInstance().addError((UserException.NEW_PASSWORD_INVALIDE));
         //Contrôle du mot de passe de confirmation
         if(confirmationPassword.isEmpty())
             GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD_VIDE);
         //Contrôle de la cohérence des deux mots de passe
-        if(!newPassword.isEmpty() && !confirmationPassword.isEmpty()
-           && !newPassword.equals(confirmationPassword))
+        if(!user.getPassword().equals(confirmationPassword))
             GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD_NO_MATCH);
+    }
+
+    public static Utilisateur prepareUser(HttpServletRequest req) throws GlobalException{
+        //Récupération des données de la page partie user
+        String pseudo = req.getParameter("pseudo").trim();
+        String nom = req.getParameter("nom").trim();
+        String prenom = req.getParameter("prenom").trim();
+        String email = req.getParameter("email").trim();
+        String tel = req.getParameter("tel").trim();
+        //Récupération des données de la page partie adresse
+        String rue = req.getParameter("rue").trim();
+        String cpo = req.getParameter("cpo").trim();
+        String ville = req.getParameter("ville").trim();
+        Adresse newAdresse = new Adresse(rue, cpo, ville,true);
+        Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel);
+
+        //Gestion des mot de passe
+        String newPassword = req.getParameter("newPassword").trim();
+        if (!newPassword.isEmpty()){
+            newUser.setPassword(newPassword);
+        }
+        return newUser;
     }
 }

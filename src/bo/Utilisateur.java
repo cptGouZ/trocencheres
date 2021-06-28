@@ -56,6 +56,15 @@ public class Utilisateur implements Serializable {
     public Utilisateur(String pseudo) {
         this.pseudo = pseudo;
     }
+
+    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone) {
+        this.adresse = adresse;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.phone = phone;
+    }
 }
 
 

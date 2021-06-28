@@ -11,9 +11,9 @@
     <div class="row">
         <div class="col-xs-12 col-md-6">
             <div>Pseudo : ${userDisplayed.pseudo}</div>
-                <div>Nom : ${userDisplayed.nom}</div>
-                <div>Prenom : ${userDisplayed.prenom}</div>
-                <div>Email : ${userDisplayed.email}</div></br></br>
+            <div>Nom : ${userDisplayed.nom}</div>
+            <div>Prenom : ${userDisplayed.prenom}</div>
+            <div>Email : ${userDisplayed.email}</div></br></br>
         </div>
 
         <div class="col-xs-12 col-md-6">
@@ -27,17 +27,13 @@
     <%--Pouvoir modifier les informations si le profil est celui de l'utilisateur--%>
     <div class="row">
         <div class="col-xs-12 col-md-6">
-            <form action="${pageContext.request.contextPath}/accueilS" method="get">
-                <button class="btn btn-success mb-3" type="submit">Back</button>
-            </form>
+            <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/accueilS">Back</a>
         </div>
-
-        <div class="col-xs-12 col-md-6">
-            <c:if test="${empty sessionScope.get(connectedUser.id)}">
-                <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/gestioncompte?userId=${userDisplayed.id}">Modifier</a>
-            <div>
-            </c:if>
-        </div>
+        <c:if test="${userConnected.id==userDisplayed.id}">
+            <div class="col-xs-12 col-md-6">
+                    <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/comptemodif">Modifier</a>
+            </div>
+        </c:if>
     </div>
 </div>
 
