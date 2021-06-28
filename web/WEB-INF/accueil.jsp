@@ -17,6 +17,7 @@
                 <label for="categorie">Categorie : </label>
                 <select name="categorie" id="categorie">
                     <option value="toutes">toutes</option>
+                    <!--On boucle pour inclure la liste des categories-->
                     <c:forEach items="${libellesCategories}" var="libelleCategorie">
                         <option value="${libelleCategorie}">${libelleCategorie}</option>
                     </c:forEach>

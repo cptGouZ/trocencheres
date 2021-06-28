@@ -24,7 +24,7 @@
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
                             <span class="input-group-text" >Identifiant : <p class="text-danger">* </p>
-                            <input type="text" class="form-control" placeholder="pseudo / email" name="login" ${!empty cookie userConnected.adresse.rue ? defaultRue : null}> required></span>
+                            <input type="text" class="form-control" placeholder="pseudo / email" name="login" ${!empty cookieuserConnected.adresse.rue ? defaultRue : null}> required></span>
                         </div>
                         <%--MDP--%>
                         <div class="input-group mb-3">
