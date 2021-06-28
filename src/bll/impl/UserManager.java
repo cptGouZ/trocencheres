@@ -65,10 +65,10 @@ public class UserManager implements IUserManager {
         /*****************************************/
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
-        userDao.update(userUpdated);
+        userDao.update(userToUpdate);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
-        adresseDao.update(userUpdated.getAdresse());
+        adresseDao.update(userToUpdate.getAdresse());
     }
 
     //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ?

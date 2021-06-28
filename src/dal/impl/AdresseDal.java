@@ -51,14 +51,27 @@ public class AdresseDal implements IGenericDao<Adresse> {
 
     @Override
     public void update(Adresse obj) throws GlobalException {
-
+        final String UPDATE = "UPDATE adresses SET rue=?, cpo=?, ville=?, domicile=? WHERE no_adresse=?";
+        try(Connection cnx = ConnectionProvider.getConnection();
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
+        ){
+            pstmt.setString(1, obj.getRue());
+            pstmt.setString(2, obj.getCpo());
+            pstmt.setString(3, obj.getVille());
+            pstmt.setBoolean(4, obj.getDomicile());
+            pstmt.setInt(5, obj.getId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            throw GlobalException.getInstance();
+        }
     }
 
     @Override
     public void delete(int id) throws GlobalException {
         final String INSERT = "INSERT INTO adresses (rue, cpo, ville, no_utilisateur, domicile) VALUES (?, ?, ?, ?, ?)";
         try(Connection cnx = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT);
         ){
             pstmt.setInt(1, id);
         } catch (SQLException throwables) {
