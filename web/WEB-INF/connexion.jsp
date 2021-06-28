@@ -4,7 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ include file="fragments/header.jsp"%>
+<jsp:include page="fragments/header.jsp">
+    <jsp:param name="titre" value="Connexion"/>
+</jsp:include>
 
 
             <%--BLOC CONNEXION--%>

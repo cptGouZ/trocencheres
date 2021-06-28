@@ -5,16 +5,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="fragments/header.jsp"%>
-<% Article article = new Article();
-out.print(article.getArticle());%>
-<c:set var="article" value="${<% article %>}"/>
 
 <div class="row">
     <div class="col">
         <div class="row justify-content-center">
             <span class="col-2">${article.article}</span>
         </div>
-        <span class="row justify-content-center">
+        <div class="row justify-content-center">
             <div class="col-4">
                 <span class="input-group-text">Description: </span>
                 <textarea cols="56">${article.description}</textarea>
@@ -24,7 +21,7 @@ out.print(article.getArticle());%>
             <span class="col-4 input-group-text" >Catégorie : ${article.categorie.libelle}</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Meilleur offre : $arecupérer crédits par LeRafleur</span>
+            <span class="col-4 input-group-text" >Meilleur offre : ${enchere.utilisateur.nom}</span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitiale} crédits</span>
@@ -33,10 +30,10 @@ out.print(article.getArticle());%>
             <span class="col-4 input-group-text" >Fin de l'enchère : ${article.dateFin} à 23h59</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Retrait : 10 allé des alouettes 44800 St-Herblain</span>
+            <span class="col-4 input-group-text" >Retrait : ${article.adresse.rue += article.adresse.cpo += article.addresse.ville}</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Vendeur : jojo l'asticot</span>
+            <span class="col-4 input-group-text" >Vendeur : ${article.utilisateur.pseudo}</span>
         </div>
         <div class="row justify-content-center">
             <div class="col-4">

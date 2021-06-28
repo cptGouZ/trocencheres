@@ -12,7 +12,9 @@
 <c:set var="defaultCpo" value="value=\"${userConnected.adresse.cpo}\""/>
 <c:set var="defaultVille" value="value=\"${userConnected.adresse.ville}\""/>
 
-<%@ include file="fragments/header.jsp"%>
+<jsp:include page="fragments/header.jsp">
+    <jsp:param name="titre" value="Gestion de Profil"/>
+</jsp:include>
 <div class="row">
     <div class="col">
         <%--Message d'erreur de connexion--%>

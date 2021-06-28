@@ -3,12 +3,13 @@
 <%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ include file="fragments/header.jsp"%>
+<jsp:include page="fragments/header.jsp">
+    <jsp:param name="titre" value="Accueil"/>
+</jsp:include>
 
 <!-- PARTIE RECHERCHE-->
-<div class="input-group mb-3">
-    <div class="col-auto">
-        <p>Liste des encheres</p>
+<div class="row">
+    <div class="col-12 col-md-6 col-lg-3">
         <form action="${pageContext.request.contextPath}/accueilS" method="post">
             <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
             <!-- Import fragment Categorie-->

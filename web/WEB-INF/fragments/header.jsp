@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-    <title>Troc Enchères</title>
+    <title>TrocEnchère</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,8 +15,8 @@
 <body class="container">
     <%@ include file="background.jsp"%>
     <header class="row">
-        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true"><img src="<%=request.getContextPath()%>/images/logos.png" ></a>  </div>
-        <div class="col">${title}</div>
+        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true"><img src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
+        <div class="col"><h1>${param.get("titre")}</h1></div>
         <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>
         </c:if>
