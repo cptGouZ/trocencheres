@@ -97,8 +97,6 @@ public class Vente extends HttpServlet {
                             prixDepart,
                             newAdresse);
 
-
-
             //Affiche un message confirmant la création de l'article en BDD
             String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;
             req.setAttribute("messageCreationArticle" , creationArticleOk);

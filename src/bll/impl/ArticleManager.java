@@ -27,10 +27,10 @@ public class ArticleManager implements IArticleManager {
 
 
     @Override
-    public Article getByID(int id) throws GlobalException {
+    public Article getById(int id) throws GlobalException {
         Article art = null;
         IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-        art.setId(id);
+        art = IDao.selectById(id);
         return art;
     }
 
@@ -81,9 +81,13 @@ public class ArticleManager implements IArticleManager {
     @Override
     public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart, Adresse newAdresse) throws GlobalException {
 
+        //Création d'un nouvel article
         Article nouvelArticle = new Article();
+
+        //Récupérer un articleDAO
         IGenericDao<Article> cDao = DaoProvider.getArticleDao();
 
+        //Insérer dans l'article créé toutes les données récupérées de la BLL
         nouvelArticle.setUtilisateur(userEnCours);
         nouvelArticle.setCategorie(new Categorie(categorie));
         nouvelArticle.setArticle(article);
@@ -92,24 +96,30 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
 
+        //Test que l'adresse renseignée est strictement identique à l'adresse par défaut de l'utilisateur
         if          (newAdresse.getRue().equals(userEnCours.getAdresse().getRue())
                 &&  (newAdresse.getCpo().equals(userEnCours.getAdresse().getCpo())
                 &&  (newAdresse.getVille().equals((userEnCours.getAdresse().getVille()))))){
+
+            //Associe l'adresse par défaut à l'article créé
             newAdresse = userEnCours.getAdresse() ;
             nouvelArticle.setAdresseRetrait(newAdresse);
         } else {
+            //Sinon associe l'adresse saisie à l'article créé
             nouvelArticle.setAdresseRetrait(newAdresse);
         }
 
+        //Validation des champs saisies
         validerNomArticle(nouvelArticle);
         validerDescription(nouvelArticle);
         validerPrix(nouvelArticle);
+        //TODO Validation des autres champs
 
+        //Transmission du nouvel article à la DAL
         cDao.insertNewArticle(nouvelArticle);
 
         return nouvelArticle ;
     }
-
 
     /**************************/
     /* CONTROLES DE L'ARTICLE */
