@@ -8,6 +8,7 @@ import dal.ConnectionProvider;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
+import exception.exceptionEnums.AppException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -267,7 +268,8 @@ public class ArticleDal implements IGenericDao<Article> {
             pStmt.setInt(7,newArticle.getCategorie().getId());
 
             System.out.println("test adresse : " + newArticle.getUtilisateur().getAdresse().getId());
-            pStmt.setInt(8,newArticle.getUtilisateur().getAdresse().getId());
+
+            pStmt.setInt(8,newArticle.getAdresseRetrait().getId());
 
             pStmt.executeUpdate();
             ResultSet rs = pStmt.getGeneratedKeys() ;
@@ -278,6 +280,8 @@ public class ArticleDal implements IGenericDao<Article> {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            throw GlobalException.getInstance();
         }
         return newArticle;
     }

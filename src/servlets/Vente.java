@@ -82,6 +82,10 @@ public class Vente extends HttpServlet {
             IArticleManager icm = ManagerProvider.getArticleManager();
             IAdresseManager iam = ManagerProvider.getAdresseManager();
 
+            Adresse newAdresse = null ;
+            newAdresse = new Adresse(rue,cpo,ville,idUtilisateur,false);
+            iam.creer(newAdresse);
+
             Article newArticle = null ;
                 newArticle = icm.insertNewArticle(
                             userEnCours,
@@ -90,11 +94,10 @@ public class Vente extends HttpServlet {
                             description,
                             debutEnchereBll,
                             finEnchereBll,
-                            prixDepart);
+                            prixDepart,
+                            newAdresse);
 
-            Adresse newAdresse = null ;
-            newAdresse = new Adresse(rue,cpo,ville,idUtilisateur,false);
-            iam.creer(newAdresse);
+
 
             //Affiche un message confirmant la création de l'article en BDD
             String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;

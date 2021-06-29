@@ -18,7 +18,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
     private static final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
 
     @Override
-    public Utilisateur selectByEmail(String login) {
+    public Utilisateur selectByEmail(String login) throws GlobalException {
 
         Utilisateur utilisateurEnBdd = null ;
 
@@ -40,7 +40,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
     }
 
     @Override
-    public Utilisateur selectByPseudo(String pseudo) {
+    public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
 
         Utilisateur utilisateurEnBdd = null;
 
@@ -142,7 +142,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         return retour;
     }
 
-    private Utilisateur userFromRs(ResultSet rs) throws SQLException {
+    private Utilisateur userFromRs(ResultSet rs) throws SQLException, GlobalException {
         Utilisateur retour = new Utilisateur();
         retour.setId(rs.getInt("no_utilisateur"));
         retour.setPseudo(rs.getString("pseudo"));
