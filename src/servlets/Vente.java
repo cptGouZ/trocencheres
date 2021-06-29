@@ -60,7 +60,6 @@ public class Vente extends HttpServlet {
         String cpo = req.getParameter("cpo").trim();
         String ville = req.getParameter("ville").trim();
 
-
         req.setAttribute("articleSaisie",article);
         req.setAttribute("descriptionSaisie",description);
         req.setAttribute("categorieSaisie",categorie);
@@ -70,6 +69,7 @@ public class Vente extends HttpServlet {
         req.setAttribute("rueSaisie",rue);
         req.setAttribute("cpoSaisie",cpo);
         req.setAttribute("villeSaisie",ville);
+
 
 
         try {
@@ -94,6 +94,9 @@ public class Vente extends HttpServlet {
             String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;
             req.setAttribute("messageCreationArticle" , creationArticleOk);
 
+            //Reset tout les champs saisis lors de la création de l'article
+            req.setAttribute("articleCree", null);
+
             //Et renvoi à la page de création de la vente
             req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
 
@@ -106,7 +109,7 @@ public class Vente extends HttpServlet {
             req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
         }
 
-
-
     }
+
+    p
 }
