@@ -28,6 +28,6 @@
         </c:if>
 
         <%--Message Création Article OK--%>
-        <p class="text-decoration-underline text-danger">${empty messageCreationArticle ? "" : messageCreationArticle}</p>
+        ${empty messageCreationArticle ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageCreationArticle+="</p>"}
     </header>
 
