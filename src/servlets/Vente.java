@@ -6,7 +6,9 @@ import bll.interfaces.IArticleManager;
 import bll.interfaces.IConnexionManager;
 import bo.Adresse;
 import bo.Article;
+import bo.Categorie;
 import bo.Utilisateur;
+import com.sun.xml.internal.bind.v2.TODO;
 import exception.GlobalException;
 
 import javax.servlet.RequestDispatcher;
@@ -45,7 +47,8 @@ public class Vente extends HttpServlet {
 
         String article = req.getParameter("article").trim();
         String description = req.getParameter("description").trim();
-        Integer categorie = Integer.valueOf(req.getParameter("categorie").trim());
+        String categorieString = req.getParameter("categorie").trim() ;
+        Integer categorie = Integer.valueOf(categorieString);
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart").trim());
 
         String debutEnchere = req.getParameter("debutEnchere").trim();
@@ -60,6 +63,11 @@ public class Vente extends HttpServlet {
         String cpo = req.getParameter("cpo").trim();
         String ville = req.getParameter("ville").trim();
 
+        //TODO Creer un article avec tous les champs saisies;
+        /*Adresse adresseSaisie = new Adresse(rue,cpo,ville);
+        Categorie categorie = new Categorie(categorieString.);
+        Article articleSaisie = new Article(userEnCours,,article,description,debutEnchere,finEnchere,prixDepart,adresseSaisie);*/
+
         req.setAttribute("articleSaisie",article);
         req.setAttribute("descriptionSaisie",description);
         req.setAttribute("categorieSaisie",categorie);
@@ -69,8 +77,6 @@ public class Vente extends HttpServlet {
         req.setAttribute("rueSaisie",rue);
         req.setAttribute("cpoSaisie",cpo);
         req.setAttribute("villeSaisie",ville);
-
-
 
         try {
             IArticleManager icm = ManagerProvider.getArticleManager();
@@ -95,7 +101,15 @@ public class Vente extends HttpServlet {
             req.setAttribute("messageCreationArticle" , creationArticleOk);
 
             //Reset tout les champs saisis lors de la création de l'article
-            req.setAttribute("articleCree", null);
+            req.setAttribute("articleSaisie", null);
+            req.setAttribute("descriptionSaisie", null);
+            req.setAttribute("categorieSaisie", null);
+            req.setAttribute("prixSaisie", null);
+            req.setAttribute("dateDebutSaisie", null);
+            req.setAttribute("dateFinSaisie", null);
+            req.setAttribute("rueSaisie", null);
+            req.setAttribute("cpoSaisie", null);
+            req.setAttribute("villeSaisie", null);
 
             //Et renvoi à la page de création de la vente
             req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
@@ -110,6 +124,4 @@ public class Vente extends HttpServlet {
         }
 
     }
-
-    p
 }

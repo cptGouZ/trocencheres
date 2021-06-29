@@ -75,7 +75,7 @@
                  <br>
 
              <%--BLOC RETRAIT--%>
-                 <div class="border border-dark">Adresse de retrait
+                 <div class="border border-dark">Adresse de retrait :
                 <%--RUE--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Rue : </span>
