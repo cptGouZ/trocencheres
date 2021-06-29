@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdresseDal implements IGenericDao<Adresse> {
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_adresse=? " ;
     private static final String SQL_SELECT_BY_USER_ID = "SELECT * FROM ADRESSES WHERE no_utilisateur=? AND domicile=1 " ;
 
     /**
@@ -84,7 +83,21 @@ public class AdresseDal implements IGenericDao<Adresse> {
 
     @Override
     public Adresse selectById(int id) throws GlobalException {
-        return new Adresse();
+        final String SQL_SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_adresse=?" ;
+        Adresse adresseRecherchee = null;
+        try (
+                Connection uneConnection = ConnectionProvider.getConnection();
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_ID);
+        ) {
+            pStmt.setInt(1, id);
+            ResultSet rs = pStmt.executeQuery();
+            while (rs.next()) {
+                adresseRecherchee = adresseFromRs(rs);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return adresseRecherchee ;
     }
 
     @Override
@@ -98,29 +111,29 @@ public class AdresseDal implements IGenericDao<Adresse> {
     }
 
     public Adresse selectUserDomicile(int idUtilisateur) {
-
         Adresse adresseRecherchee = null;
-
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
                 PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_USER_ID);
         ) {
             pStmt.setInt(1, idUtilisateur);
             ResultSet rs = pStmt.executeQuery();
-
             while (rs.next()) {
-                adresseRecherchee = new Adresse();
-                adresseRecherchee.setId(rs.getInt("no_adresse"));
-                adresseRecherchee.setRue(rs.getString("rue"));
-                adresseRecherchee.setCpo(rs.getString("cpo"));
-                adresseRecherchee.setVille(rs.getString("ville"));
-                adresseRecherchee.setDomicile(rs.getBoolean("domicile"));
-                adresseRecherchee.setUserId(rs.getInt("no_utilisateur"));
+                adresseRecherchee = adresseFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return adresseRecherchee ;
+    }
+    private Adresse adresseFromRs(ResultSet rs) throws SQLException {
+        Adresse retour = new Adresse();
+        retour.setId(rs.getInt("no_adresse"));
+        retour.setRue(rs.getString("rue"));
+        retour.setCpo(rs.getString("cpo"));
+        retour.setVille(rs.getString("ville"));
+        retour.setDomicile(rs.getBoolean("domicile"));
+        retour.setUserId(rs.getInt("no_utilisateur"));
+        return retour;
     }
 }
