@@ -2,6 +2,7 @@ package dal;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
 
@@ -33,5 +34,8 @@ public interface IGenericDao<T> {
 
     //Methode spécifique à Categorie
     default List<String> selectLibelleCategories() throws GlobalException {return null;}
+
+    //Méthode spécifique à Enchere
+    default Enchere selectEnchereMaxByIdArticle(int idArticle) throws GlobalException {return null ;}
 
 }
