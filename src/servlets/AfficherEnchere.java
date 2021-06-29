@@ -57,7 +57,6 @@ public class AfficherEnchere extends HttpServlet {
                 req.setAttribute("affichagejsp", "retirer");
 
 
-
             /****************************************/
             /* TRAITEMENT DES DONNEES A ENREGISTRER */
             /****************************************/
@@ -70,12 +69,18 @@ public class AfficherEnchere extends HttpServlet {
                 req.setAttribute("affichagejsp", "retirer");
                 am.retirer(articleToDisplay);
             }
-            /* insertion des objet dans la jsp */
+
+
+            /**************************************************/
+            /* insertion des objet dans la jsp et redirection */
+            /**************************************************/
             req.setAttribute("article", articleToDisplay);
             req.setAttribute("enchere", lastEnchere);
             req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
         } catch (GlobalException e) {
             e.printStackTrace();
+            req.setAttribute("message", GlobalException.getInstance().getMessageErrors());
+            req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
         }
     }
 }

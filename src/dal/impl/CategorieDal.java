@@ -18,19 +18,19 @@ public class CategorieDal implements IGenericDao<Categorie> {
     @Override
     @Deprecated
     public void insert(Categorie obj) throws GlobalException {
-        //Non implémentée
+        //Non implémenté
     }
 
     @Override
     @Deprecated
     public void update(Categorie obj) throws GlobalException {
-        //Non implémentée
+        //Non implémenté
     }
 
     @Override
     @Deprecated
     public void delete(int id) throws GlobalException {
-        //Non implémentée
+        //Non implémenté
     }
 
     @Override
@@ -53,7 +53,8 @@ public class CategorieDal implements IGenericDao<Categorie> {
         }
         return retour;
     }
-        @Override
+
+    @Override
     public List<Categorie> selectAll() throws GlobalException {
         final String SELECT_BY_ID = "SELECT * FROM CATEGORIES";
         List<Categorie> retour = new ArrayList<>();

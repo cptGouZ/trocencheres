@@ -18,4 +18,14 @@ public class CategorieManager implements ICategorieManager {
         }
         return retour;
     }
+
+    @Override
+    public List<Categorie> getAll() throws GlobalException {
+        return DaoProvider.getCategorieDao().selectAll();
+    }
+
+    @Override
+    public Categorie getById(int id) throws GlobalException {
+        return DaoProvider.getCategorieDao().selectById(id);
+    }
 }
