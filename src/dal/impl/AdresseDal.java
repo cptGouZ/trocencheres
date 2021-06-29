@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdresseDal implements IGenericDao<Adresse> {
-
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_utilisateur=? AND domicile=1 " ;
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ADRESSES WHERE no_adresse=? " ;
+    private static final String SQL_SELECT_BY_USER_ID = "SELECT * FROM ADRESSES WHERE no_utilisateur=? AND domicile=1 " ;
 
     /**
      * Permet d'enregistrer une nouvelle adresse en BDD
@@ -97,7 +97,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
         return IGenericDao.super.selectAllAdresseByUser(userId);
     }
 
-    public Adresse selectUserDomicile(int idUtilisateur) throws GlobalException {
+    public Adresse selectUserDomicile(int idUtilisateur) {
 
         Adresse adresseRecherchee = null;
 
@@ -119,8 +119,6 @@ public class AdresseDal implements IGenericDao<Adresse> {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
-            throw GlobalException.getInstance();
         }
 
         return adresseRecherchee ;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IArticleManager {
-    Article getByID(int id) throws GlobalException;
+    Article getById(int id) throws GlobalException;
     List<Article> getAll() throws GlobalException;
 
     List<Article> getByCrit1(String articleName, String catName) throws GlobalException;

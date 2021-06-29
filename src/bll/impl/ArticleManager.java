@@ -30,10 +30,10 @@ public class ArticleManager implements IArticleManager {
 
 
     @Override
-    public Article getByID(int id) throws GlobalException {
+    public Article getById(int id) throws GlobalException {
         Article art = null;
         IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-        art.setId(id);
+        art = IDao.selectById(id);
         return art;
     }
 

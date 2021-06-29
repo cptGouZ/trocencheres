@@ -21,7 +21,7 @@
             <span class="col-4 input-group-text" >Catégorie : ${article.categorie.libelle}</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Meilleur offre : ${enchere.utilisateur.nom} pts par ${enchere.montant}</span>
+            <span class="col-4 input-group-text" >Meilleur offre : ${enchere.montant} pts par ${enchere.user.prenom} ${enchere.user.nom} </span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitiale} crédits</span>
@@ -30,7 +30,7 @@
             <span class="col-4 input-group-text" >Fin de l'enchère : ${article.dateFin} à 23h59</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Retrait : ${article.adresse.rue += article.adresse.cpo += article.addresse.ville}</span>
+            <span class="col-4 input-group-text" >Retrait : ${article.adresseRetrait.rue += article.adresseRetrait.cpo += article.adresseRetrait.ville}</span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Vendeur : ${article.utilisateur.pseudo}</span>
