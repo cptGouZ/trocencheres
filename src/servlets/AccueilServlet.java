@@ -26,38 +26,37 @@ public class AccueilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //On recupere la categorie, et le nom quand l'utilisateur le saisit
-        //System.out.println("debut servlet "+ req.getParameter("textechoix"));
         String textechoix = req.getParameter("textechoix");
         String categorie = req.getParameter("categorie");
-        //System.out.println(categorie);
 
         //Récupérer eglt les checkbox
+        boolean ventesTerm = req.getParameter( "ven3" ) != null;
         boolean encheresOuv = req.getParameter( "ach1" ) != null;
+        boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
         boolean encheresEnCours = req.getParameter( "ach2" ) != null;
         boolean encheresRemp = req.getParameter( "ach3" ) != null;
         boolean ventesEnCours = req.getParameter( "ven1" ) != null;
-        boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
-        boolean ventesTerm = req.getParameter( "ven3" ) != null;
 
-        //Si un élément de tri est effectué, on appelle la requête par tri
-//       if( ((textechoix != null) || encheresOuv == true || encheresEnCours == true ||
-//                encheresRemp == true || ventesEnCours == true || ventesNonDeb == true || ventesTerm == true) &&  !"toutes".equals(categorie)   ) {
+        //Affichage par categorie
+        //On fait appel a ArticleManager
+        List<Article> articleList2 = new ArrayList<>();
+        IArticleManager am2 = ManagerProvider.getArticleManager();
+        //articleList2 = am2.getByCrit1(textechoix, categorie);
+        //req.setAttribute("listedesarticles", articleList2);
 
-            //Affichage par categorie
-            //On fait appel a ArticleManager
-            List<Article> articleList2 = new ArrayList<>();
-            IArticleManager am2 = ManagerProvider.getArticleManager();
-            articleList2 = am2.getByCriteres(textechoix, categorie, encheresOuv, encheresEnCours, encheresRemp, ventesEnCours, ventesNonDeb, ventesTerm);
+        List<String> listeCat;
+        listeCat = am2.getLibellesCategorie();
+        req.setAttribute("libellesCategories", listeCat);
 
-            //La servlet envoie l'info à la JSP !
-            req.setAttribute("listedesarticles", articleList2);
-            List<String> listeCat;
-            listeCat = am2.getLibellesCategorie();
-            req.setAttribute("libellesCategories", listeCat);
-            //Redirection vers accueil
-            RequestDispatcher rd;
-            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-            rd.forward(req, resp);
+        //if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
+            List<Article> articleList3;
+            articleList3 = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours);
+            req.setAttribute("listedesarticles", articleList3);/*}*/
+
+        //Redirection vers accueil
+        RequestDispatcher rd;
+        rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
+        rd.forward(req, resp);
         //}
         //Si absence de tri, on appelle le SelectAll donc on rappelle la méthode doGet afin d'afficher tous les articles
         //else {this.doGet(req, resp);}

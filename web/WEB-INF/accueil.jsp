@@ -19,8 +19,9 @@
             <!--Voir les informations Ventes et Achats si le profil est connecté-->
             <c:if test="${!empty sessionScope.get('userConnected')}">
             <div class="row mb-3">
-                <div class="col-auto">
-                    <p>Achats</p>
+                <div class="border border-dark">
+                    <input type="radio" name="acha" id="a" checked/>
+                    <label for="a">Achats</label><br />
                     <input type="checkbox" name="ach1" id="c1"/>
                     <label for="c1">encheres ouvertes</label><br />
                     <input type="checkbox" name="ach2" id="c2"/>
@@ -28,8 +29,9 @@
                     <input type="checkbox" name="ach3" id="c3"/>
                     <label for="c3">mes encheres remportees</label><br />
                 </div>
-                <div class="col-auto">
-                    <p>Mes ventes</p>
+                <div class="border border-dark">
+                    <input type="radio" name="acha" id="v"/>
+                    <label for="v">Ventes</label><br />
                     <input type="checkbox" name="ven1" id="c4"/>
                     <label for="c4">mes ventes en cours</label><br />
                     <input type="checkbox" name="ven2" id="c5"/>
@@ -58,7 +60,7 @@
                         out.print("<div>Objet : " + item.getArticle() + "</div>");
                         out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
-                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div></br>");
+                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br>");
                 %>
             <%--Lien vers profil vendeur si le profil est connecté--%>
             <c:if test="${!empty sessionScope.get('userConnected')}">

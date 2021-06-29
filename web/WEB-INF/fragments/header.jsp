@@ -26,5 +26,8 @@
             <div class="col"><a href="${pageContext.request.contextPath}/enchere">Enchère</a></div>
             <div class="col"><a href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
         </c:if>
+
+        <%--Message Création Article OK--%>
+        <p class="text-decoration-underline text-danger">${empty messageCreationArticle ? "" : messageCreationArticle}</p>
     </header>
 
