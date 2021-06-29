@@ -39,7 +39,7 @@
             <div class="col-4">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="idMise">Ma propal : <sup class="text-danger">*</sup></span>
-                    <input type="text" class="form-control" placeholder="Nom" name="nom" required value="175">
+                    <input type="text" class="form-control" placeholder="Nom" name="nom" required value="fake">
                 </div>
             </div>
         </div>
