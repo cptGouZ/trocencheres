@@ -1,0 +1,3 @@
+SELECT SUM(montant) FROM ENCHERES INNER JOIN
+    (SELECT MAX(no_enchere) as no_enchere FROM ENCHERES GROUP BY no_article) AS t ON t.no_enchere = encheres.no_enchere
+WHERE no_utilisateur=4;

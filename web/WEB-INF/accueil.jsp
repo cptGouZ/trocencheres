@@ -65,12 +65,24 @@
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
                         out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br>");
                 %>
+                <%--Pouvoir afficher un article et ses enchères--%>
+                <c:if test="${!empty sessionScope.get('userConnected')}">
+                    <div class="col-xs-12 col-md-6">
+                        <form method="post" action="${pageContext.request.contextPath}/afficherenchere">
+                            <input type="hidden" name="idArticle" value="${item.id}">
+                            <button class="btn btn-success mb-3">Afficher</button>
+                        </form>
+                    </div>
+                </c:if>
                 <%--Pouvoir encherir sur un article--%>
-                <%--<c:if test="${}">--%>
-                <div class="col-xs-12 col-md-6">
-                    <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/enchere?idArticle=${item.id}">Encherir</a>
-                    <%--</c:if>--%>
-                </div>
+                <c:if test="${!empty sessionScope.get('userConnected')}">
+                    <div class="col-xs-12 col-md-6">
+                        <form method="post" action="${pageContext.request.contextPath}/encherir">
+                            <input type="hidden" name="idArticle" value="${item.id}">
+                            <button class="btn btn-success mb-3">Encherir</button>
+                        </form>
+                    </div>
+                </c:if>
                 <%--Lien vers profil vendeur si le profil est connecté--%>
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-auto">

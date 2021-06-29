@@ -21,7 +21,7 @@
             <span class="col-4 input-group-text" >Catégorie : ${article.categorie.libelle}</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Meilleur offre : ${enchere.utilisateur.nom}</span>
+            <span class="col-4 input-group-text" >Meilleur offre : ${enchere.utilisateur.nom} pts par ${enchere.montant}</span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitiale} crédits</span>

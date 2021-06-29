@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp">
-    <jsp:param name="titre" value="Mot de passe oublié"/>
+    <jsp:param name="titre" value="Nouvelle vente"/>
 </jsp:include>
 
  <%--BLOC VENTE--%>
@@ -75,21 +75,21 @@
                  <br>
 
              <%--BLOC RETRAIT--%>
-                 <div class="border border-dark">Adresse de retrait
+                 <div class="border border-dark">Adresse de retrait :
                 <%--RUE--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Rue : </span>
-                        <input type="text" class="form-control" placeholder="rue" name="rue" value="${rueSaisie}" required>
+                        <input type="text" class="form-control" placeholder="rue" name="rue" value="${empty rueSaisie ? userConnected.getAdresse().getRue() : rueSaisie}" required>
                     </div>
                 <%--CODE POSTAL--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Code Postal : </span>
-                        <input type="text" class="form-control" placeholder="code postal" name="cpo" value="${cpoSaisie}" required>
+                        <input type="text" class="form-control" placeholder="code postal" name="cpo" value="${empty cpoSaisie ? userConnected.getAdresse().getCpo() : cpoSaisie}" required>
                     </div>
                 <%--VILLE--%>
                     <div class="input-group mb-3">
                         <span class="input-group-text" >Ville : </span>
-                        <input type="text" class="form-control" placeholder="ville" name="ville" value="${villeSaisie}" required>
+                        <input type="text" class="form-control" placeholder="ville" name="ville" value="${empty villeSaisie ? userConnected.getAdresse().getVille() : villeSaisie}" required>
                     </div>
                  </div>
                  <br>

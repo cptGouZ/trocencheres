@@ -1,13 +1,7 @@
 package bll;
 
-import bll.impl.AdresseManager;
-import bll.impl.ArticleManager;
-import bll.impl.ConnexionManager;
-import bll.impl.UserManager;
-import bll.interfaces.IAdresseManager;
-import bll.interfaces.IArticleManager;
-import bll.interfaces.IConnexionManager;
-import bll.interfaces.IUserManager;
+import bll.impl.*;
+import bll.interfaces.*;
 
 public class ManagerProvider {
     public static IConnexionManager getConnexionManager(){
@@ -16,4 +10,5 @@ public class ManagerProvider {
     public static IUserManager getUserManager(){ return new UserManager(); }
     public static IArticleManager getArticleManager(){ return new ArticleManager();}
     public static IAdresseManager getAdresseManager(){ return new AdresseManager(); }
+    public static IEnchereManager getEnchereManager(){ return new EnchereManager(); }
 }
