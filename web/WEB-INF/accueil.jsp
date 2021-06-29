@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!--Données pous JSTL et Charset-->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Accueil"/>
@@ -62,20 +65,22 @@
                         out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
                         out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br>");
                 %>
-            <%--Lien vers profil vendeur si le profil est connecté--%>
-            <c:if test="${!empty sessionScope.get('userConnected')}">
-                <div class="col-auto">
-                    <a href="${pageContext.request.contextPath}/profil?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a>
+                <%--Pouvoir encherir sur un article--%>
+                <%--<c:if test="${}">--%>
+                <div class="col-xs-12 col-md-6">
+                    <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/enchere?idArticle=${item.id}">Encherir</a>
+                    <%--</c:if>--%>
                 </div>
-            </c:if>
-            </div>
+                <%--Lien vers profil vendeur si le profil est connecté--%>
+                <c:if test="${!empty sessionScope.get('userConnected')}">
+                    <div class="col-auto">
+                        <a href="${pageContext.request.contextPath}/profil?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a>
+                    </div>
+                </c:if>
+        </div>
             <%
                 }
             %>
-        </div>
-        <%--<div class="col-auto">
-            <b>En cas de recherche par mot clé, merci de choisir d'abord la catégorie de l'objet recherché :)</b>
-        </div>--%>
     </div>
 </div>
 
