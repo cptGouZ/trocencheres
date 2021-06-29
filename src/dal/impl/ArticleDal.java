@@ -105,6 +105,10 @@ public class ArticleDal implements IGenericDao<Article> {
         String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
 
+        String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
+                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie " +
+                "WHERE a.article LIKE '%"+ articleName  +"%'";
+
         //Je crée une liste
         List<Article> list = new ArrayList<Article>();
         //Je lance la connexion
@@ -126,16 +130,31 @@ public class ArticleDal implements IGenericDao<Article> {
             else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
             else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
 
-            System.out.println(sqlConstruction);
 
+            //DEBUT CONSTRUCTION SQL2
+            StringBuilder sqlConstruction2 = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES2);
+            if(!"toutes".equals(catName)) {
+                sqlConstruction2.append(" AND c.libelle = '"+ catName +"'");
+            }
              //Choix des checkbox
             //TODO attente la création des article pour pouvoir gérer les période de vente
-            if(ventesTerm) {
-                sqlConstruction.append(" AND (date_fin_encheres < CAST(GETDATE() AS datetime) "); }
-            if(encheresOuv) {
-                sqlConstruction.append(" OR CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
-            if(ventesNonDeb) {
-                sqlConstruction.append(" OR date_debut_encheres > CAST(GETDATE() AS datetime))"); }
+            if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
+                sqlConstruction2.append(" AND ( ");
+                if(ventesTerm) {
+                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
+                        sqlConstruction2.append(" OR ");
+                    sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime) "); }
+                if(encheresOuv) {
+                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
+                        sqlConstruction2.append(" OR ");
+                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
+                if(ventesNonDeb) {
+                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
+                        sqlConstruction2.append(" OR ");
+                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
+                sqlConstruction2.append(" ) ");
+            }
+
 
 //            if(inprogressVente) {
 //                sqlConstruction.append(" ,inprogressVente = true,"); }
@@ -144,6 +163,7 @@ public class ArticleDal implements IGenericDao<Article> {
 //            if(finishedVente) {
 //                sqlConstruction.append(" ,finishedVente =  true,"); }
 
+            System.out.println(sqlConstruction2);
 
             PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
             ResultSet rs = pstt.executeQuery();
