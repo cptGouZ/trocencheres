@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp">
-    <jsp:param name="titre" value="Mot de passe oublié"/>
+    <jsp:param name="titre" value="Nouvelle vente"/>
 </jsp:include>
 
  <%--BLOC VENTE--%>
