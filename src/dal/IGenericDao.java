@@ -2,6 +2,7 @@ package dal;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
 
@@ -25,7 +26,7 @@ public interface IGenericDao<T> {
 
     default List<Article> selectByCrit1(String articleName, String catName) throws GlobalException {return null;}
     default List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb,
-                                        boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours) throws GlobalException {return null;}
+                                        boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {return null;}
 
     //Méthode spécifique à Adresse
     default List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {return null;}

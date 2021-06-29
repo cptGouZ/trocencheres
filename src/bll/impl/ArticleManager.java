@@ -1,10 +1,7 @@
 package bll.impl;
 
 import bll.interfaces.IArticleManager;
-import bo.Adresse;
-import bo.Article;
-import bo.Categorie;
-import bo.Utilisateur;
+import bo.*;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
@@ -67,12 +64,12 @@ public class ArticleManager implements IArticleManager {
 
 
     @Override
-    public List<Article> getByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours) throws GlobalException {
+    public List<Article> getByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
         List<Article> articleList3 = new ArrayList<>();
         try {
             IGenericDao<Article> IDao = DaoProvider.getArticleDao();
             System.out.println("managerbis" + articleName);
-            articleList3 = IDao.selectByCrit2(articleName, catName, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours);
+            articleList3 = IDao.selectByCrit2(articleName, catName, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
             System.out.println("dadabis" + articleList3);
         } catch (GlobalException e) {
             e.printStackTrace();
