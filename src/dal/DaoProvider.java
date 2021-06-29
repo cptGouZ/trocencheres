@@ -1,11 +1,9 @@
 package dal;
 
-import bo.Adresse;
-import bo.Article;
-import bo.Categorie;
-import bo.Utilisateur;
+import bo.*;
 import dal.impl.AdresseDal;
 import dal.impl.ArticleDal;
+import dal.impl.EnchereDal;
 import dal.impl.UtilisateurDal;
 
 public class DaoProvider {
@@ -16,4 +14,5 @@ public class DaoProvider {
         return new ArticleDal();
     }
     public static IGenericDao<Adresse> getAdresseDao() { return new AdresseDal(); }
+    public static IGenericDao<Enchere> getEnchereDao() { return new EnchereDal(); }
 }
