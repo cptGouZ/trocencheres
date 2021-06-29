@@ -4,6 +4,8 @@ import bll.impl.ArticleManager;
 import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
 import bo.Article;
+import bo.Enchere;
+import bo.Utilisateur;
 import exception.GlobalException;
 import lombok.SneakyThrows;
 
@@ -50,7 +52,7 @@ public class AccueilServlet extends HttpServlet {
 
         //if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
             List<Article> articleList3;
-            articleList3 = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours);
+            articleList3 = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, (bo.Utilisateur)req.getSession().getAttribute("userConnected"));
             req.setAttribute("listedesarticles", articleList3);/*}*/
 
         //Redirection vers accueil

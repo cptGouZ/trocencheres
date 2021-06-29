@@ -20,9 +20,10 @@ public class AfficherEnchere extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IEnchereManager em = ManagerProvider.getEnchereManager();
         IArticleManager am = ManagerProvider.getArticleManager();
-        Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
+//        Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
+        int idArticle = 2;
         try {
-            Article articleToDisplay = am.getByID(idArticle);
+            Article articleToDisplay = am.getById(idArticle);
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
             req.setAttribute("article", articleToDisplay);
             req.setAttribute("enchere", lastEnchere);

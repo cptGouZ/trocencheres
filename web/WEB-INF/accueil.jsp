@@ -69,7 +69,7 @@
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-xs-12 col-md-6">
                         <form method="post" action="${pageContext.request.contextPath}/afficherenchere">
-                            <input type="hidden" name="idArticle" value="${item.id}">
+                            <input type="hidden" name="idArticle" value="<%=item.getId()%>">
                             <button class="btn btn-success mb-3">Afficher</button>
                         </form>
                     </div>
@@ -78,7 +78,7 @@
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-xs-12 col-md-6">
                         <form method="post" action="${pageContext.request.contextPath}/encherir">
-                            <input type="hidden" name="idArticle" value="${item.id}">
+                            <input type="hidden" name="idArticle" value="<%=item.getId()%>">
                             <button class="btn btn-success mb-3">Encherir</button>
                         </form>
                     </div>

@@ -1,9 +1,6 @@
 package dal.impl;
 
-import bo.Adresse;
-import bo.Article;
-import bo.Categorie;
-import bo.Utilisateur;
+import bo.*;
 import dal.ConnectionProvider;
 import dal.DaoProvider;
 import dal.IGenericDao;
@@ -15,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleDal implements IGenericDao<Article> {
-
-    private static final String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES";
 
     private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE no_article=?";
 
@@ -100,7 +95,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
 
     @Override
-    public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours) throws GlobalException {
+    public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util, Enchere ench) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
@@ -136,21 +131,35 @@ public class ArticleDal implements IGenericDao<Article> {
             if(!"toutes".equals(catName)) {
                 sqlConstruction2.append(" AND c.libelle = '"+ catName +"'");
             }
-             //Choix des checkbox
-            //TODO attente la création des article pour pouvoir gérer les période de vente
-            if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
-                sqlConstruction2.append(" AND ( ");
-                if(ventesTerm) {
-                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
-                        sqlConstruction2.append(" OR ");
-                    sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime) "); }
+
+            //Je regarde mes achats
+            if(encheresOuv == true || encheresEnCours == true || encheresRemp == true) {
+                sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ") AND ( ");
+                //Enchère ouverte
                 if(encheresOuv) {
-                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
-                        sqlConstruction2.append(" OR ");
+                    gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
+                sqlConstruction2.append(" ) ");
+                //Enchères en cours avec une enchere mini
+/*                if(encheresEnCours) {
+                    gestionOr(sqlConstruction2);
+                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres AND id=(\n" +
+                            "    SELECT max(id) FROM table\n" +
+                            ")X "); }
+                }*/
+            }
+            //Mes ventes
+            //TODO attente la création des article pour pouvoir gérer les période de vente
+            if(ventesTerm == true || ventesNonDeb == true || ventesEnCours == true) {
+                sqlConstruction2.append(" AND a.no_utilisateur=" + util.getId() + ") AND ( ");
+                //Ventes terminée
+                if (ventesTerm) {
+                    gestionOr(sqlConstruction2);
+                    sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime) ");
+                }
+                //Vente non déb
                 if(ventesNonDeb) {
-                    if(!" ( ".equals(sqlConstruction2.substring(sqlConstruction2.length()-3, sqlConstruction2.length())))
-                        sqlConstruction2.append(" OR ");
+                    gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
                 sqlConstruction2.append(" ) ");
             }
@@ -187,6 +196,10 @@ public class ArticleDal implements IGenericDao<Article> {
         return list;
     }
 
+    private void gestionOr(StringBuilder sb){
+        if(!" ( ".equals(sb.substring(sb.length()-3, sb.length())))
+            sb.append(" OR ");
+    }
 
     @Override
     public Utilisateur selectByEmail(String email) throws GlobalException {
@@ -211,6 +224,10 @@ public class ArticleDal implements IGenericDao<Article> {
 
     @Override
     public List<Article> selectAll() throws GlobalException {
+
+        String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES " +
+                "WHERE CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres";
+
         //Je crée un article et une liste
         List<Article> list = new ArrayList<Article>();
         //Je lance la connexion
@@ -240,22 +257,34 @@ public class ArticleDal implements IGenericDao<Article> {
 
     @Override
     public Article selectById(int id) throws GlobalException {
+        final String SQL_SELECT_CAT_BY_ID="SELECT * FROM CATEGORIES WHERE no_categorie=?";
         //Je crée un article
         Article art = new Article();
         //Je lance la connexion
         try (
-                Connection con = ConnectionProvider.getConnection()
+                Connection con = ConnectionProvider.getConnection();
+                PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
+                PreparedStatement pstt2 = con.prepareCall(SQL_SELECT_CAT_BY_ID);
         ) {
-            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
+            pstt.setInt(1,id);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
+                pstt2.setInt(1,rs.getInt("no_categorie"));
+                ResultSet rs2 = pstt2.executeQuery();
+                rs2.next();
+                Categorie cat = new Categorie(rs2.getInt("no_categorie"), rs2.getString("libelle"));
+                Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
+                art.setId(rs.getInt("no_article"));
                 art.setArticle(rs.getString("article"));
-                art.setPrixVente(rs.getInt("prix-vente"));
-                art.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                art.setUtilisateur(ut);
+                art.setDescription(rs.getString("description"));
+                art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+                art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+                art.setPrixInitiale(rs.getInt("prix_vente"));
+                art.setPrixVente(rs.getInt("prix_vente"));
+                art.setUtilisateur(user);
+                art.setCategorie(cat);
+                art.setAdresseRetrait(adresse);
                 pstt.executeQuery();
             }
         } catch (SQLException throwables) {
