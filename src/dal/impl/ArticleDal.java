@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ArticleDal implements IGenericDao<Article> {
 
-    private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE no_article=?";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES WHERE no_article=?";
 
     private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
 
@@ -126,12 +126,12 @@ public class ArticleDal implements IGenericDao<Article> {
             else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
 
 
-            //DEBUT CONSTRUCTION SQL2
             StringBuilder sqlConstruction2 = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES2);
             if(!"toutes".equals(catName)) {
                 sqlConstruction2.append(" AND c.libelle = '"+ catName +"'");
             }
 
+            //DEBUT CONSTRUCTION SQL2
             //Je regarde mes achats
             if(encheresOuv == true || encheresEnCours == true || encheresRemp == true) {
                 sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ") AND ( ");
@@ -140,37 +140,46 @@ public class ArticleDal implements IGenericDao<Article> {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
                 sqlConstruction2.append(" ) ");
+
                 //Enchères en cours avec une enchere mini
-/*                if(encheresEnCours) {
+                if(encheresEnCours) {
                     gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres AND id=(\n" +
-                            "    SELECT max(id) FROM table\n" +
-                            ")X "); }
-                }*/
+                    sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
+                            " FROM Encheres INNER JOIN" +
+                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
+                            " AS t ON t.no_enchere = ENCHERES.no_enchere));"); }
+
+                //Enchères remportees(enchere + date terminée)
+                if(encheresEnCours) {
+                    gestionOr(sqlConstruction2);
+                    sqlConstruction2.append(" (CAST(date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
+                            " FROM Encheres INNER JOIN" +
+                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
+                            " AS t ON t.no_enchere = ENCHERES.no_enchere));"); }
             }
+
+
+
             //Mes ventes
             //TODO attente la création des article pour pouvoir gérer les période de vente
             if(ventesTerm == true || ventesNonDeb == true || ventesEnCours == true) {
                 sqlConstruction2.append(" AND a.no_utilisateur=" + util.getId() + ") AND ( ");
-                //Ventes terminée
+                //Ventes en cours
                 if (ventesTerm) {
                     gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime) ");
+                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
                 }
                 //Vente non déb
                 if(ventesNonDeb) {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
                 sqlConstruction2.append(" ) ");
+                //Vente term
+                if(ventesNonDeb) {
+                    gestionOr(sqlConstruction2);
+                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
+                sqlConstruction2.append(" ) ");
             }
-
-
-//            if(inprogressVente) {
-//                sqlConstruction.append(" ,inprogressVente = true,"); }
-//            if(beforeVente) {
-//                sqlConstruction.append(" ,beforeVente = true,"); }
-//            if(finishedVente) {
-//                sqlConstruction.append(" ,finishedVente =  true,"); }
 
             System.out.println(sqlConstruction2);
 
@@ -285,7 +294,6 @@ public class ArticleDal implements IGenericDao<Article> {
                 art.setUtilisateur(user);
                 art.setCategorie(cat);
                 art.setAdresseRetrait(adresse);
-                pstt.executeQuery();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

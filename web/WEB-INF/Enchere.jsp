@@ -35,14 +35,16 @@
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Vendeur : ${article.utilisateur.pseudo}</span>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="idMise">Ma propal : <sup class="text-danger">*</sup></span>
-                    <input type="text" class="form-control" placeholder="Nom" name="nom" required value="175">
+        <c:if test="${'encherir'.equals(action)}">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="idMise">Ma propal : <sup class="text-danger">*</sup></span>
+                        <input type="text" class="form-control" placeholder="Nom" name="nom" required value="fake">
+                    </div>
                 </div>
             </div>
-        </div>
+        </c:if>
     </div>
 </div>
 <%@ include file="fragments/footer.jsp"%>

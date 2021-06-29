@@ -1,3 +1,10 @@
 SELECT SUM(montant) FROM ENCHERES INNER JOIN
     (SELECT MAX(no_enchere) as no_enchere FROM ENCHERES GROUP BY no_article) AS t ON t.no_enchere = encheres.no_enchere
 WHERE no_utilisateur=4;
+
+SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle
+FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie
+WHERE a.article LIKE '%%' AND NOT(a.no_utilisateur=5) AND ((CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres)
+AND no_article IN (SELECT no_article
+                    FROM Encheres INNER JOIN
+                    (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article) as t ON t.no_enchere = ENCHERES.no_enchere));
