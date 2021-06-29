@@ -11,4 +11,5 @@ public class ManagerProvider {
     public static IArticleManager getArticleManager(){ return new ArticleManager();}
     public static IAdresseManager getAdresseManager(){ return new AdresseManager(); }
     public static IEnchereManager getEnchereManager(){ return new EnchereManager(); }
+    public static ICategorieManager getCategorieManager(){ return new CategorieManager(); }
 }

@@ -17,5 +17,4 @@ public interface IArticleManager {
 
     Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchereBll, LocalDateTime finEnchereBll, Integer prixDepart, Adresse newAdresse) throws GlobalException;
     void retirer(Article article) throws GlobalException;
-    List<String> getLibellesCategorie();
 }

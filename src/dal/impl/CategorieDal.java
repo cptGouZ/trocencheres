@@ -63,7 +63,7 @@ public class CategorieDal implements IGenericDao<Categorie> {
         ) {
             ResultSet rs = pstt.executeQuery();
             while(rs.next()){
-                retour.add(new Categorie(rs.getInt("no_utilisateur"), rs.getString("libelle")));
+                retour.add(new Categorie(rs.getInt("no_categorie"), rs.getString("libelle")));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
