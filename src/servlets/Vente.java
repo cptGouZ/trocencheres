@@ -90,14 +90,22 @@ public class Vente extends HttpServlet {
             newAdresse = new Adresse(rue,cpo,ville,idUtilisateur,false);
             iam.creer(newAdresse);
 
+            //Affiche un message confirmant la création de l'article en BDD
+            String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;
+            req.setAttribute("messageCreationArticle" , creationArticleOk);
+
+            //Et renvoi à la page de création de la vente
+            req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
+
         } catch (GlobalException e) {
             e.printStackTrace();
 
             //Affiche un message d'erreur si la vérification article a échoué
             req.setAttribute("messageErreurArticle", GlobalException.getInstance().getMessageErrors());
             //Et renvoi à la page de création de la vente
-            req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
         }
+
 
 
     }

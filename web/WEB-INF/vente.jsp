@@ -4,17 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@ include file="fragments/header.jsp"%>
+<jsp:include page="fragments/header.jsp">
+    <jsp:param name="titre" value="Mot de passe oublié"/>
+</jsp:include>
 
-<html>
-<head>
-    <title>Vente</title>
-</head>
-<body>
-
-${categorieSaisie}
  <%--BLOC VENTE--%>
- <br>
  <div class="row">
      <%--Colonne PHOTO--%>
      <div class="col">

@@ -1,11 +1,9 @@
 <%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ include file="fragments/header.jsp"%>
-
-
-</br>
-</br>
+<jsp:include page="fragments/header.jsp">
+    <jsp:param name="titre" value="Profil"/>
+</jsp:include>
 
 <div class="container-fluid">
     <div class="row">

@@ -32,7 +32,8 @@ public class CompteModif extends HttpServlet {
 
                 if(!admin && (userConnected.getId()!=userToModify.getId())){
                     //L'utilisateur qui demande la modification de profil n'est pas lui même
-                    req.getRequestDispatcher("accueilS").forward(req, resp);
+                    resp.sendRedirect("accueilS");
+                    //req.getRequestDispatcher("accueilS").forward(req, resp);
                 }else{
                     //Modification du profil autorisé
                     req.setAttribute("affichage", "modification");
