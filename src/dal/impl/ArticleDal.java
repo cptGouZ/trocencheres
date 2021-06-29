@@ -23,9 +23,6 @@ public class ArticleDal implements IGenericDao<Article> {
 
     private static final String SQL_SELECT_BY_CATEGORIES = "SELECT libelle FROM CATEGORIES";
 
-    private static final String SQL_SELECT_BY_CHECK = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE date_fin_encheres < CAST(GETDATE() AS datetime) OR " +
-            "CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres OR " +
-            "date_debut_encheres > CAST(GETDATE() AS datetime)";
 
     @Override
     public List<String> selectLibelleCategories() throws GlobalException {
@@ -48,34 +45,127 @@ public class ArticleDal implements IGenericDao<Article> {
         return listCate;
     }
 
+
     @Override
-    public List<Article> selectByCheck() throws GlobalException {
+    public List<Article> selectByCrit1(String articleName, String catName) throws GlobalException {
+
+        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
+                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
+
         //Je crée une liste
         List<Article> list = new ArrayList<Article>();
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection()
         ) {
-            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_CHECK);
+
+            //Je trie en fonction du choix utilisateur
+            StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
+
+            sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
+            System.out.println("momo" + articleName);
+
+            //Choix catégorie
+            System.out.println("tutu" + catName);
+            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
+            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
+            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
+
+            System.out.println(sqlConstruction);
+
+            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
                 //Je choisis les paramètres de l'objet avec le get
-                Article artAjout = new Article();
-                artAjout.setArticle(rs.getString("article"));
-                artAjout.setPrixVente(rs.getInt("prix_vente"));
-                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+                Article artAjout2 = new Article();
+                artAjout2.setArticle(rs.getString("article"));
+                artAjout2.setPrixVente(rs.getInt("prix_vente"));
+                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
                 //J'ajoute l'item "Vendeur"
                 Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout.setUtilisateur(ut);
+                artAjout2.setUtilisateur(ut);
                 //J'ajoute l'article à la liste
-                list.add(artAjout);
+                list.add(artAjout2);
             }
+            System.out.println("didi" + list);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        //Je renvoie la liste d'articles
-            return list;
+        return list;
+    }
+
+
+    @Override
+    public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours) throws GlobalException {
+
+        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
+                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
+
+        //Je crée une liste
+        List<Article> list = new ArrayList<Article>();
+        //Je lance la connexion
+        try (
+                Connection con = ConnectionProvider.getConnection()
+        ) {
+
+            //Je trie en fonction du choix utilisateur
+            StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
+
+            sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
+            System.out.println("momo" + articleName);
+
+            //Choix catégorie
+            System.out.println("tutu" + catName);
+            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
+            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
+            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
+            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
+            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
+
+            System.out.println(sqlConstruction);
+
+             //Choix des checkbox
+            //TODO attente la création des article pour pouvoir gérer les période de vente
+            if(ventesTerm) {
+                sqlConstruction.append(" AND (date_fin_encheres < CAST(GETDATE() AS datetime) "); }
+            if(encheresOuv) {
+                sqlConstruction.append(" OR CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
+            if(ventesNonDeb) {
+                sqlConstruction.append(" OR date_debut_encheres > CAST(GETDATE() AS datetime))"); }
+
+//            if(inprogressVente) {
+//                sqlConstruction.append(" ,inprogressVente = true,"); }
+//            if(beforeVente) {
+//                sqlConstruction.append(" ,beforeVente = true,"); }
+//            if(finishedVente) {
+//                sqlConstruction.append(" ,finishedVente =  true,"); }
+
+
+            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
+            ResultSet rs = pstt.executeQuery();
+            while (rs.next()) {
+                //Je choisis les paramètres de l'objet avec le get
+                Article artAjout2 = new Article();
+                artAjout2.setArticle(rs.getString("article"));
+                artAjout2.setPrixVente(rs.getInt("prix_vente"));
+                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+                //J'ajoute l'item "Vendeur"
+                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                artAjout2.setUtilisateur(ut);
+                //J'ajoute l'article à la liste
+                list.add(artAjout2);
+            }
+            System.out.println("didi" + list);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
+        return list;
+    }
+
 
     @Override
     public Utilisateur selectByEmail(String email) throws GlobalException {
@@ -154,61 +244,12 @@ public class ArticleDal implements IGenericDao<Article> {
         return art;
     }
 
-    @Override
-    public List<Article> selectByCriteres(String articleName, String catName) throws GlobalException {
-
-        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
-                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
-
-        //Je crée une liste
-        List<Article> list = new ArrayList<Article>();
-        //Je lance la connexion
-        try (
-                Connection con = ConnectionProvider.getConnection()
-        ) {
-
-            //Je trie en fonction du choix utilisateur
-            StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
-
-                sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
-                System.out.println("momo" + articleName);
-
-            //Choix catégorie
-            System.out.println("tutu" + catName);
-            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
-            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
-            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
-            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
-
-            System.out.println(sqlConstruction);
-
-            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
-            ResultSet rs = pstt.executeQuery();
-            while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout2 = new Article();
-                artAjout2.setArticle(rs.getString("article"));
-                artAjout2.setPrixVente(rs.getInt("prix_vente"));
-                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout2.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout2);
-            }
-            System.out.println("didi" + list);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return list;
-    }
 
     @Override
     public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
         return IGenericDao.super.selectAllAdresseByUser(userId);
     }
+
 
     @Override
     public Article insertNewArticle(Article newArticle) throws GlobalException {

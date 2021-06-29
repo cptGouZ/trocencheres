@@ -30,28 +30,28 @@ public class AccueilServlet extends HttpServlet {
         String categorie = req.getParameter("categorie");
 
         //Récupérer eglt les checkbox
+        boolean ventesTerm = req.getParameter( "ven3" ) != null;
         boolean encheresOuv = req.getParameter( "ach1" ) != null;
+        boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
         boolean encheresEnCours = req.getParameter( "ach2" ) != null;
         boolean encheresRemp = req.getParameter( "ach3" ) != null;
         boolean ventesEnCours = req.getParameter( "ven1" ) != null;
-        boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
-        boolean ventesTerm = req.getParameter( "ven3" ) != null;
 
         //Affichage par categorie
         //On fait appel a ArticleManager
         List<Article> articleList2 = new ArrayList<>();
         IArticleManager am2 = ManagerProvider.getArticleManager();
-        articleList2 = am2.getByCriteres(textechoix, categorie);
-        req.setAttribute("listedesarticles", articleList2);
+        //articleList2 = am2.getByCrit1(textechoix, categorie);
+        //req.setAttribute("listedesarticles", articleList2);
 
         List<String> listeCat;
         listeCat = am2.getLibellesCategorie();
         req.setAttribute("libellesCategories", listeCat);
 
-        if(ventesTerm == true) {
-        List<Article> articleList3 = new ArrayList<>();
-        articleList3 = am2.selectByCheck();
-        req.setAttribute("listedesarticles", articleList3);}
+        //if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
+            List<Article> articleList3;
+            articleList3 = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours);
+            req.setAttribute("listedesarticles", articleList3);/*}*/
 
         //Redirection vers accueil
         RequestDispatcher rd;
