@@ -240,22 +240,34 @@ public class ArticleDal implements IGenericDao<Article> {
 
     @Override
     public Article selectById(int id) throws GlobalException {
+        final String SQL_SELECT_CAT_BY_ID="SELECT * FROM CATEGORIES WHERE no_categorie=?";
         //Je crée un article
         Article art = new Article();
         //Je lance la connexion
         try (
-                Connection con = ConnectionProvider.getConnection()
+                Connection con = ConnectionProvider.getConnection();
+                PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
+                PreparedStatement pstt2 = con.prepareCall(SQL_SELECT_CAT_BY_ID);
         ) {
-            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
+            pstt.setInt(1,id);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
+                pstt2.setInt(1,rs.getInt("no_categorie"));
+                ResultSet rs2 = pstt2.executeQuery();
+                rs2.next();
+                Categorie cat = new Categorie(rs2.getInt("no_categorie"), rs2.getString("libelle"));
+                Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+                Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
+                art.setId(rs.getInt("no_article"));
                 art.setArticle(rs.getString("article"));
-                art.setPrixVente(rs.getInt("prix-vente"));
-                art.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                art.setUtilisateur(ut);
+                art.setDescription(rs.getString("description"));
+                art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+                art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+                art.setPrixInitiale(rs.getInt("prix_vente"));
+                art.setPrixVente(rs.getInt("prix_vente"));
+                art.setUtilisateur(user);
+                art.setCategorie(cat);
+                art.setAdresseRetrait(adresse);
                 pstt.executeQuery();
             }
         } catch (SQLException throwables) {
