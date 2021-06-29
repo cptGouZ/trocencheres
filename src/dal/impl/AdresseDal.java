@@ -103,7 +103,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
 
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_ID);
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_USER_ID);
         ) {
             pStmt.setInt(1, idUtilisateur);
             ResultSet rs = pStmt.executeQuery();
