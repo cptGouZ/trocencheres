@@ -1,6 +1,7 @@
 package bll.impl;
 
 import bll.interfaces.IArticleManager;
+import bo.Adresse;
 import bo.Article;
 import bo.Categorie;
 import bo.Utilisateur;
@@ -81,12 +82,11 @@ public class ArticleManager implements IArticleManager {
 
 
     @Override
-    public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart) throws GlobalException {
+    public Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchere, LocalDateTime finEnchere, Integer prixDepart, Adresse newAdresse) throws GlobalException {
 
         Article nouvelArticle = new Article();
-
         IGenericDao<Article> cDao = DaoProvider.getArticleDao();
-        System.out.println("totototo" +userEnCours.getId());
+
         nouvelArticle.setUtilisateur(userEnCours);
         nouvelArticle.setCategorie(new Categorie(categorie));
         nouvelArticle.setArticle(article);
@@ -94,17 +94,19 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateDebut(debutEnchere);
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
-        nouvelArticle.setAdresseRetrait(userEnCours.getAdresse()); //ajouté par julien //TODO à modifier pour l'adresse indiquée dans le formulaire
+
+        if          (newAdresse.getRue().equals(userEnCours.getAdresse().getRue())
+                &&  (newAdresse.getCpo().equals(userEnCours.getAdresse().getCpo())
+                &&  (newAdresse.getVille().equals((userEnCours.getAdresse().getVille()))))){
+            newAdresse = userEnCours.getAdresse() ;
+            nouvelArticle.setAdresseRetrait(newAdresse);
+        } else {
+            nouvelArticle.setAdresseRetrait(newAdresse);
+        }
+
         validerNomArticle(nouvelArticle);
         validerDescription(nouvelArticle);
         validerPrix(nouvelArticle);
-
-       /* System.out.println("test sortie BLL : " + nouvelArticle.getArticle());
-        System.out.println("test sortie BLL : " + nouvelArticle.getDescription());
-        System.out.println("test sortie BLL : " + nouvelArticle.getCategorie());
-        System.out.println("test sortie BLL : " + nouvelArticle.getDateDebut());
-        System.out.println("test sortie BLL : " + nouvelArticle.getDateFin());
-        System.out.println("test sortie BLL : " + nouvelArticle.getPrixInitiale());*/
 
         cDao.insertNewArticle(nouvelArticle);
 

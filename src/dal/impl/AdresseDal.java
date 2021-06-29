@@ -97,7 +97,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
         return IGenericDao.super.selectAllAdresseByUser(userId);
     }
 
-    public Adresse selectUserDomicile(int idUtilisateur) {
+    public Adresse selectUserDomicile(int idUtilisateur) throws GlobalException {
 
         Adresse adresseRecherchee = null;
 
@@ -119,6 +119,8 @@ public class AdresseDal implements IGenericDao<Adresse> {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            throw GlobalException.getInstance();
         }
 
         return adresseRecherchee ;
