@@ -68,8 +68,7 @@
                 <%--Pouvoir afficher un article et ses enchères--%>
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-xs-12 col-md-6">
-                        <form method="post" action="${pageContext.request.contextPath}/enchere">
-                            <input type="hidden" name="action" value="afficher">
+                        <form method="post" action="${pageContext.request.contextPath}/afficherenchere">
                             <input type="hidden" name="idArticle" value="${item.id}">
                             <button class="btn btn-success mb-3">Afficher</button>
                         </form>
@@ -78,8 +77,7 @@
                 <%--Pouvoir encherir sur un article--%>
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-xs-12 col-md-6">
-                        <form method="post" action="${pageContext.request.contextPath}/e">
-                            <input type="hidden" name="action" value="encherir">
+                        <form method="post" action="${pageContext.request.contextPath}/encherir">
                             <input type="hidden" name="idArticle" value="${item.id}">
                             <button class="btn btn-success mb-3">Encherir</button>
                         </form>

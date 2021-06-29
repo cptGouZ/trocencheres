@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Enchere implements Serializable {
-    private Utilisateur id;
-    private Article article;
-    private LocalDate date;
+    private Integer id;
+    private Utilisateur userId;
+    private LocalDate dateEnchere;
     private Integer montant;
 }
