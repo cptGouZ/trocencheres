@@ -17,9 +17,7 @@ public class EnchereManager implements IEnchereManager {
 
         Article art = DaoProvider.getArticleDao().selectById(idArticle);
 
-        retour = new Enchere(1, art.getUtilisateur(), LocalDateTime.now(),500);
-
-        Enchere encDao = DaoProvider.getEnchereDao().selectEnchereMaxByIdArticle(idArticle);
+        retour = DaoProvider.getEnchereDao().selectEnchereMaxByIdArticle(idArticle);
 
         return retour;
     }
