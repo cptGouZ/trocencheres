@@ -121,6 +121,11 @@ public class ArticleManager implements IArticleManager {
         return nouvelArticle ;
     }
 
+    @Override
+    public void retirer(Article article) throws GlobalException {
+        //TODO implémentation à faire
+    }
+
     /**************************/
     /* CONTROLES DE L'ARTICLE */
     /**************************/

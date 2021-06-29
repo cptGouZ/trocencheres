@@ -22,5 +22,12 @@ public class Article implements Serializable {
     private Integer prixVente;
     private Integer prixInitiale;
     private Adresse adresseRetrait;
+    public boolean isOuvert(){
+        boolean retour = false;
+        LocalDateTime now = LocalDateTime.now();
+        if (dateDebut.compareTo(now) < 0 && 0 < dateFin.compareTo(now))
+            retour = true;
+        return retour;
+    }
 }
 
