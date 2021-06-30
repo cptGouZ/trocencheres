@@ -36,6 +36,6 @@ public interface IGenericDao<T> {
     default List<String> selectLibelleCategories() throws GlobalException {return null;}
 
     //Méthode spécifique à Enchere
-    default Enchere selectEnchereMaxByIdArticle(int idArticle) throws GlobalException {return null ;}
+    default Enchere selectEnchereMaxByIdArticle(int idArticle) throws GlobalException {return null;}
 
 }

@@ -13,18 +13,6 @@ import java.util.regex.Pattern;
 
 public class ArticleManager implements IArticleManager {
 
-    @Override
-    public List<String> getLibellesCategorie() {
-        List<String> listCateg = new ArrayList<>();
-        try {
-            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-            listCateg = IDao.selectLibelleCategories();
-        } catch (GlobalException e) {
-            e.printStackTrace();
-        }
-        return listCateg;
-    }
-
 
     @Override
     public Article getById(int id) throws GlobalException {
@@ -121,6 +109,11 @@ public class ArticleManager implements IArticleManager {
         return nouvelArticle ;
     }
 
+    @Override
+    public void retirer(Article article) throws GlobalException {
+        //TODO implémentation à faire
+    }
+
     /**************************/
     /* CONTROLES DE L'ARTICLE */
     /**************************/
@@ -152,8 +145,4 @@ public class ArticleManager implements IArticleManager {
         if(!Pattern.matches(PATTERN_PRIX, articleAVerifier.getPrixInitiale().toString()))
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_INVALIDE);
     }
-
-
-
-
 }

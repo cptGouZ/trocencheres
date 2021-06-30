@@ -16,6 +16,5 @@ public interface IArticleManager {
     List<Article> getByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException;
 
     Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchereBll, LocalDateTime finEnchereBll, Integer prixDepart, Adresse newAdresse) throws GlobalException;
-
-    List<String> getLibellesCategorie();
+    void retirer(Article article) throws GlobalException;
 }

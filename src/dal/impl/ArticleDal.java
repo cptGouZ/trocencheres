@@ -211,14 +211,6 @@ public class ArticleDal implements IGenericDao<Article> {
     }
 
     @Override
-    public Utilisateur selectByEmail(String email) throws GlobalException {
-        return IGenericDao.super.selectByEmail(email);
-    }
-    @Override
-    public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
-        return IGenericDao.super.selectByPseudo(pseudo);
-    }
-    @Override
     public Article selectByArticle(String article) throws GlobalException {
         return IGenericDao.super.selectByArticle(article);
     }
@@ -301,13 +293,6 @@ public class ArticleDal implements IGenericDao<Article> {
         //Je renvoie l'article
         return art;
     }
-
-
-    @Override
-    public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
-        return IGenericDao.super.selectAllAdresseByUser(userId);
-    }
-
 
     @Override
     public Article insertNewArticle(Article newArticle) throws GlobalException {

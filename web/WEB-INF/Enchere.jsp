@@ -35,13 +35,23 @@
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Vendeur : ${article.utilisateur.pseudo}</span>
         </div>
-        <c:if test="${'encherir'.equals(action)}">
+        <c:if test="${'encherir'.equals(affichagejsp)}">
             <div class="row justify-content-center">
                 <div class="col-4">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="idMise">Ma propal : <sup class="text-danger">*</sup></span>
-                        <input type="text" class="form-control" placeholder="Nom" name="nom" required value="fake">
-                    </div>
+                    <form action="${pageContext.request.contextPath}/encherir" method="post" class="input-group mb-3">
+                        <span class="input-group-text">Ma propal : <sup class="text-danger">*</sup></span>
+                        <input type="text" class="form-control" placeholder="Montant" name="montant" required value="${enchere.montant +1}">
+                        <button type="submit" class="btn btn-secondary" name="btn" value="encherir">Enchérir</button>
+                    </form>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${'retirer'.equals(affichagejsp)}">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <form action="${pageContext.request.contextPath}/retrait" method="post" class="input-group mb-3">
+                        <button type="submit" class="btn btn-secondary" name="btn" value="retrait">Retirer</button>
+                    </form>
                 </div>
             </div>
         </c:if>

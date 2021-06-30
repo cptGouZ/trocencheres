@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Enchere implements Serializable {
     private Integer id;
     private Utilisateur user;
-    private Article article ;
+    private Article article;
     private LocalDateTime dateEnchere;
     private Integer montant;
 }

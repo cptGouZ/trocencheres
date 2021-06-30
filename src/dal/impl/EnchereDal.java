@@ -75,9 +75,7 @@ public class EnchereDal implements IGenericDao<Enchere> {
         retour.setId(rs.getInt("no_enchere"));
 
         Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-        Article article = DaoProvider.getArticleDao().selectById(rs.getInt("no_article"));
 
-        retour.setArticle(article);
         retour.setUser(user);
         retour.setDateEnchere(rs.getTimestamp("date").toLocalDateTime());
         retour.setMontant(rs.getInt("montant"));
