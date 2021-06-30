@@ -69,9 +69,9 @@ public class Utilisateur implements Serializable {
         this.phone = phone;
     }
 
-    public Integer getCreditRestant() throws GlobalException {
+    public Integer getCreditDispo() throws GlobalException {
         IGenericDao<Enchere> dao = DaoProvider.getEnchereDao();
-        Integer retour = dao.sumEnchereByUser(getId());
+        Integer retour = getCredit()-dao.sumEnchereByUser(getId());
         return retour;
     }
 }
