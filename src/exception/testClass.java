@@ -1,26 +1,34 @@
 package exception;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import exception.exceptionEnums.UserException;
+import jdk.nashorn.internal.scripts.JS;
+
+import javax.swing.text.html.CSS;
 
 public class testClass {
-    public static void main(String[] args) {
-        try {
-            BLL();
-        } catch (GlobalException e) {
-            System.out.println(e.getMessageErrors());
-        }
-    }
+// A FAIRE    ce soir et demain matin
+// TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien
+// TODO : tester la suppression utilisateur : Olivier
+// TODO : Vérifier l'heure de début et fin d'enchère : Alex
+/* TODO : Vérification des exception
+    Utilisateur
+    Article
+    Enchere
+    Adresse
+    Categorie
+    Managers
+        AdresseManager
+        ArticleManager
+        CategorieManager
+        ConnexionManager
+        EnchereManager
+        UserManager
+  */
 
-
-    public static void BLL() throws GlobalException{
-        GlobalException.getInstance().addError(UserException.EMAIL_INVALIDE);
-        DAL();
-        throw GlobalException.getInstance();
-    }
-
-
-    public static void DAL() throws GlobalException{
-        GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
-        throw GlobalException.getInstance();
-    }
+// SECONDAIRE    demain après-midi
+// TODO : CSS / JS sur les option bouton : Olivier
+// TODO : Message confirmation et erreur à afficher dans les JSP : Julien
+// TODO : insertArticle à redéplacer dans l'insert standard : Alex
+// TODO : Déplacer le bloc affichage enchère dans un fragment : Olivier
 }
