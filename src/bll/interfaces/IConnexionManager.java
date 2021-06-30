@@ -7,5 +7,4 @@ import exception.GlobalException;
 
 public interface IConnexionManager {
     Utilisateur connexionAuSite(String login, String mdp) throws GlobalException;
-
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ArticleDal implements IGenericDao<Article> {
 
-    private static final String SQL_SELECT_BY_ID = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES WHERE no_article=?";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES WHERE no_article=?";
 
     private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
 
@@ -215,14 +215,6 @@ public class ArticleDal implements IGenericDao<Article> {
     }
 
     @Override
-    public Utilisateur selectByEmail(String email) throws GlobalException {
-        return IGenericDao.super.selectByEmail(email);
-    }
-    @Override
-    public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
-        return IGenericDao.super.selectByPseudo(pseudo);
-    }
-    @Override
     public Article selectByArticle(String article) throws GlobalException {
         return IGenericDao.super.selectByArticle(article);
     }
@@ -298,7 +290,6 @@ public class ArticleDal implements IGenericDao<Article> {
                 art.setUtilisateur(user);
                 art.setCategorie(cat);
                 art.setAdresseRetrait(adresse);
-                pstt.executeQuery();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -306,13 +297,6 @@ public class ArticleDal implements IGenericDao<Article> {
         //Je renvoie l'article
         return art;
     }
-
-
-    @Override
-    public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
-        return IGenericDao.super.selectAllAdresseByUser(userId);
-    }
-
 
     @Override
     public Article insertNewArticle(Article newArticle) throws GlobalException {

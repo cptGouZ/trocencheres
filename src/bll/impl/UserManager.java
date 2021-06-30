@@ -71,7 +71,7 @@ public class UserManager implements IUserManager {
         adresseDao.update(userToUpdate.getAdresse());
     }
 
-    //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ?
+    //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ou d'article en vente?
     @Override
     public void supprimer(int userId) throws GlobalException {
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();

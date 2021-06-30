@@ -3,13 +3,13 @@ package servlets;
 import bll.impl.ArticleManager;
 import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
+import bll.interfaces.ICategorieManager;
 import bo.Article;
 import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
 import lombok.SneakyThrows;
 
-import javax.rmi.CORBA.Util;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,9 +46,8 @@ public class AccueilServlet extends HttpServlet {
         //articleList2 = am2.getByCrit1(textechoix, categorie);
         //req.setAttribute("listedesarticles", articleList2);
 
-        //Recuperer les categories
-        List<String> listeCat;
-        listeCat = am2.getLibellesCategorie();
+        ICategorieManager cateman = ManagerProvider.getCategorieManager();
+        List<String> listeCat = cateman.getLibellesCategorie();
         req.setAttribute("libellesCategories", listeCat);
 
         //Declencher requete par tri
@@ -77,34 +76,29 @@ public class AccueilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //Affichage de tous les articles
-        //On fait appel a ArticleManager
-        List<Article> articleList = new ArrayList<>();
-        IArticleManager am = ManagerProvider.getArticleManager();
-
-        //Recuperation des libellés de catégories
-        List<String> listeCat;
-        am.getLibellesCategorie();
-
         try {
-            articleList = am.getAll();
-            //System.out.println("titi" + articleList);
+            //Affichage de tous les articles
+            //On fait appel a ArticleManager
+            List<Article> articleList = new ArrayList<>();
+            IArticleManager am = ManagerProvider.getArticleManager();
 
+            //Recuperation des libellés de catégories
+            ICategorieManager cateman = ManagerProvider.getCategorieManager();
+            List<String> listeCat = cateman.getLibellesCategorie();
+
+            articleList = am.getAll();
+
+            //La servlet envoie l'info à la JSP !
+            req.setAttribute("listedesarticles", articleList);
+            req.setAttribute("libellesCategories", listeCat);
+
+            //Redirection vers accueil
+            RequestDispatcher rd;
+            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
+            rd.forward(req, resp);
         } catch (GlobalException e) {
             e.printStackTrace();
         }
-
-        listeCat = am.getLibellesCategorie();
-        //System.out.println("tutu" + listeCat);
-
-        //La servlet envoie l'info à la JSP !
-        req.setAttribute("listedesarticles", articleList);
-        req.setAttribute("libellesCategories", listeCat);
-
-        //Redirection vers accueil
-        RequestDispatcher rd;
-        rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-        rd.forward(req, resp);
     }
 
 }

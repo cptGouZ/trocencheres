@@ -1,6 +1,7 @@
 package dal.impl;
 
 import bo.Adresse;
+import bo.Article;
 import bo.Enchere;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
@@ -71,14 +72,14 @@ public class EnchereDal implements IGenericDao<Enchere> {
     private Enchere EnchereFromRs(ResultSet rs) throws SQLException, GlobalException {
 
         Enchere retour = new Enchere();
-        retour.setId(rs.getInt("no_enchere"));
 
         Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-
+        Article article = DaoProvider.getArticleDao().selectById(rs.getInt("no_article"));
         retour.setUser(user);
+        retour.setArticle(article);
+        retour.setId(rs.getInt("no_enchere"));
         retour.setDateEnchere(rs.getTimestamp("date").toLocalDateTime());
         retour.setMontant(rs.getInt("montant"));
-
         return retour;
     }
 }
