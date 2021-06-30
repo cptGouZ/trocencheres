@@ -29,7 +29,7 @@ public class AfficherEnchere extends HttpServlet {
         IEnchereManager em = ManagerProvider.getEnchereManager();
         IArticleManager am = ManagerProvider.getArticleManager();
         Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnsected");
-//        Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
+//      Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
         int idArticle = 2;
         try {
             Article articleToDisplay = am.getById(idArticle);
@@ -61,8 +61,8 @@ public class AfficherEnchere extends HttpServlet {
             /* TRAITEMENT DES DONNEES A ENREGISTRER */
             /****************************************/
             if(req.getRequestURI().contains("encherir")) {
-                //créer une nouvelle enchère si je ne suis pas le dernier encherisseur sinon affichage par défaut
-                em.creer(articleToDisplay, montant);
+                //créer une nouvelle enchère
+                em.creer(articleToDisplay, montant, userConnected) ;
                 lastEnchere = em.getLastEnchereOnArticle(articleToDisplay.getId());
             }
             if(req.getRequestURI().contains("retrait")) {

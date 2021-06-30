@@ -8,4 +8,7 @@ public interface EnchereException extends EnumException {
     //DAL
     int SELECT_BY_ARTICLE=3000 ;
 
+    //BLL
+    int CREDIT_INSUFFISANT=3100;
+
 }
