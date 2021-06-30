@@ -10,5 +10,6 @@ public interface EnchereException extends EnumException {
 
     //BLL
     int CREDIT_INSUFFISANT=3100;
+    int ENCH_INF_LASTENCHERE=3110;
 
 }

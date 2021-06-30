@@ -25,7 +25,7 @@ public class EnchereManager implements IEnchereManager {
     }
 
     @Override
-    public void creer(Article article, String montant, Utilisateur userConnected) throws GlobalException {
+    public void creer(Article article, String montant, Utilisateur userConnected,Enchere lastEnchere) throws GlobalException {
 
         //Création d'un objet enchere
         Enchere nouvelleEnchere = new Enchere() ;
@@ -48,11 +48,18 @@ public class EnchereManager implements IEnchereManager {
         Integer creditDispo = userConnected.getCreditDispo();
 
         //Contrôler qu'il lui reste suffisament de crédit pour enchérir
-        if (montantOK <= creditDispo){
-            encDao.insert(nouvelleEnchere);
-        } else {
+        if(montantOK<=creditDispo)
             GlobalException.getInstance().addError(EnchereException.CREDIT_INSUFFISANT);
-        }
+
+        //Contrôler que l'enchère est bien strictement supérieur à la dernière enchère
+        if(montantOK > lastEnchere.getMontant())
+            GlobalException.getInstance().addError(EnchereException.ENCH_INF_LASTENCHERE);
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
+
+        //Si les contrôles sont OK j'envoi la nouvelle enchère à la DAL
+            encDao.insert(nouvelleEnchere);
+
     }
 
     private final String PATTERN_PRIX = "^[0-9]{1,10}$" ;

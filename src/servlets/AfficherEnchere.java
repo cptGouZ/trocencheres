@@ -63,7 +63,7 @@ public class AfficherEnchere extends HttpServlet {
             /****************************************/
             if(req.getRequestURI().contains("encherir")) {
                 //créer une nouvelle enchère
-                em.creer(articleToDisplay, montant, userConnected) ;
+                em.creer(articleToDisplay, montant, userConnected,lastEnchere) ;
                 lastEnchere = em.getLastEnchereOnArticle(articleToDisplay.getId());
             }
             if(req.getRequestURI().contains("retrait")) {
