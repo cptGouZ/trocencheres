@@ -44,7 +44,7 @@ public class CategorieDal implements IGenericDao<Categorie> {
             pstt.setInt(1, id);
             ResultSet rs = pstt.executeQuery();
             while(rs.next()){
-                retour = new Categorie(rs.getInt("no_utilisateur"), rs.getString("libelle"));
+                retour = new Categorie(rs.getInt("no_categorie"), rs.getString("libelle"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

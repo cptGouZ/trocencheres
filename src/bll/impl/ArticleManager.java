@@ -35,27 +35,10 @@ public class ArticleManager implements IArticleManager {
         return articleList;
     }
 
-
     @Override
-    @Deprecated
-    public List<Article> getByCrit1(String articleName, String catName) throws GlobalException {
-        List<Article> articleList2 = new ArrayList<>();
-        try {
-            IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-            System.out.println("manager" + articleName);
-            articleList2 = IDao.selectByCrit1(articleName, catName);
-            System.out.println("dada" + articleList2);
-        } catch (GlobalException e) {
-            e.printStackTrace();
-        }
-        return articleList2;
-    }
-
-
-    @Override
-    public List<Article> getByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
+    public List<Article> getByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
         IGenericDao<Article> IDao = DaoProvider.getArticleDao();
-        List<Article> retour = IDao.selectByCrit2(articleName, catName, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
+        List<Article> retour = IDao.selectByCrit2(articleName, catId, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
         return retour;
     }
 

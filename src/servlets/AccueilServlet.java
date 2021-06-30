@@ -5,6 +5,7 @@ import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
 import bll.interfaces.ICategorieManager;
 import bo.Article;
+import bo.Categorie;
 import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
@@ -30,7 +31,9 @@ public class AccueilServlet extends HttpServlet {
         try {
             //On recupere la categorie, et le nom quand l'utilisateur le saisit
             String textechoix = req.getParameter("textechoix");
-            String categorie = req.getParameter("categorie");
+            Integer categorie = 0;
+            if(req.getParameter("categorie")!=null)
+                categorie = Integer.valueOf(req.getParameter("categorie"));
             //Récupérer eglt les checkbox si elles sont cochees
             boolean ventesTerm = req.getParameter("ven3") != null;
             boolean encheresOuv = req.getParameter("ach1") != null;
@@ -43,14 +46,14 @@ public class AccueilServlet extends HttpServlet {
             IArticleManager am2 = ManagerProvider.getArticleManager();
             //Preparation des catégories et définition de l'attribut
             ICategorieManager cateman = ManagerProvider.getCategorieManager();
-            List<String> listeCat = cateman.getLibellesCategorie();
+            List<bo.Categorie> listeCat = cateman.getAll();
 
             //Declencher requete par tri
             Utilisateur util = (bo.Utilisateur) req.getSession().getAttribute("userConnected");
             List<Article> articleList = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
 
             //Ajout des attributs à la requête
-            req.setAttribute("libellesCategories", listeCat);
+            req.setAttribute("listeCategories", listeCat);
             req.setAttribute("listedesarticles", articleList);
 
             //Redirection vers accueil
@@ -72,13 +75,13 @@ public class AccueilServlet extends HttpServlet {
 
             //Recuperation des libellés de catégories
             ICategorieManager cateman = ManagerProvider.getCategorieManager();
-            List<String> listeCat = cateman.getLibellesCategorie();
+            List<bo.Categorie> listeCat = cateman.getAll();
 
             articleList = am.getAll();
 
             //La servlet envoie l'info à la JSP !
             req.setAttribute("listedesarticles", articleList);
-            req.setAttribute("libellesCategories", listeCat);
+            req.setAttribute("listeCategories", listeCat);
 
             //Redirection vers accueil
             RequestDispatcher rd;
