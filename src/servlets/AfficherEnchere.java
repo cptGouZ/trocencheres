@@ -34,7 +34,9 @@ public class AfficherEnchere extends HttpServlet {
         try {
             Article articleToDisplay = am.getById(idArticle);
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
-            Integer montant = Integer.valueOf(req.getParameter("montant"));
+            Integer montant = lastEnchere.getMontant();
+            if(req.getParameter("montant")!=null)
+                Integer.valueOf(req.getParameter("montant"));
             boolean isMeOnLastEnchere = false;
             if(lastEnchere!=null)
                 isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
