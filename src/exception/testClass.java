@@ -9,7 +9,7 @@ import javax.swing.text.html.CSS;
 public class testClass {
 // A FAIRE    ce soir et demain matin
 // TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien
-// TODO : tester la suppression utilisateur : Olivier
+// TODO : tester la suppression utilisateur : Olivier : OK Merc 30/06 17h.
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
 /* TODO : Vérification des exception
     Utilisateur

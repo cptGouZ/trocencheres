@@ -115,7 +115,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstmt = cnx.prepareStatement(DELETE)) {
             pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             GlobalException.getInstance().addError(UserException.USER_DELETION_ERROR);
