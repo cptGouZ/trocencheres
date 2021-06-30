@@ -28,6 +28,7 @@ public class EnchereDal implements IGenericDao<Enchere> {
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstmt = cnx.prepareStatement(SUM_ENCHERE_BY_USER);
         ){
+            pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
                 retour = rs.getInt( "montant");
@@ -70,9 +71,9 @@ public class EnchereDal implements IGenericDao<Enchere> {
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             while(rs.next()){
-                obj.setDateEnchere(rs.getTimestamp(1).toLocalDateTime());
-                obj.setId(rs.getInt(2));
+                obj.setId(rs.getInt(1));
             }
+            obj = selectById(obj.getId());
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             GlobalException.getInstance().addError(EnchereException.SELECT_BY_ARTICLE);

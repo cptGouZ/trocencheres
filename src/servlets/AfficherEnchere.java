@@ -28,15 +28,14 @@ public class AfficherEnchere extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         IEnchereManager em = ManagerProvider.getEnchereManager();
         IArticleManager am = ManagerProvider.getArticleManager();
-        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnsected");
+        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
 //      Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
         int idArticle = 2;
         try {
             Article articleToDisplay = am.getById(idArticle);
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
-            Integer montant = lastEnchere.getMontant();
-            if(req.getParameter("montant")!=null)
-                Integer.valueOf(req.getParameter("montant"));
+            String montant = req.getParameter("montant");
+
             boolean isMeOnLastEnchere = false;
             if(lastEnchere!=null)
                 isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
@@ -68,7 +67,6 @@ public class AfficherEnchere extends HttpServlet {
                 lastEnchere = em.getLastEnchereOnArticle(articleToDisplay.getId());
             }
             if(req.getRequestURI().contains("retrait")) {
-                req.setAttribute("affichagejsp", "retirer");
                 am.retirer(articleToDisplay);
             }
 
