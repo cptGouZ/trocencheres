@@ -21,10 +21,10 @@
     <div class="col">
         <div class="row">
             <c:if test="${'creation'.equals(affichagejsp)}">
-                <form method="post" action="${pageContext.request.contextPath}/comptecreation" class="col">
+                <form method="post" action="${pageContext.request.contextPath}/enregistrercompte" class="col">
             </c:if>
             <c:if test="${'modification'.equals(affichagejsp)}">
-                <form method="post" action="${pageContext.request.contextPath}/comptemodif" class="col">
+                <form method="post" action="${pageContext.request.contextPath}/enregistrercompte" class="col">
                     <input type="hidden" name="userId" value="${userToDisplay.id}">
             </c:if>
                 <%--Pseudo / Nom--%>

@@ -18,10 +18,9 @@ import java.io.IOException;
                 "/profil",
                 "/modifcompte",
                 "/creationcompte",
-                "/supprimercompte",
                 "/enregistrercompte"
         })
-public class CompteModif1 extends HttpServlet {
+public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("affichagejsp", "creation");
@@ -30,18 +29,18 @@ public class CompteModif1 extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        IUserManager um = ManagerProvider.getUserManager();
+        Integer userId = null;
+        Utilisateur moi = null;
+        Utilisateur userBeforeUpdate = null;
+        Utilisateur userToInsertOrAfterUpdate = null;
+        String newPwConfirmation = null;
+        String pwControl = null;
+        boolean isMeOrImAdmin = false;
+        String action = req.getParameter("action");
         try {
-            IUserManager um = ManagerProvider.getUserManager();
-            Integer userId = null;
-            Utilisateur moi = null;
-            Utilisateur userBeforeUpdate = null;
-            Utilisateur userToInsertOrAfterUpdate = null;
-            String newPwConfirmation = null;
-            String pwControl = null;
-            boolean isMeOrImAdmin = false;
-
             //Utilisateur qui sera affiché en cas d'erreur d'entré des données
-            if (!req.getRequestURI().contains("creationcompte")){
+            if (req.getParameter("userId")!=null){
                 //Préparation des variables pour les affichages et modif de profil
                 userId = Integer.parseInt(req.getParameter("userId"));
                 moi = (Utilisateur) req.getSession().getAttribute("userConnected");
@@ -54,6 +53,9 @@ public class CompteModif1 extends HttpServlet {
                 userToInsertOrAfterUpdate = um.prepareUser(req);
             }
 
+            /******************************/
+            /* PREPARATION DE L'AFFICHAGE */
+            /******************************/
             //Affichage d'un profil
             if(req.getRequestURI().contains("profil")){
                 req.setAttribute("displayBtnModif", false);
@@ -71,22 +73,19 @@ public class CompteModif1 extends HttpServlet {
                 req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
             }
 
-            //Suppression d'un compte
-            if(req.getRequestURI().contains("supprimercompte")){
-                um.supprimer(userBeforeUpdate.getId());
-                req.setAttribute("messageConfirm", UserException.SUPPR_USER_OK);
-                req.getRequestDispatcher("accueilS").forward(req, resp);
-            }
 
-            //Enregistrer les modif en création et modif
+            /******************************/
+            /* ENREGISTREMENT DES DONNEES */
+            /******************************/
+            //Enregistrer les modifications du profil
             if(req.getRequestURI().contains("enregistrercompte")){
-                if(userId==null){
+                if("creer".equals(action)) {
                     //Enregistrer les une création
                     um.creer(userToInsertOrAfterUpdate, newPwConfirmation);
                     req.setAttribute("messageConfirm", UserException.CREATION_USER_OK);
                     req.getRequestDispatcher("accueilS").forward(req, resp);
-
-                }else{
+                }
+                if("maj".equals(action)){
                     //Enregistrer une modif
                     um.mettreAJour(userBeforeUpdate, userToInsertOrAfterUpdate, pwControl, newPwConfirmation);
                     //Je me met à jour si c'est moi qui ai changé
@@ -98,14 +97,21 @@ public class CompteModif1 extends HttpServlet {
                     req.setAttribute("messageConfirm", UserException.MODIF_USER_OK);
                     req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
                 }
+                if("supprimer".equals(action)){
+                    um.supprimer(userBeforeUpdate.getId());
+                    req.getSession().setAttribute("userConnected", null);
+                    req.setAttribute("messageConfirm", UserException.SUPPR_USER_OK);
+                    req.getRequestDispatcher("accueilS").forward(req, resp);
+                }
             }
         }catch(GlobalException e){
-            /*if("maj".equals(action) || "supprimer".equals(action)) {
-                req.setAttribute("affichage", "modification");
+            if(req.getRequestURI().contains("enregistrercompte")) {
+                if (userId != null) req.setAttribute("affichagejsp", "modification");
+                if (userId == null) req.setAttribute("affichagejsp", "creation");
                 req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
-                req.setAttribute("userToDisplay", userUpdated);
-                req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
-            }*/
+                req.setAttribute("userToDisplay", userToInsertOrAfterUpdate);
+                req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
+            }
         }
     }
 }

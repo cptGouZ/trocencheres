@@ -47,7 +47,7 @@
                             <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
 
                             <%--BOUTON CREER COMPTE/PROFIL--%>
-                            <a href="${pageContext.request.contextPath}/comptecreation" class="btn btn-secondary"> Créer un compte </a>
+                            <a href="${pageContext.request.contextPath}/creationcompte" class="btn btn-secondary"> Créer un compte </a>
                             <br>
                         </div>
 
