@@ -24,7 +24,7 @@ public class GestionCompte extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("affichagejsp", "creation");
-        req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/gestioncompte.jsp").forward(req, resp);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class GestionCompte extends HttpServlet {
             if(req.getRequestURI().contains("modifcompte")){
                 req.setAttribute("userToDisplay", um.getById(userId));
                 req.setAttribute("affichagejsp", "modification");
-                req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/gestioncompte.jsp").forward(req, resp);
             }
 
 
@@ -95,7 +95,7 @@ public class GestionCompte extends HttpServlet {
                     req.setAttribute("userToDisplay", um.getById(userId));
                     req.setAttribute("affichagejsp", "modification");
                     req.setAttribute("messageConfirm", UserException.MODIF_USER_OK);
-                    req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
+                    req.getRequestDispatcher("WEB-INF/gestioncompte.jsp").forward(req, resp);
                 }
                 if("supprimer".equals(action)){
                     um.supprimer(userBeforeUpdate.getId());
@@ -110,7 +110,7 @@ public class GestionCompte extends HttpServlet {
                 if (userId == null) req.setAttribute("affichagejsp", "creation");
                 req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
                 req.setAttribute("userToDisplay", userToInsertOrAfterUpdate);
-                req.getRequestDispatcher("WEB-INF/compte.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/gestioncompte.jsp").forward(req, resp);
             }
         }
     }

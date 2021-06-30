@@ -15,13 +15,13 @@
 <body class="container">
     <%@ include file="background.jsp"%>
     <header class="row">
-        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true"><img src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
+        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion"><img src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
         <div class="col"><h1>${param.get("titre")}</h1></div>
         <c:if test="${empty sessionScope.get('userConnected')}">
             <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>
         </c:if>
         <c:if test="${!empty sessionScope.get('userConnected')}">
-            <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true">Déconnexion</a></div>
+            <div class="col"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></div>
             <div class="col">
                 <form method="post" action="${pageContext.request.contextPath}/profil">
                     <input type="hidden" name="userId" value=${userConnected.id}>
