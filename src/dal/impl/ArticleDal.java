@@ -98,7 +98,9 @@ public class ArticleDal implements IGenericDao<Article> {
     @Override
     public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
 
-        String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
+        String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as article, a.description as description, a.date_debut_encheres as date_debut_encheres " +
+                "a.date_fin_encheres as date_fin_enchere, a.prix_initial as prix_initial, a.prix_vente as prix_vente, a.no_utilisateur as no_utilisateur " +
+                "a.no_adresse as no_adresse, a.no_categorie as no_categorie " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie " +
                 "WHERE a.article LIKE ?";
 
@@ -215,7 +217,7 @@ public class ArticleDal implements IGenericDao<Article> {
     @Override
     public List<Article> selectAll() throws GlobalException {
 
-        String SQL_SELECT_ALL_ARTICLES = "SELECT article, prix_vente, date_fin_encheres, no_utilisateur FROM ARTICLES " +
+        String SQL_SELECT_ALL_ARTICLES = "SELECT * FROM ARTICLES " +
                 "WHERE CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres";
 
         //Je crée un article et une liste
