@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -29,7 +30,7 @@
         <div class="col-xs-12 col-md-6">
             <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/accueilS">Back</a>
         </div>
-        <c:if test="${displayBtnModif}">
+        <c:if test="${displayBtnModif==true}">
             <div class="col-xs-12 col-md-6">
                 <form method="post" action="${pageContext.request.contextPath}/modifcompte">
                     <input type="hidden" name="userId" value="${userToDisplay.id}">
