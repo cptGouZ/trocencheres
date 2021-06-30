@@ -43,60 +43,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
 
     @Override
-    @Deprecated
-    public List<Article> selectByCrit1(String articleName, String catName) throws GlobalException {
-
-        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
-                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
-
-        //Je crée une liste
-        List<Article> list = new ArrayList<Article>();
-        //Je lance la connexion
-        try (
-                Connection con = ConnectionProvider.getConnection()
-        ) {
-
-            //Je trie en fonction du choix utilisateur
-            StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
-
-            sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
-            System.out.println("momo" + articleName);
-
-            //Choix catégorie
-            System.out.println("tutu" + catName);
-            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
-            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
-            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
-            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
-
-            System.out.println(sqlConstruction);
-
-            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
-            ResultSet rs = pstt.executeQuery();
-            while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout2 = new Article();
-                artAjout2.setArticle(rs.getString("article"));
-                artAjout2.setPrixVente(rs.getInt("prix_vente"));
-                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout2.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout2);
-            }
-            System.out.println("didi" + list);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return list;
-    }
-
-
-    @Override
-    public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
+    public List<Article> selectByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as no_article, a.article as article, a.description as description, " +
                 "a.date_debut_encheres as date_debut_encheres, a.date_fin_encheres as date_fin_encheres, a.prix_initial as prix_initial, " +
@@ -114,8 +61,8 @@ public class ArticleDal implements IGenericDao<Article> {
             StringBuilder sqlConstruction2 = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES2);
 
             //Traitement de la catégorie
-            if(!"toutes".equals(catName)) {
-                sqlConstruction2.append(" AND c.libelle = '"+ catName +"'");
+            if(!catId.equals(0)) {
+                sqlConstruction2.append(" AND c.no_categorie = '"+ catId +"'");
             }
 
             //Je regarde mes achats

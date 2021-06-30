@@ -17,7 +17,7 @@
             <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
             <!-- Import fragment Categorie-->
             <jsp:include page="fragments/categorie.jsp">
-                <jsp:param name="libellesCategories" value="${libellesCategories}"/>
+                <jsp:param name="listeCategories" value="${listeCategories}"/>
             </jsp:include>
             <!--Voir les informations Ventes et Achats si le profil est connecté-->
             <c:if test="${!empty sessionScope.get('userConnected')}">

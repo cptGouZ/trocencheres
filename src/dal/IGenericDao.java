@@ -23,9 +23,7 @@ public interface IGenericDao<T> {
     //Méthodes spécifiques à Article
     default Article selectByArticle(String article) throws GlobalException {return null;}
     default Article insertNewArticle(T nouvelArticle) throws GlobalException {return null;}
-
-    default List<Article> selectByCrit1(String articleName, String catName) throws GlobalException {return null;}
-    default List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb,
+    default List<Article> selectByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb,
                                         boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {return null;}
 
     //Méthode spécifique à Adresse
