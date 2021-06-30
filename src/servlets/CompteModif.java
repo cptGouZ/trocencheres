@@ -52,7 +52,7 @@ public class CompteModif extends HttpServlet {
         try {
             //Mise à jour utilisateur
             if ("maj".equals(action)) {
-                userUpdated = UserManager.prepareUser(req);
+                userUpdated = um.prepareUser(req);
                 String pwConfirmation = req.getParameter("confirmPassword");
                 String actualPassword = req.getParameter("password");
                 um.mettreAJour(userDisplayed, userUpdated, actualPassword, pwConfirmation);

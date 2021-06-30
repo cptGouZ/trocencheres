@@ -34,7 +34,7 @@ public class CompteCreation extends HttpServlet {
         IUserManager um = ManagerProvider.getUserManager();
         Utilisateur newUser = null;
         try {
-            newUser = UserManager.prepareUser(req);
+            newUser = um.prepareUser(req);
             String confirmPassword = req.getParameter("confirmPassword").trim();
             um.creer(newUser, confirmPassword);
             req.setAttribute("messageConfirm", UserException.CREATION_USER_OK);

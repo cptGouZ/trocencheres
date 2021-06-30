@@ -13,17 +13,19 @@ public class testClass {
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
 /* TODO : Vérification des exception. Le header contien "messageErreur" et "messageConfirm"
     Utilisateur
-    Article
-    Enchere
-    Adresse
-    Categorie
+    Dal
+        Article
+        Enchere
+        Adresse
+        Categorie
+        User
     Managers
         AdresseManager
         ArticleManager
         CategorieManager
         ConnexionManager
         EnchereManager
-        UserManager
+        UserManager -> validé Julien
   */
 
 // SECONDAIRE    demain après-midi
