@@ -6,6 +6,8 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.AppException;
+import exception.exceptionEnums.ArticleException;
+import exception.exceptionEnums.UserException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class ArticleDal implements IGenericDao<Article> {
     private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
 
     private static final String SQL_SELECT_BY_CATEGORIES = "SELECT libelle FROM CATEGORIES";
+
+    private final String UPDATE = "UPDATE ARTICLES SET article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_adresse=?, no_categorie=? WHERE no_article=?";
 
 
     @Override
@@ -207,8 +211,33 @@ public class ArticleDal implements IGenericDao<Article> {
     public void insert(Article obj) throws GlobalException {
 
     }
+
     @Override
-    public void update(Article obj) throws GlobalException {}
+    public void update(Article obj) throws GlobalException {
+
+            try (Connection uneConnection = ConnectionProvider.getConnection();
+                 PreparedStatement pStmt = uneConnection.prepareStatement(UPDATE)
+            ){
+                pStmt.setString(1, obj.getArticle());
+                pStmt.setString(2, obj.getDescription());
+                pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(obj.getDateDebut()));
+                pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(obj.getDateFin()));
+                pStmt.setInt(5,obj.getPrixInitiale());
+                pStmt.setInt(6,obj.getPrixVente());
+                pStmt.setInt(7,obj.getUtilisateur().getId());
+                pStmt.setInt(8,obj.getAdresseRetrait().getId());
+                pStmt.setInt(9,obj.getCategorie().getId());
+                pStmt.setInt(10,obj.getId());
+
+                pStmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                GlobalException.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_ARTICLE);
+                throw GlobalException.getInstance();
+            }
+        }
+
     @Override
     public void delete(int id) throws GlobalException {}
 

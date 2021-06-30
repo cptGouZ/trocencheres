@@ -2,6 +2,7 @@ package bll.interfaces;
 
 import bo.Adresse;
 import bo.Article;
+import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
 
@@ -16,5 +17,6 @@ public interface IArticleManager {
     List<Article> getByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException;
 
     Article insertNewArticle(Utilisateur userEnCours, Integer categorie, String article, String description, LocalDateTime debutEnchereBll, LocalDateTime finEnchereBll, Integer prixDepart, Adresse newAdresse) throws GlobalException;
-    void retirer(Article article) throws GlobalException;
+    Article retirer(Article articleToDisplay, Utilisateur userConnected, Enchere lastEnchere) throws GlobalException;
+
 }
