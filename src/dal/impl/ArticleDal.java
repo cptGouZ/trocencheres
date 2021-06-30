@@ -205,6 +205,7 @@ public class ArticleDal implements IGenericDao<Article> {
         return IGenericDao.super.selectByArticle(article);
     }
     @Override
+    @Deprecated
     public void insert(Article obj) throws GlobalException {
 
     }
