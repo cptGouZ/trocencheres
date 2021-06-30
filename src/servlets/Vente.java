@@ -52,11 +52,13 @@ public class Vente extends HttpServlet {
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart").trim());
 
         String debutEnchere = req.getParameter("debutEnchere").trim();
-        String debutEncherePrecis = (debutEnchere + "T00:00:00").trim();
+        System.out.println(debutEnchere);
+        String debutEncherePrecis = (debutEnchere + ":00").trim();
         LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEncherePrecis);
 
         String finEnchere = req.getParameter("finEnchere").trim();
-        String finEncherePrecis = (finEnchere + "T23:59:59").trim() ;
+        System.out.println(finEnchere);
+        String finEncherePrecis = (finEnchere + ":59").trim() ;
         LocalDateTime finEnchereBll = LocalDateTime.parse(finEncherePrecis);
 
         String rue = req.getParameter("rue").trim();

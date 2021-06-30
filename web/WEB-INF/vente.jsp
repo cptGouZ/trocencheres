@@ -60,7 +60,7 @@
              <%--DEBUT ENCHERE--%>
                  <div>
                      <span class="input-group-text" for="debutEnchere">Début de l'enchère : <p class="text-danger">* </p>
-                     <input type="date" id="debutEnchere" name="debutEnchere"
+                     <input type="datetime-local" id="debutEnchere" name="debutEnchere"
                             value="${empty dateDebutSaisie ? dateDuJour : dateDebutSaisie}"
                             min="${dateDuJour}" max="2050-12-31" required></span>
                  </div>
@@ -68,7 +68,7 @@
              <%--FIN ENCHERE--%>
                  <div>
                      <span class="input-group-text" for="debutEnchere">Fin de l'enchère : <p class="text-danger">* </p>
-                     <input type="date" id="finEnchere" name="finEnchere"
+                     <input type="datetime-local" id="finEnchere" name="finEnchere"
                         value="${empty dateFinSaisie ? "" : dateFinSaisie}"
                         min="${dateDuJour}" max="2050-12-31"></span>
                  </div>
