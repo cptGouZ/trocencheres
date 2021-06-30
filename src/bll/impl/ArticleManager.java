@@ -90,7 +90,7 @@ public class ArticleManager implements IArticleManager {
     public Article retirer(Article article, Utilisateur userConnected, Enchere lastEnchere) throws GlobalException {
 
         Article articleCloture = null ;
-        Integer enchereGagnante = lastEnchere.getMontant() ;
+        Integer montantEnchereGagnante = lastEnchere.getMontant() ;
 
         /*******************************/
         /** MISE A JOUR ARTICLE VENDU **/
@@ -100,13 +100,10 @@ public class ArticleManager implements IArticleManager {
             IGenericDao<Article> artDao = DaoProvider.getArticleDao() ;
 
             // Insérer le prix de vente final dans l'article
-            article.setPrixVente(lastEnchere.getMontant());
+            article.setPrixVente(montantEnchereGagnante);
 
             // Mettre à jour les données de l'article vendu en BDD
             artDao.update(article);
-
-            //Récupérer l'article mis à jour pour le renvoi vers l'IHM pour l'affichage
-            articleCloture = artDao.selectById(articleCloture.getId());
 
         /*********************************************/
         /** MISE A JOUR CREDITS VENDEUR ET ACHETEUR **/
@@ -123,16 +120,32 @@ public class ArticleManager implements IArticleManager {
             Integer creditDispoAcheteur = userConnected.getCreditDispo();
             Integer creditDispoVendeur = vendeur.getCreditDispo();
 
+            // Mise en mémoire des crédits ACHETEUR ET VENDEUR en cas d'erreur lors de l'update
+            int creditAcheteur = userConnected.getCredit() ;
+            int creditVendeur = article.getUtilisateur().getCredit() ;
+
             // Actualiser le crédit de l'acheteur
-            acheteur.setCredit(creditDispoAcheteur - enchereGagnante);
-            userDao.update(acheteur);
+            try {
+                acheteur.setCredit(creditAcheteur - montantEnchereGagnante);
+                userDao.update(acheteur);
+            } catch (GlobalException e){
+                e.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_ACHETEUR);
+                acheteur.setCredit(creditAcheteur);
+                throw e ;
+            }
 
             //Actualiser le crédit du vendeur
-            vendeur.setCredit(creditDispoVendeur + enchereGagnante);
-            userDao.update(vendeur);
+            try {
+                vendeur.setCredit(creditVendeur + montantEnchereGagnante);
+                userDao.update(vendeur);
+            } catch (GlobalException e){
+                e.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_VENDEUR);
+                vendeur.setCredit(creditVendeur);
+                throw e ;
 
+            }
 
-        return articleCloture ;
+        return article ;
 
     }
 
