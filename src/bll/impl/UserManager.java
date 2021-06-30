@@ -74,9 +74,9 @@ public class UserManager implements IUserManager {
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IAdresseManager am = ManagerProvider.getAdresseManager();
         Utilisateur user = getById(userId);
-        for (Adresse a : am.getAdressesByUser(userId)){
+/*        for (Adresse a : am.getAdressesByUser(userId)){
             am.supprimer(user.getAdresse().getId());
-        }
+        }*/
         userDao.delete(user.getId());
     }
 
