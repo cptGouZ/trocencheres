@@ -48,11 +48,11 @@ public class EnchereManager implements IEnchereManager {
         Integer creditDispo = userConnected.getCreditDispo();
 
         //Contrôler qu'il lui reste suffisament de crédit pour enchérir
-        if(montantOK<=creditDispo)
+        if(montantOK > creditDispo)
             GlobalException.getInstance().addError(EnchereException.CREDIT_INSUFFISANT);
 
         //Contrôler que l'enchère est bien strictement supérieur à la dernière enchère
-        if(montantOK > lastEnchere.getMontant())
+        if(montantOK <= lastEnchere.getMontant())
             GlobalException.getInstance().addError(EnchereException.ENCH_INF_LASTENCHERE);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();

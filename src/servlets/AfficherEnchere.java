@@ -29,8 +29,8 @@ public class AfficherEnchere extends HttpServlet {
         IEnchereManager em = ManagerProvider.getEnchereManager();
         IArticleManager am = ManagerProvider.getArticleManager();
         Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
-//      Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
-        int idArticle = 2;
+        Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
+
         try {
             Article articleToDisplay = am.getById(idArticle);
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);

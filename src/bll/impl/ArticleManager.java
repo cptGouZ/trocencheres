@@ -105,7 +105,13 @@ public class ArticleManager implements IArticleManager {
 
     @Override
     public void retirer(Article article) throws GlobalException {
-        //TODO implémentation à faire
+
+        Article articleCloture = null ;
+
+        IGenericDao<Article> artDao = DaoProvider.getArticleDao() ;
+
+
+
     }
 
     /**************************/
