@@ -247,36 +247,38 @@ public class ArticleDal implements IGenericDao<Article> {
         return list;
     }
 
+    private Article articleFromRs(ResultSet rs) throws SQLException, GlobalException {
+        Article art = new Article();
+        Categorie cat = DaoProvider.getCategorieDao().selectById(rs.getInt("no_categorie"));
+        Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+        Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
+
+        art.setId(rs.getInt("no_article"));
+        art.setArticle(rs.getString("article"));
+        art.setDescription(rs.getString("description"));
+        art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+        art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+        art.setPrixInitiale(rs.getInt("prix_vente"));
+        art.setPrixVente(rs.getInt("prix_vente"));
+        art.setUtilisateur(user);
+        art.setCategorie(cat);
+        art.setAdresseRetrait(adresse);
+        return art;
+    }
+
     @Override
     public Article selectById(int id) throws GlobalException {
-        final String SQL_SELECT_CAT_BY_ID="SELECT * FROM CATEGORIES WHERE no_categorie=?";
         //Je crée un article
-        Article art = new Article();
+        Article art = null;
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection();
                 PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
-                PreparedStatement pstt2 = con.prepareCall(SQL_SELECT_CAT_BY_ID);
         ) {
             pstt.setInt(1,id);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                pstt2.setInt(1,rs.getInt("no_categorie"));
-                ResultSet rs2 = pstt2.executeQuery();
-                rs2.next();
-                Categorie cat = new Categorie(rs2.getInt("no_categorie"), rs2.getString("libelle"));
-                Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
-                art.setId(rs.getInt("no_article"));
-                art.setArticle(rs.getString("article"));
-                art.setDescription(rs.getString("description"));
-                art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
-                art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-                art.setPrixInitiale(rs.getInt("prix_vente"));
-                art.setPrixVente(rs.getInt("prix_vente"));
-                art.setUtilisateur(user);
-                art.setCategorie(cat);
-                art.setAdresseRetrait(adresse);
+                art = articleFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
