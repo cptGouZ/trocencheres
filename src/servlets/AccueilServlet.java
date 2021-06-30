@@ -31,7 +31,9 @@ public class AccueilServlet extends HttpServlet {
         try {
             //On recupere la categorie, et le nom quand l'utilisateur le saisit
             String textechoix = req.getParameter("textechoix");
-            Integer categorie = Integer.valueOf(req.getParameter("categorie"));
+            Integer categorie = 0;
+            if(req.getParameter("categorie")!=null)
+                categorie = Integer.valueOf(req.getParameter("categorie"));
             //Récupérer eglt les checkbox si elles sont cochees
             boolean ventesTerm = req.getParameter("ven3") != null;
             boolean encheresOuv = req.getParameter("ach1") != null;
