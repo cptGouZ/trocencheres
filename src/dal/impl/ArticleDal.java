@@ -172,16 +172,16 @@ public class ArticleDal implements IGenericDao<Article> {
             pstt.setString(1, "%" + articleName + "%");
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout2 = new Article();
-                artAjout2.setArticle(rs.getString("article"));
-                artAjout2.setPrixVente(rs.getInt("prix_vente"));
-                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout2.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout2);
+//                //Je choisis les paramètres de l'objet avec le get
+//                Article artAjout2 = new Article();
+//                artAjout2.setArticle(rs.getString("article"));
+//                artAjout2.setPrixVente(rs.getInt("prix_vente"));
+//                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+//                //J'ajoute l'item "Vendeur"
+//                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+//                artAjout2.setUtilisateur(ut);
+//                //J'ajoute l'article à la liste
+                list.add(articleFromRs(rs));
             }
             System.out.println("didi" + list);
 
@@ -227,16 +227,16 @@ public class ArticleDal implements IGenericDao<Article> {
             PreparedStatement pstt = con.prepareCall(SQL_SELECT_ALL_ARTICLES);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout = new Article();
-                artAjout.setArticle(rs.getString("article"));
-                artAjout.setPrixVente(rs.getInt("prix_vente"));
-                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout);
+//                //Je choisis les paramètres de l'objet avec le get
+//                Article artAjout = new Article();
+//                artAjout.setArticle(rs.getString("article"));
+//                artAjout.setPrixVente(rs.getInt("prix_vente"));
+//                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+//                //J'ajoute l'item "Vendeur"
+//                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+//                artAjout.setUtilisateur(ut);
+//                //J'ajoute l'article à la liste
+                list.add(articleFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
