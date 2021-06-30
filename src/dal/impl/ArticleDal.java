@@ -100,7 +100,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie " +
-                "WHERE a.article LIKE '%"+ articleName  +"%'";
+                "WHERE a.article LIKE ?";
 
         //Je crée une liste
         List<Article> list = new ArrayList<Article>();
@@ -118,30 +118,29 @@ public class ArticleDal implements IGenericDao<Article> {
 
             //Je regarde mes achats
             if(encheresOuv == true || encheresEnCours == true || encheresRemp == true) {
-                sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ") AND ( ");
-                //Enchère ouverte
-                if(encheresOuv) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
-                sqlConstruction2.append(" ) ");}
+                    if(util != null) {
+                        sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ")"); }
+                sqlConstruction2.append(" AND ( ");
+                    //Enchère ouverte
+                    if(encheresOuv) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");}
+                    //Enchères en cours avec une enchere mini
+                    if(encheresEnCours) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
+                                " FROM Encheres INNER JOIN" +
+                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + "  GROUP BY no_article)" +
+                                " AS t ON t.no_enchere = ENCHERES.no_enchere) ");}
 
-                //Enchères en cours avec une enchere mini
-                if(encheresEnCours) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
-                            " FROM Encheres INNER JOIN" +
-                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + "  GROUP BY no_article)" +
-                            " AS t ON t.no_enchere = ENCHERES.no_enchere) ");
-                sqlConstruction2.append(" ) ");}
-
-                //Enchères remportees(enchere + date terminée)
-                if(encheresRemp) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" (CAST(date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
-                            " FROM Encheres INNER JOIN" +
-                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + " GROUP BY no_article)" +
-                            " AS t ON t.no_enchere = ENCHERES.no_enchere))");
-                sqlConstruction2.append(" ) ");}
+                    //Enchères remportees(enchere + date terminée)
+                    if(encheresRemp) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
+                                " FROM Encheres INNER JOIN" +
+                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + " GROUP BY no_article)" +
+                                " AS t ON t.no_enchere = ENCHERES.no_enchere");}
+                sqlConstruction2.append(" ) ");
             }
 
 
@@ -149,41 +148,40 @@ public class ArticleDal implements IGenericDao<Article> {
             //Mes ventes
             //TODO attente la création des article pour pouvoir gérer les période de vente
             if(ventesTerm == true || ventesNonDeb == true || ventesEnCours == true) {
-                sqlConstruction2.append(" AND a.no_utilisateur=" + util.getId() + ") AND ( ");
-                //Ventes en cours
-                if (ventesTerm) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
-                sqlConstruction2.append(" ) ");}
-
-                //Vente non déb
-                if(ventesNonDeb) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");
-                sqlConstruction2.append(" ) ");}
-
-                //Vente term
-                if(ventesNonDeb) {
-                    gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");
-                sqlConstruction2.append(" ) ");}
+                    if(util != null) {
+                        sqlConstruction2.append(" AND a.no_utilisateur=" + util.getId() ); }
+                sqlConstruction2.append(" AND ( ");
+                    //Ventes en cours
+                    if (ventesEnCours) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");}
+                    //Vente non déb
+                    if(ventesNonDeb) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");}
+                    //Vente term
+                    if(ventesTerm) {
+                        gestionOr(sqlConstruction2);
+                        sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");}
+                sqlConstruction2.append(" ) ");
             }
 
             System.out.println(sqlConstruction2);
 
             PreparedStatement pstt = con.prepareCall(sqlConstruction2.toString());
+            pstt.setString(1, "%" + articleName + "%");
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout2 = new Article();
-                artAjout2.setArticle(rs.getString("article"));
-                artAjout2.setPrixVente(rs.getInt("prix_vente"));
-                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout2.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout2);
+//                //Je choisis les paramètres de l'objet avec le get
+//                Article artAjout2 = new Article();
+//                artAjout2.setArticle(rs.getString("article"));
+//                artAjout2.setPrixVente(rs.getInt("prix_vente"));
+//                artAjout2.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+//                //J'ajoute l'item "Vendeur"
+//                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+//                artAjout2.setUtilisateur(ut);
+//                //J'ajoute l'article à la liste
+                list.add(articleFromRs(rs));
             }
             System.out.println("didi" + list);
 
@@ -229,16 +227,16 @@ public class ArticleDal implements IGenericDao<Article> {
             PreparedStatement pstt = con.prepareCall(SQL_SELECT_ALL_ARTICLES);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                //Je choisis les paramètres de l'objet avec le get
-                Article artAjout = new Article();
-                artAjout.setArticle(rs.getString("article"));
-                artAjout.setPrixVente(rs.getInt("prix_vente"));
-                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
-                //J'ajoute l'item "Vendeur"
-                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                artAjout.setUtilisateur(ut);
-                //J'ajoute l'article à la liste
-                list.add(artAjout);
+//                //Je choisis les paramètres de l'objet avec le get
+//                Article artAjout = new Article();
+//                artAjout.setArticle(rs.getString("article"));
+//                artAjout.setPrixVente(rs.getInt("prix_vente"));
+//                artAjout.setDateFin(rs.getDate("date_fin_encheres").toLocalDate().atTime(0, 0));
+//                //J'ajoute l'item "Vendeur"
+//                Utilisateur ut = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+//                artAjout.setUtilisateur(ut);
+//                //J'ajoute l'article à la liste
+                list.add(articleFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -247,36 +245,38 @@ public class ArticleDal implements IGenericDao<Article> {
         return list;
     }
 
+    private Article articleFromRs(ResultSet rs) throws SQLException, GlobalException {
+        Article art = new Article();
+        Categorie cat = DaoProvider.getCategorieDao().selectById(rs.getInt("no_categorie"));
+        Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
+        Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
+
+        art.setId(rs.getInt("no_article"));
+        art.setArticle(rs.getString("article"));
+        art.setDescription(rs.getString("description"));
+        art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+        art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
+        art.setPrixInitiale(rs.getInt("prix_vente"));
+        art.setPrixVente(rs.getInt("prix_vente"));
+        art.setUtilisateur(user);
+        art.setCategorie(cat);
+        art.setAdresseRetrait(adresse);
+        return art;
+    }
+
     @Override
     public Article selectById(int id) throws GlobalException {
-        final String SQL_SELECT_CAT_BY_ID="SELECT * FROM CATEGORIES WHERE no_categorie=?";
         //Je crée un article
-        Article art = new Article();
+        Article art = null;
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection();
                 PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
-                PreparedStatement pstt2 = con.prepareCall(SQL_SELECT_CAT_BY_ID);
         ) {
             pstt.setInt(1,id);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
-                pstt2.setInt(1,rs.getInt("no_categorie"));
-                ResultSet rs2 = pstt2.executeQuery();
-                rs2.next();
-                Categorie cat = new Categorie(rs2.getInt("no_categorie"), rs2.getString("libelle"));
-                Utilisateur user = DaoProvider.getUtilisateurDao().selectById(rs.getInt("no_utilisateur"));
-                Adresse adresse = DaoProvider.getAdresseDao().selectById(rs.getInt("no_adresse"));
-                art.setId(rs.getInt("no_article"));
-                art.setArticle(rs.getString("article"));
-                art.setDescription(rs.getString("description"));
-                art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
-                art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-                art.setPrixInitiale(rs.getInt("prix_vente"));
-                art.setPrixVente(rs.getInt("prix_vente"));
-                art.setUtilisateur(user);
-                art.setCategorie(cat);
-                art.setAdresseRetrait(adresse);
+                art = articleFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

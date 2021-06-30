@@ -93,6 +93,10 @@
             <%
                 }
             %>
+            <%--Afficher un message si 0 résultat
+            <c:if test="${empty articleList2}">
+                <p>Pas de résultat. Merci d'affiner votre recherche.</p>
+            </c:if>--%>
     </div>
 </div>
 
