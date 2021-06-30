@@ -73,7 +73,7 @@ public class AfficherEnchere extends HttpServlet {
                 req.setAttribute("enchere", lastEnchere);
             }
             if(req.getRequestURI().contains("retrait")) {
-                am.retirer(articleToDisplay);
+                am.retirer(articleToDisplay, userConnected, lastEnchere);
             }
 
             req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);

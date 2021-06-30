@@ -5,7 +5,7 @@ import exception.EnumException;
 //Groupe de codes 2000
 public interface ArticleException extends EnumException {
     //DAL Exception 20**
-
+    int ECHEC_MISE_A_JOUR_ARTICLE = 2000 ;
     //BLL Exception 21**
     int NOM_ARTICLE_VIDE = 2100;
     int NOM_ARTICLE_INVALIDE = 2110;

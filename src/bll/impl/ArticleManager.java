@@ -87,13 +87,52 @@ public class ArticleManager implements IArticleManager {
     }
 
     @Override
-    public void retirer(Article article) throws GlobalException {
+    public Article retirer(Article article, Utilisateur userConnected, Enchere lastEnchere) throws GlobalException {
 
         Article articleCloture = null ;
+        Integer enchereGagnante = lastEnchere.getMontant() ;
 
-        IGenericDao<Article> artDao = DaoProvider.getArticleDao() ;
+        /*******************************/
+        /** MISE A JOUR ARTICLE VENDU **/
+        /*******************************/
+
+            // Récupérer un articleDAO
+            IGenericDao<Article> artDao = DaoProvider.getArticleDao() ;
+
+            // Insérer le prix de vente final dans l'article
+            article.setPrixVente(lastEnchere.getMontant());
+
+            // Mettre à jour les données de l'article vendu en BDD
+            artDao.update(article);
+
+            //Récupérer l'article mis à jour pour le renvoi vers l'IHM pour l'affichage
+            articleCloture = artDao.selectById(articleCloture.getId());
+
+        /*********************************************/
+        /** MISE A JOUR CREDITS VENDEUR ET ACHETEUR **/
+        /*********************************************/
+
+            // Récupérer un utilisateurDAO
+            IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao() ;
+
+            // Création des utilisateurs ACHETEUR et VENDEUR
+            Utilisateur acheteur = userConnected ;
+            Utilisateur vendeur = article.getUtilisateur();
+
+            // Récupérer les crédits dispos pour ACHETEUR ET VENDEUR
+            Integer creditDispoAcheteur = userConnected.getCreditDispo();
+            Integer creditDispoVendeur = vendeur.getCreditDispo();
+
+            // Actualiser le crédit de l'acheteur
+            acheteur.setCredit(creditDispoAcheteur - enchereGagnante);
+            userDao.update(acheteur);
+
+            //Actualiser le crédit du vendeur
+            vendeur.setCredit(creditDispoVendeur + enchereGagnante);
+            userDao.update(vendeur);
 
 
+        return articleCloture ;
 
     }
 
