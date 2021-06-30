@@ -19,16 +19,13 @@
 </jsp:include>
 <div class="row">
     <div class="col">
-        <%--Message d'erreur de connexion--%>
-        <p class="row text-decoration-underline text-danger">
-            ${empty messageErreur ? "" : messageErreur}
-        </p>
         <div class="row">
-            <c:if test="${'creation'.equals(affichage)}">
+            <c:if test="${'creation'.equals(affichagejsp)}">
                 <form method="post" action="${pageContext.request.contextPath}/comptecreation" class="col">
             </c:if>
-            <c:if test="${'modification'.equals(affichage)}">
+            <c:if test="${'modification'.equals(affichagejsp)}">
                 <form method="post" action="${pageContext.request.contextPath}/comptemodif" class="col">
+                    <input type="hidden" name="userId" value="${userToDisplay.id}">
             </c:if>
                 <%--Pseudo / Nom--%>
                 <div class="row">
@@ -88,7 +85,7 @@
                 </div>
 
                 <%--Mot de passe Actuel--%>
-                <c:if test="${'modification'.equals(affichage)}">
+                <c:if test="${'modification'.equals(affichagejsp)}">
                     <div class="row">
                         <div class="col input-group mb-3">
                             <span class="input-group-text" id="idPassword">Mot de passe : <sup class="text-danger">*</sup></span>
@@ -111,7 +108,7 @@
 
                 <%--Créer / Annuler
                 Afficher en cas de création de compte--%>
-                <c:if test="${'creation'.equals(affichage)}">
+                <c:if test="${'creation'.equals(affichagejsp)}">
                     <div class="row">
                         <div class="col">
                             <button type="submit" class="btn btn-secondary" name="action" value="creer">Créer</button>
@@ -124,7 +121,7 @@
 
                 <%--Enregistrer / Supprimer
                 Afficher si le profil de session est celui de l'utilisateur--%>
-                <c:if test="${'modification'.equals(affichage)}">
+                <c:if test="${'modification'.equals(affichagejsp)}">
                     <div class="row">
                         <div class="col">
                             Credit : ${userToDisplay.credit}

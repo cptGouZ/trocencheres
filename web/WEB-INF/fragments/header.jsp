@@ -22,7 +22,12 @@
         </c:if>
         <c:if test="${!empty sessionScope.get('userConnected')}">
             <div class="col"><a href="${pageContext.request.contextPath}/deconnexion?seDeconnecter=true">Déconnexion</a></div>
-            <div class="col"><a href="${pageContext.request.contextPath}/profil?userId=${userConnected.id}">Mon Profil</a></div>
+            <div class="col">
+                <form method="post" action="${pageContext.request.contextPath}/profil">
+                    <input type="hidden" name="userId" value=${userConnected.id}>
+                    <button>Mon Profil</button>
+                </form>
+            </div>
             <div class="col"><a href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
         </c:if>
 
