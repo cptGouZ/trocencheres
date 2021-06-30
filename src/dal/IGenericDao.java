@@ -37,5 +37,5 @@ public interface IGenericDao<T> {
 
     //Méthode spécifique à Enchere
     default Enchere selectEnchereMaxByIdArticle(int idArticle) throws GlobalException {return null;}
-
+    default Integer sumEnchereByUser(int userId) throws GlobalException {return null;}
 }

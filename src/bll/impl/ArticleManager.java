@@ -114,7 +114,7 @@ public class ArticleManager implements IArticleManager {
 
     private final String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
     private final String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
-    private final String PATTERN_PRIX = "[0-9]{1,10}" ;
+    private final String PATTERN_PRIX = "^[0-9]{1,10}$" ;
 
     private void validerNomArticle(Article articleAVerifier){
 
