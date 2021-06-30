@@ -1,5 +1,8 @@
 package bo;
 
+import dal.DaoProvider;
+import dal.IGenericDao;
+import exception.GlobalException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -64,6 +67,12 @@ public class Utilisateur implements Serializable {
         this.prenom = prenom;
         this.email = email;
         this.phone = phone;
+    }
+
+    public Integer getCreditRestant() throws GlobalException {
+        IGenericDao<Enchere> dao = DaoProvider.getEnchereDao();
+        Integer retour = dao.sumEnchereByUser(getId());
+        return retour;
     }
 }
 
