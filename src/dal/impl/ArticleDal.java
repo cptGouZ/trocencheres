@@ -43,6 +43,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
 
     @Override
+    @Deprecated
     public List<Article> selectByCrit1(String articleName, String catName) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
@@ -97,9 +98,6 @@ public class ArticleDal implements IGenericDao<Article> {
     @Override
     public List<Article> selectByCrit2(String articleName, String catName, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
 
-        String SQL_SELECT_ARTICLES_BY_CRITERES = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
-                "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie WHERE ";
-
         String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_categorie, a.article, a.prix_vente, a.date_fin_encheres, no_utilisateur, c.libelle " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie " +
                 "WHERE a.article LIKE '%"+ articleName  +"%'";
@@ -111,27 +109,13 @@ public class ArticleDal implements IGenericDao<Article> {
                 Connection con = ConnectionProvider.getConnection()
         ) {
 
-            //Je trie en fonction du choix utilisateur
-            StringBuilder sqlConstruction = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES);
-
-            sqlConstruction.append("a.article LIKE '%"+ articleName  +"%'");
-            System.out.println("momo" + articleName);
-
-            //Choix catégorie
-            System.out.println("tutu" + catName);
-            if("sport".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'sport'");}
-            else if("divers".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'divers'");}
-            else if("ameublement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'ameublement'");}
-            else if("vetement".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'vetement'");}
-            else if("alimentation".equals(catName)) { sqlConstruction.append(" AND c.libelle = 'alimentation'");}
-
-
             StringBuilder sqlConstruction2 = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES2);
+
+            //Traitement de la catégorie
             if(!"toutes".equals(catName)) {
                 sqlConstruction2.append(" AND c.libelle = '"+ catName +"'");
             }
 
-            //DEBUT CONSTRUCTION SQL2
             //Je regarde mes achats
             if(encheresOuv == true || encheresEnCours == true || encheresRemp == true) {
                 sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ") AND ( ");
@@ -146,7 +130,7 @@ public class ArticleDal implements IGenericDao<Article> {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
                             " FROM Encheres INNER JOIN" +
-                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
+                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + "  GROUP BY no_article)" +
                             " AS t ON t.no_enchere = ENCHERES.no_enchere) ");
                 sqlConstruction2.append(" ) ");}
 
@@ -155,7 +139,7 @@ public class ArticleDal implements IGenericDao<Article> {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" (CAST(date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
                             " FROM Encheres INNER JOIN" +
-                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
+                            " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + " GROUP BY no_article)" +
                             " AS t ON t.no_enchere = ENCHERES.no_enchere))");
                 sqlConstruction2.append(" ) ");}
             }
@@ -187,7 +171,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
             System.out.println(sqlConstruction2);
 
-            PreparedStatement pstt = con.prepareCall(sqlConstruction.toString());
+            PreparedStatement pstt = con.prepareCall(sqlConstruction2.toString());
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
                 //Je choisis les paramètres de l'objet avec le get
@@ -205,6 +189,8 @@ public class ArticleDal implements IGenericDao<Article> {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            throw GlobalException.getInstance();
         }
         return list;
     }
