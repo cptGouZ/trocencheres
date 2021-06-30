@@ -6,7 +6,8 @@
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Connexion"/>
-    <jsp:param name="messageCreationArticle" value="${message}"/>
+    <jsp:param name="messageErreur" value="${messageErreur}"/>
+    <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
 <div class="row">

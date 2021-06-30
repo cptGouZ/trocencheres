@@ -5,6 +5,7 @@ import bll.impl.UserManager;
 import bll.interfaces.IUserManager;
 import bo.Utilisateur;
 import exception.GlobalException;
+import exception.exceptionEnums.UserException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,7 +37,8 @@ public class CompteCreation extends HttpServlet {
             newUser = UserManager.prepareUser(req);
             String confirmPassword = req.getParameter("confirmPassword").trim();
             um.creer(newUser, confirmPassword);
-            resp.sendRedirect("accueilS");
+            req.setAttribute("messageConfirm", UserException.CREATION_USER_OK);
+            req.getRequestDispatcher("accueilS").forward(req, resp);
         } catch (GlobalException e) {
             req.setAttribute("affichage", "creation");
             req.setAttribute("userToDisplay", newUser);

@@ -27,6 +27,7 @@
         </c:if>
 
         <%--Message Création Article OK--%>
-        ${empty messageCreationArticle ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageCreationArticle+="</p>"}
+        ${empty messageErreur ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageErreur+="</p>"}
+        ${empty messageConfirm ? "" : "<p class=\"text-decoration-underline text-success\">"+=messageConfirm+="</p>"}
     </header>
 

@@ -28,5 +28,7 @@ public interface UserException extends EnumException {
     int CONFIRMATION_PASSWORD_NO_MATCH = 1165;
     int TELEPHONE_INVALIDE = 1166;
     //IHM Exception 12**
-
+    int MODIF_USER_OK = 1200;
+    int CREATION_USER_OK = 1201;
+    int SUPPR_USER_OK = 1202;
 }

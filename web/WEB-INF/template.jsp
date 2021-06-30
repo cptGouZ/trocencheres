@@ -5,6 +5,8 @@
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Titre de la page"/>
+    <jsp:param name="messageErreur" value="${messageErreur}"/>
+    <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
 mon code html

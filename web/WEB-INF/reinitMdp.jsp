@@ -1,5 +1,7 @@
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Mot de passe oublié"/>
+    <jsp:param name="messageErreur" value="${messageErreur}"/>
+    <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
 <%--BLOC REINIT MDP--%>

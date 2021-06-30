@@ -11,7 +11,7 @@ public class testClass {
 // TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien
 // TODO : tester la suppression utilisateur : Olivier
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
-/* TODO : Vérification des exception
+/* TODO : Vérification des exception. Le header contien "messageErreur" et "messageConfirm"
     Utilisateur
     Article
     Enchere
