@@ -6,6 +6,11 @@ import exception.EnumException;
 public interface AdresseException extends EnumException {
     //DAL Exception 40**
     int INSERT_ABORT = 4000;
+    int INSERT = 4001;
+    int UPDATE = 4002;
+    int DELETE = 4003;
+    int SELECT_BY_ID = 4004;
+    int SELECT_ALL_EXCEPTION = 4005;
     //BLL Exception 41**
     int RUE_VIDE = 4100;
     int RUE_INVALIDE = 4110;

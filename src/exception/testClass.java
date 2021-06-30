@@ -8,7 +8,7 @@ import javax.swing.text.html.CSS;
 
 public class testClass {
 // A FAIRE    ce soir et demain matin
-// TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien
+// TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien voir avec Alex
 // TODO : tester la suppression utilisateur : Olivier
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
 /* TODO : Vérification des exception. Le header contien "messageErreur" et "messageConfirm"
@@ -16,11 +16,11 @@ public class testClass {
     Dal
         Article
         Enchere
-        Adresse
+        Adresse -> validé Julien
         Categorie
-        User
+        User -> validé Julien
     Managers
-        AdresseManager
+        AdresseManager -> validé Julien
         ArticleManager
         CategorieManager
         ConnexionManager
