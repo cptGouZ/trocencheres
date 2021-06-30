@@ -9,6 +9,7 @@ import bo.Utilisateur;
 import exception.GlobalException;
 import lombok.SneakyThrows;
 
+import javax.rmi.CORBA.Util;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +31,7 @@ public class AccueilServlet extends HttpServlet {
         //On recupere la categorie, et le nom quand l'utilisateur le saisit
         String textechoix = req.getParameter("textechoix");
         String categorie = req.getParameter("categorie");
-
-        //Récupérer eglt les checkbox
+        //Récupérer eglt les checkbox si elles sont cochees
         boolean ventesTerm = req.getParameter( "ven3" ) != null;
         boolean encheresOuv = req.getParameter( "ach1" ) != null;
         boolean ventesNonDeb = req.getParameter( "ven2" ) != null;
@@ -41,27 +41,37 @@ public class AccueilServlet extends HttpServlet {
 
         //Affichage par categorie
         //On fait appel a ArticleManager
-        List<Article> articleList2 = new ArrayList<>();
+        //List<Article> articleList2 = new ArrayList<>();
         IArticleManager am2 = ManagerProvider.getArticleManager();
         //articleList2 = am2.getByCrit1(textechoix, categorie);
         //req.setAttribute("listedesarticles", articleList2);
 
+        //Recuperer les categories
         List<String> listeCat;
         listeCat = am2.getLibellesCategorie();
         req.setAttribute("libellesCategories", listeCat);
 
-        //if(ventesTerm == true || encheresOuv == true || ventesNonDeb == true || encheresEnCours == true || encheresRemp == true || ventesEnCours == true) {
+        //Declencher requete par tri
+        Utilisateur util = (bo.Utilisateur)req.getSession().getAttribute("userConnected");
+        System.out.println("test user "+util != null);
+        if(util != null) {
             List<Article> articleList3;
             articleList3 = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, (bo.Utilisateur)req.getSession().getAttribute("userConnected"));
-            req.setAttribute("listedesarticles", articleList3);/*}*/
+            req.setAttribute("listedesarticles", articleList3); }
+        else { List<Article> articleList;
+                articleList = am2.getAll();
+                req.setAttribute("listedesarticles", articleList); }
+
+        //Si pas de recherche par tri, on rappelle la méthode DoGet pour rappeller la SelectALl
+        //if("toutes".equals(categorie) && textechoix == "" && ventesTerm == false
+        //&& encheresOuv == false && ventesNonDeb == false && encheresEnCours == false
+        //&& encheresRemp == false && ventesEnCours == false) { this.doGet(req, resp);}
 
         //Redirection vers accueil
         RequestDispatcher rd;
         rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
         rd.forward(req, resp);
-        //}
-        //Si absence de tri, on appelle le SelectAll donc on rappelle la méthode doGet afin d'afficher tous les articles
-        //else {this.doGet(req, resp);}
+
     }
 
 

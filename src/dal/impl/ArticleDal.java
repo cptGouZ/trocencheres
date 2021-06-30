@@ -138,8 +138,8 @@ public class ArticleDal implements IGenericDao<Article> {
                 //Enchère ouverte
                 if(encheresOuv) {
                     gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres "); }
-                sqlConstruction2.append(" ) ");
+                    sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
+                sqlConstruction2.append(" ) ");}
 
                 //Enchères en cours avec une enchere mini
                 if(encheresEnCours) {
@@ -147,15 +147,17 @@ public class ArticleDal implements IGenericDao<Article> {
                     sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
                             " FROM Encheres INNER JOIN" +
                             " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
-                            " AS t ON t.no_enchere = ENCHERES.no_enchere));"); }
+                            " AS t ON t.no_enchere = ENCHERES.no_enchere) ");
+                sqlConstruction2.append(" ) ");}
 
                 //Enchères remportees(enchere + date terminée)
-                if(encheresEnCours) {
+                if(encheresRemp) {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" (CAST(date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
                             " FROM Encheres INNER JOIN" +
                             " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=5 GROUP BY no_article)" +
-                            " AS t ON t.no_enchere = ENCHERES.no_enchere));"); }
+                            " AS t ON t.no_enchere = ENCHERES.no_enchere))");
+                sqlConstruction2.append(" ) ");}
             }
 
 
@@ -168,17 +170,19 @@ public class ArticleDal implements IGenericDao<Article> {
                 if (ventesTerm) {
                     gestionOr(sqlConstruction2);
                     sqlConstruction2.append(" CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
-                }
+                sqlConstruction2.append(" ) ");}
+
                 //Vente non déb
                 if(ventesNonDeb) {
                     gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
-                sqlConstruction2.append(" ) ");
+                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");
+                sqlConstruction2.append(" ) ");}
+
                 //Vente term
                 if(ventesNonDeb) {
                     gestionOr(sqlConstruction2);
-                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) "); }
-                sqlConstruction2.append(" ) ");
+                    sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");
+                sqlConstruction2.append(" ) ");}
             }
 
             System.out.println(sqlConstruction2);
