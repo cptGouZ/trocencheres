@@ -60,6 +60,7 @@ public class ArticleManager implements IArticleManager {
         nouvelArticle.setDateDebut(debutEnchere);
         nouvelArticle.setDateFin(finEnchere);
         nouvelArticle.setPrixInitiale(prixDepart);
+        nouvelArticle.setIsRetire(false);
 
         //Test que l'adresse renseignée est strictement identique à l'adresse par défaut de l'utilisateur
         if          (newAdresse.getRue().equals(userEnCours.getAdresse().getRue())
@@ -81,8 +82,7 @@ public class ArticleManager implements IArticleManager {
         //TODO Validation des autres champs
 
         //Transmission du nouvel article à la DAL
-        cDao.insertNewArticle(nouvelArticle);
-
+        cDao.insert(nouvelArticle);
         return nouvelArticle ;
     }
 
@@ -101,7 +101,7 @@ public class ArticleManager implements IArticleManager {
 
             // Insérer le prix de vente final dans l'article
             article.setPrixVente(montantEnchereGagnante);
-
+            article.setIsRetire(true);
             // Mettre à jour les données de l'article vendu en BDD
             artDao.update(article);
 
