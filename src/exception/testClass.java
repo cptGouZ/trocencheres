@@ -11,19 +11,19 @@ public class testClass {
 // TODO : requête du montant dispo ne prend pas en compte les articles retirés : A tester
 // TODO_ok : tester la suppression utilisateur : validé Olivier + Julien
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
-// TODO : Changer la servlet accueilS en accueil : Olivier
+// TODO_ok : Changer la servlet accueilS en accueil : Olivier
 /* TODO : Vérification des exception. Le header contien "messageErreur" et "messageConfirm" pour les affichages
     Utilisateur
     Dal
-        Article -> Olivier
-        Enchere -> Julien
+        Article -> Olivier : ok : tous les champs obligatoires déclenchent une exception dans Nouvelle Vente
+        Enchere -> Julien : ok
         Adresse -> validé Julien
-        Categorie -> Olivier
+        Categorie -> Olivier : ok
         User -> validé Julien
     Managers
         AdresseManager -> validé Julien
-        ArticleManager -> Olivier
-        CategorieManager -> Olivier
+        ArticleManager -> Olivier : ok
+        CategorieManager -> Olivier : ok
         ConnexionManager -> Alex
         EnchereManager -> Julien
         UserManager -> validé Julien
