@@ -42,30 +42,30 @@
             <c:if test="${!empty sessionScope.get('userConnected')}">
                 <div class="row justify-content-center">
                     <div class="col-6 col-lg-3">
-                        <label for="a">Achats</label>
                         <input type="radio" name="acha" id="a" checked/>
+                        <label for="a">Achats</label>
                         <br />
-                        <label for="c1">Enchères ouvertes sauf les miennes</label>
                         <input type="checkbox" name="ach1" id="c1" />
+                        <label for="c1">Enchères ouvertes sauf les miennes</label>
                         <br />
-                        <label for="c2">Enchères sur lesquelles j'ai misé</label>
                         <input type="checkbox" name="ach2" id="c2" />
+                        <label for="c2">Enchères sur lesquelles j'ai misé</label>
                         <br />
-                        <label for="c3">Enchères gagnées</label>
                         <input type="checkbox" name="ach3" id="c3" />
+                        <label for="c3">Enchères gagnées</label>
                     </div>
                     <div class="col-6 col-lg-3">
-                        <label for="v">Ventes</label>
                         <input type="radio" name="acha" id="v"/>
+                        <label for="v">Ventes</label>
                         <br />
-                        <label for="c4">Mes articles en cours de vente</label>
                         <input type="checkbox" name="ven1" id="c4" />
+                        <label for="c4">Mes articles en cours de vente</label>
                         <br />
-                        <label for="c5">Mes articles en attente de vente</label>
                         <input type="checkbox" name="ven2" id="c5" />
+                        <label for="c5">Mes articles en attente de vente</label>
                         <br />
-                        <label for="c6">Mes ventes terminees</label>
                         <input type="checkbox" name="ven3" id="c6"/>
+                        <label for="c6">Mes ventes terminees</label>
                     </div>
                 </div>
             </c:if>
