@@ -12,11 +12,8 @@
 
 
 </head>
-
-
-<body class="container">
-   <!--<%@ include file="background.jsp"%> -->
-
+<body class="container-fluid">
+    <%@ include file="background.jsp"%>
     <header class="row">
         <nav class="navbar navbar-dark bg-dark rounded">
             <div class="container-fluid">

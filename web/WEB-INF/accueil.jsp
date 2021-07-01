@@ -14,7 +14,6 @@
 
 <!-- PARTIE RECHERCHE-->
 <div class="row justify-content-center">
-
     <div class="col">
         <form action="${pageContext.request.contextPath}/accueil" method="post">
             <div class="row justify-content-center">
