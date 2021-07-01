@@ -14,34 +14,23 @@
 
 <!-- PARTIE RECHERCHE-->
 <div class="row justify-content-center">
-    <div class="col">
+    <div class="col-12 col-md-8 col-lg-6">
         <form action="${pageContext.request.contextPath}/accueil" method="post">
-            <div class="row justify-content-center">
-                <div class="col-8">
-                    <%-- Recherche par nom d'article --%>
-                    <div class="row justify-content-center">
-                        <div class="col">
-                            <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
-                        </div>
-                    </div>
-                    <!-- Import fragment Categorie-->
-                    <div class="row justify-content-center">
-                        <div class="col">
-                            <jsp:include page="fragments/categorie.jsp">
-                                <jsp:param name="listeCategories" value="${listeCategories}"/>
-                            </jsp:include>
-                        </div>
-                    </div>
+            <div class="row align-items-center">
+                <div class="col">
+                    <%--Choix article et catégorie--%>
+                    <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
+                    <jsp:include page="fragments/categorie.jsp">
+                        <jsp:param name="listeCategories" value="${listeCategories}"/>
+                    </jsp:include>
                 </div>
-                <div class="col-4">
-                    <!--Affichage du bouton de recherche-->
-                    <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
-                </div>
+                <!--Affichage du bouton de recherche-->
+                <button class="col-12 col-md-3 mx-1 btn btn-primary" type="submit">Rechercher</button>
             </div>
             <!--Voir les informations Ventes et Achats si le profil est connecté-->
             <c:if test="${!empty sessionScope.get('userConnected')}">
                 <div class="row justify-content-center">
-                    <div class="col-6 col-lg-3">
+                    <div class="col">
                         <input type="radio" name="acha" id="a" checked/>
                         <label for="a">Achats</label>
                         <br />
@@ -54,7 +43,7 @@
                         <input type="checkbox" name="ach3" id="c3" />
                         <label for="c3">Enchères gagnées</label>
                     </div>
-                    <div class="col-6 col-lg-3">
+                    <div class="col">
                         <input type="radio" name="acha" id="v"/>
                         <label for="v">Ventes</label>
                         <br />
