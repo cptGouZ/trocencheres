@@ -13,27 +13,27 @@
 </jsp:include>
 
 <!-- PARTIE RECHERCHE-->
-<div class="row">
+<div class="row justify-content-center">
     <div class="col">
-        <div action="${pageContext.request.contextPath}/accueil" method="post">
+        <form action="${pageContext.request.contextPath}/accueil" method="post">
             <div class="row justify-content-center">
-                <div class="col-6 col-lg-3">
+                <div class="col-8">
                     <%-- Recherche par nom d'article --%>
                     <div class="row justify-content-center">
-                        <div class="col-6 col-lg-3">
+                        <div class="col">
                             <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
                         </div>
                     </div>
                     <!-- Import fragment Categorie-->
                     <div class="row justify-content-center">
-                        <div class="col-6 col-lg-3">
+                        <div class="col">
                             <jsp:include page="fragments/categorie.jsp">
                                 <jsp:param name="listeCategories" value="${listeCategories}"/>
                             </jsp:include>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
+                <div class="col-4">
                     <!--Affichage du bouton de recherche-->
                     <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
                 </div>
