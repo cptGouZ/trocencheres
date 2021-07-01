@@ -52,23 +52,16 @@ public class Vente extends HttpServlet {
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart").trim());
 
         String debutEnchere = req.getParameter("debutEnchere").trim();
-        System.out.println(debutEnchere);
         String debutEncherePrecis = (debutEnchere + ":01").trim();
         LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEncherePrecis);
 
         String finEnchere = req.getParameter("finEnchere").trim();
-        System.out.println(finEnchere);
         String finEncherePrecis = (finEnchere + ":59").trim() ;
         LocalDateTime finEnchereBll = LocalDateTime.parse(finEncherePrecis);
 
         String rue = req.getParameter("rue").trim();
         String cpo = req.getParameter("cpo").trim();
         String ville = req.getParameter("ville").trim();
-
-        //TODO Creer un article avec tous les champs saisies;
-        /*Adresse adresseSaisie = new Adresse(rue,cpo,ville);
-        Categorie categorie = new Categorie(categorieString.);
-        Article articleSaisie = new Article(userEnCours,,article,description,debutEnchere,finEnchere,prixDepart,adresseSaisie);*/
 
         req.setAttribute("articleSaisie",article);
         req.setAttribute("descriptionSaisie",description);
