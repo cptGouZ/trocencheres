@@ -37,6 +37,9 @@ public class ArticleManager implements IArticleManager {
 
     @Override
     public List<Article> getByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
+        //Controle de valeur
+
+        //Traitement des donnés si le controle est ok
         IGenericDao<Article> IDao = DaoProvider.getArticleDao();
         List<Article> retour = IDao.selectByCrit2(articleName, catId, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
         return retour;
