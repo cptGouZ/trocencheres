@@ -80,6 +80,11 @@ public class ArticleManager implements IArticleManager {
         validerDescription(nouvelArticle);
         validerPrix(nouvelArticle);
         //TODO Validation des autres champs
+        validerDate(debutEnchere) ; //Vérif date début enchère
+        validerDate(finEnchere) ; // Vérif date fin enchère
+
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
 
         //Transmission du nouvel article à la DAL
         cDao.insert(nouvelArticle);
@@ -142,11 +147,8 @@ public class ArticleManager implements IArticleManager {
                 e.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_VENDEUR);
                 vendeur.setCredit(creditVendeur);
                 throw e ;
-
             }
-
         return article ;
-
     }
 
     /**************************/
@@ -156,6 +158,7 @@ public class ArticleManager implements IArticleManager {
     private final String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
     private final String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
     private final String PATTERN_PRIX = "^[0-9]{1,10}$" ;
+    private final String PATTERN_DATE = "^[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}$";
 
     private void validerNomArticle(Article articleAVerifier){
 
@@ -179,5 +182,13 @@ public class ArticleManager implements IArticleManager {
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_VIDE);
         if(!Pattern.matches(PATTERN_PRIX, articleAVerifier.getPrixInitiale().toString()))
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_INVALIDE);
+    }
+
+    private void validerDate(LocalDateTime dateAVerifier){
+
+        if (dateAVerifier.toString().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.DATE_VIDE);
+        if(!Pattern.matches(PATTERN_DATE, dateAVerifier.toString()))
+            GlobalException.getInstance().addError(ArticleException.FORMAT_DATE_INVALIDE);
     }
 }
