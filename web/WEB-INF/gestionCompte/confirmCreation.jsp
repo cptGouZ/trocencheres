@@ -7,7 +7,7 @@
 
 Votre compte utilisateur est créé. Merci de vous connecter pour commencer à vendre et acheter plein d'objets !
 <a href="/connexion">Connexion</a>
-<a href="/accueilS">Connexion</a>
+<a href="/accueil">Connexion</a>
 
 <%@ include file="../fragments/footer.jsp"%>
 

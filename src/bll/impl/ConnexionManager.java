@@ -18,26 +18,18 @@ public class ConnexionManager implements IConnexionManager {
         //Créer un utilisateurOk pour pouvoir vérifier les infos en Base de Données
         Utilisateur utilisateurOk = null ;
 
-        //Créer deux utilisateurs qui permettront de vérifier l'identifiant en BDD
-        // selon que l'utilisateur à rentrer son email ou son pseudo pour se connecter
-        Utilisateur utilisateurByEmail;
-        Utilisateur utilisateurByPseudo;
-
         //DaoProvider pour transmission des données à la BDD
         IGenericDao<Utilisateur> cDao = DaoProvider.getUtilisateurDao();
 
-        //Envoi de l'identifiant (appelé login correspondant à l'email ou au pseudo)
-        utilisateurByEmail = cDao.selectByEmail(login);
-        utilisateurByPseudo = cDao.selectByPseudo(login);
+        //Récupération de deux utilisateur avec le login fourni. Un par le mail l'autre par le pseudo
+        Utilisateur utilisateurByEmail = cDao.selectByEmail(login);
+        Utilisateur utilisateurByPseudo = cDao.selectByPseudo(login);
 
         // Après vérification en BDD on vérifie si l'email a été trouvé
-        if (utilisateurByEmail != null) {
-            utilisateurOk = utilisateurByEmail;
-        }
+        if (utilisateurByEmail != null) utilisateurOk = utilisateurByEmail;
+
         // Après vérification en BDD on vérifie si le pseudo a été trouvé
-        if (utilisateurByPseudo != null) {
-            utilisateurOk = utilisateurByPseudo;
-        }
+        if (utilisateurByPseudo != null) utilisateurOk = utilisateurByPseudo;
 
         //Si on a bien trouvé l'utilisateur en BDD on vérifie ensuite son mot de passe
         if(utilisateurOk != null){

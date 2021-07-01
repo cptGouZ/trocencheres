@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="fragments/header.jsp">
-    <jsp:param name="titre" value="Connexion"/>
+    <jsp:param name="titre" value="Encherir"/>
     <jsp:param name="messageErreur" value="${messageErreur}"/>
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>

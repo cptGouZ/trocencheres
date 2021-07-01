@@ -8,7 +8,7 @@ import javax.swing.text.html.CSS;
 
 public class testClass {
 // A FAIRE    ce soir et demain matin
-// TODO : requête du montant dispo ne prend pas en compte les articles retirés : Julien voir avec Alex
+// TODO : requête du montant dispo ne prend pas en compte les articles retirés : A tester
 // TODO_ok : tester la suppression utilisateur : validé Olivier + Julien
 // TODO : Vérifier l'heure de début et fin d'enchère : Alex
 // TODO : Changer la servlet accueilS en accueil : Olivier
@@ -30,8 +30,8 @@ public class testClass {
     Servlet
         GestionCompte -> validé Julien
         AccueilServlet -> Julien
-        AfficherEnchere -> Julien
-        Connexion -> Alex
+        AfficherEnchere -> reste à tester le retrait
+        Connexion -> validé Julien
         Vente->Alex
 
   */

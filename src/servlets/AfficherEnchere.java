@@ -43,8 +43,6 @@ public class AfficherEnchere extends HttpServlet {
             req.setAttribute("article", articleToDisplay);
             req.setAttribute("enchere", lastEnchere);
 
-            boolean attenteRetrait=false; //TODO calcul à établir. Statut dans table article ?
-
             //Nous venons pour un affichage d'enchère
             if(req.getRequestURI().contains("afficherenchere")) {
                 req.setAttribute("affichagejsp", "afficher");
@@ -52,9 +50,8 @@ public class AfficherEnchere extends HttpServlet {
                 if (!isMeOnLastEnchere && articleToDisplay.isOuvert())
                     req.setAttribute("affichagejsp", "encherir");
                 //Si l'enchère est fermée que c'est moi le vainqueur et qu'elle est en attente de retrait on affiche pour retirer
-                if (!articleToDisplay.isOuvert() && attenteRetrait && isMeOnLastEnchere)
+                if (!articleToDisplay.isOuvert() && !articleToDisplay.getIsRetire() && isMeOnLastEnchere)
                     req.setAttribute("affichagejsp", "retirer");
-
                 req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
             }
             //Nous venons pour enchérir
@@ -70,7 +67,7 @@ public class AfficherEnchere extends HttpServlet {
             if(req.getRequestURI().contains("retrait")) {
                 am.retirer(articleToDisplay, userConnected, lastEnchere);
                 req.setAttribute("messageConfirm", "Félicitation vous avez retirer votre article chez le vendeur");
-                req.getRequestDispatcher("accueilS").forward(req, resp);
+                req.getRequestDispatcher("accueil").forward(req, resp);
             }
         } catch (GlobalException e) {
             //Réaffichage de la page comme elle était

@@ -17,39 +17,10 @@ public class ArticleDal implements IGenericDao<Article> {
 
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES WHERE no_article=?";
 
-    private static final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse) values(?,?,?,?,?,0,?,?,?);";
-
-    private static final String SQL_SELECT_BY_CATEGORIES = "SELECT libelle FROM CATEGORIES";
-
-    private final String UPDATE = "UPDATE ARTICLES SET article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_adresse=?, no_categorie=? WHERE no_article=?";
-
-
-    @Override
-    public List<String> selectLibelleCategories() throws GlobalException {
-        //Je crée une liste
-        List<String> listCate = new ArrayList<String>();
-        //Je lance la connexion
-        try (
-                Connection con = ConnectionProvider.getConnection()
-        ) {
-            PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_CATEGORIES);
-            ResultSet rs = pstt.executeQuery();
-            while (rs.next()) {
-                //Je choisis le paramètre de l'objet avec le get
-                listCate.add(rs.getString("libelle"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        //Je renvoie la liste d'articles
-        return listCate;
-    }
-
-
     @Override
     public List<Article> selectByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
 
-        String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as no_article, a.article as article, a.description as description, " +
+        String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as no_article, a.article as article, a.description as description, a.retrait as retrait," +
                 "a.date_debut_encheres as date_debut_encheres, a.date_fin_encheres as date_fin_encheres, a.prix_initial as prix_initial, " +
                 "a.prix_vente as prix_vente, a.no_utilisateur as no_utilisateur, a.no_adresse as no_adresse, a.no_categorie as no_categorie " +
                 "FROM ARTICLES a INNER JOIN CATEGORIES c ON a.no_categorie = c.no_categorie " +
@@ -119,6 +90,10 @@ public class ArticleDal implements IGenericDao<Article> {
                 sqlConstruction2.append(" ) ");
             }
 
+            if(encheresOuv == false && encheresEnCours == false && encheresRemp == false && ventesTerm == false && ventesNonDeb == false && ventesEnCours == false) {
+                sqlConstruction2.append(" AND CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
+            }
+
             System.out.println(sqlConstruction2);
 
             PreparedStatement pstt = con.prepareCall(sqlConstruction2.toString());
@@ -136,7 +111,7 @@ public class ArticleDal implements IGenericDao<Article> {
 //                //J'ajoute l'article à la liste
                 list.add(articleFromRs(rs));
             }
-            System.out.println("didi" + list);
+            //System.out.println("didi" + list);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -155,37 +130,34 @@ public class ArticleDal implements IGenericDao<Article> {
     public Article selectByArticle(String article) throws GlobalException {
         return IGenericDao.super.selectByArticle(article);
     }
-    @Override
-    @Deprecated
-    public void insert(Article obj) throws GlobalException {
-
-    }
 
     @Override
     public void update(Article obj) throws GlobalException {
+        final String UPDATE = "UPDATE ARTICLES SET article=?, description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_adresse=?, no_categorie=?, retrait=?  WHERE no_article=?";
 
-            try (Connection uneConnection = ConnectionProvider.getConnection();
-                 PreparedStatement pStmt = uneConnection.prepareStatement(UPDATE)
-            ){
-                pStmt.setString(1, obj.getArticle());
-                pStmt.setString(2, obj.getDescription());
-                pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(obj.getDateDebut()));
-                pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(obj.getDateFin()));
-                pStmt.setInt(5,obj.getPrixInitiale());
-                pStmt.setInt(6,obj.getPrixVente());
-                pStmt.setInt(7,obj.getUtilisateur().getId());
-                pStmt.setInt(8,obj.getAdresseRetrait().getId());
-                pStmt.setInt(9,obj.getCategorie().getId());
-                pStmt.setInt(10,obj.getId());
+        try (Connection uneConnection = ConnectionProvider.getConnection();
+             PreparedStatement pStmt = uneConnection.prepareStatement(UPDATE)
+        ){
+            pStmt.setString(1, obj.getArticle());
+            pStmt.setString(2, obj.getDescription());
+            pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(obj.getDateDebut()));
+            pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(obj.getDateFin()));
+            pStmt.setInt(5,obj.getPrixInitiale());
+            pStmt.setInt(6,obj.getPrixVente());
+            pStmt.setInt(7,obj.getUtilisateur().getId());
+            pStmt.setInt(8,obj.getAdresseRetrait().getId());
+            pStmt.setInt(9,obj.getCategorie().getId());
+            pStmt.setBoolean(10,obj.getIsRetire());
+            pStmt.setInt(11,obj.getId());
 
-                pStmt.executeUpdate();
+            pStmt.executeUpdate();
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                GlobalException.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_ARTICLE);
-                throw GlobalException.getInstance();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            GlobalException.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_ARTICLE);
+            throw GlobalException.getInstance();
         }
+    }
 
     @Override
     public void delete(int id) throws GlobalException {}
@@ -234,8 +206,9 @@ public class ArticleDal implements IGenericDao<Article> {
         art.setDescription(rs.getString("description"));
         art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
         art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-        art.setPrixInitiale(rs.getInt("prix_vente"));
+        art.setPrixInitiale(rs.getInt("prix_initial"));
         art.setPrixVente(rs.getInt("prix_vente"));
+        art.setIsRetire(rs.getBoolean("retrait"));
         art.setUtilisateur(user);
         art.setCategorie(cat);
         art.setAdresseRetrait(adresse);
@@ -264,12 +237,11 @@ public class ArticleDal implements IGenericDao<Article> {
     }
 
     @Override
-    public Article insertNewArticle(Article newArticle) throws GlobalException {
-
+    public void insert(Article newArticle) throws GlobalException {
+        final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse, retrait) values(?,?,?,?,?,0,?,?,?,?);";
         try(Connection uneConnection = ConnectionProvider.getConnection();
             PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);
         ){
-
             pStmt.setString(1,newArticle.getArticle());
             pStmt.setString(2,newArticle.getDescription());
             pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(newArticle.getDateDebut()));
@@ -277,24 +249,19 @@ public class ArticleDal implements IGenericDao<Article> {
             pStmt.setInt(5,newArticle.getPrixInitiale());
             pStmt.setInt(6,newArticle.getUtilisateur().getId());
             pStmt.setInt(7,newArticle.getCategorie().getId());
-
-            System.out.println("test adresse : " + newArticle.getUtilisateur().getAdresse().getId());
-
             pStmt.setInt(8,newArticle.getAdresseRetrait().getId());
-
+            pStmt.setBoolean(9,newArticle.getIsRetire());
             pStmt.executeUpdate();
             ResultSet rs = pStmt.getGeneratedKeys() ;
                 while(rs.next()){
                 newArticle.setId(rs.getInt(1));
                 }
             rs.close();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
             throw GlobalException.getInstance();
         }
-        return newArticle;
     }
 
 }

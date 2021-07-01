@@ -6,6 +6,6 @@
 <%@ include file="../fragments/header.jsp"%>
 
 Votre compte utilisateur est bien modifié
-<a href="/accueilS">Connexion</a>
+<a href="/accueil">Connexion</a>
 
 <%@ include file="../fragments/footer.jsp"%>

@@ -28,7 +28,7 @@
     <%--Pouvoir modifier les informations si le profil est celui de l'utilisateur--%>
     <div class="row">
         <div class="col-xs-12 col-md-6">
-            <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/accueilS">Back</a>
+            <a class="btn btn-success mb-3" href="${pageContext.request.contextPath}/accueil">Back</a>
         </div>
         <c:if test="${displayBtnModif==true}">
             <div class="col-xs-12 col-md-6">

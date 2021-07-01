@@ -203,6 +203,10 @@ public class UserManager implements IUserManager {
         Adresse newAdresse = new Adresse(rue, cpo, ville,true);
         Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel);
         newUser.setPassword(password);
+        if(req.getParameter("userId")!=null) {
+            Integer userId= Integer.valueOf(req.getParameter("userId"));
+            newUser.setId(userId);
+        };
         return newUser;
     }
 }

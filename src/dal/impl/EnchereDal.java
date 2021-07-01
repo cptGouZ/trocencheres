@@ -20,10 +20,10 @@ public class EnchereDal implements IGenericDao<Enchere> {
     @Override
     public Integer sumEnchereByUser(int userId) throws GlobalException {
         final String SUM_ENCHERE_BY_USER="SELECT SUM(montant) AS montant " +
-                                         "FROM ENCHERES INNER JOIN " +
-                                         "(SELECT MAX(no_enchere) as no_enchere FROM ENCHERES GROUP BY no_article) AS t " +
-                                            "ON t.no_enchere = encheres.no_enchere " +
-                                         "WHERE no_utilisateur=?;";
+                                         "FROM ENCHERES " +
+                                            "INNER JOIN (SELECT MAX(no_enchere) as no_enchere FROM ENCHERES GROUP BY no_article) AS t ON t.no_enchere = encheres.no_enchere " +
+                                            "INNER JOIN ARTICLES A on ENCHERES.no_article = A.no_article " +
+                                         "WHERE no_utilisateur=? and a.retrait=0;";
         Integer retour = 0;
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstmt = cnx.prepareStatement(SUM_ENCHERE_BY_USER);

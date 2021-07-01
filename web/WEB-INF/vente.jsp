@@ -100,7 +100,7 @@
 
          </form>
          <%--BOUTON ANNULER--%>
-         <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
+         <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary"> Annuler </a>
 
 
      </div>
