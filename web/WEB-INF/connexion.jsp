@@ -15,7 +15,7 @@
             <div class="row justify-content-center">
                 <%--Form Connexion--%>
                 <div class="col-4">
-                    <form method="post" action="connexion">
+                    <form method="post" action="${pageContext.request.contextPath}/connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3">
                             <span class="input-group-text" >Identifiant : <sup class="text-danger">* </sup></span>
@@ -44,7 +44,7 @@
                     <div>
                         <div class="input-group mb-2">
                             <%--BOUTON ANNULER--%>
-                            <a href="${pageContext.request.contextPath}/accueilS" class="btn btn-secondary"> Annuler </a>
+                            <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary"> Annuler </a>
 
                             <%--BOUTON CREER COMPTE/PROFIL--%>
                             <a href="${pageContext.request.contextPath}/creationcompte" class="btn btn-secondary"> Créer un compte </a>

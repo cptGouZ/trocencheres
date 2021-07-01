@@ -67,7 +67,7 @@ public class GestionCompte extends HttpServlet {
             }
         }catch(GlobalException e){
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
-            req.getRequestDispatcher("accueilS").forward(req, resp);
+            req.getRequestDispatcher("accueil").forward(req, resp);
         }
     }
 }

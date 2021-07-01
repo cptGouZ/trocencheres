@@ -114,7 +114,7 @@
                             <button type="submit" class="btn btn-secondary" name="action" value="creer">Créer</button>
                         </div>
                         <div class="col">
-                            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueilS">Annuler</a>
+                            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueil">Annuler</a>
                         </div>
                     </div>
                 </c:if>
@@ -135,7 +135,7 @@
                             <button type="submit" class="btn btn-secondary" name="action" value="supprimer">Supprimer</button>
                         </div>
                         <div class="col">
-                            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueilS">Annuler</a>
+                            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueil">Annuler</a>
                         </div>
                     </div>
                 </c:if>
