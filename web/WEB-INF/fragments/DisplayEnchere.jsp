@@ -35,7 +35,7 @@
                             <c:if test="${!empty sessionScope.get('userConnected')}">
                                 <form method="post" action="${pageContext.request.contextPath}/profil">
                                     <input type="hidden" name="userId" value="${item.utilisateur.id}"/>
-                                    <button class="btn btn-dark">InfosVendeur</button>
+                                    <button class="btn btn-dark" >InfosVendeur</button>
                                 </form>
                             </c:if>
                         </div>
