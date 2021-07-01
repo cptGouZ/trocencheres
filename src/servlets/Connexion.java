@@ -15,17 +15,16 @@ import java.io.IOException;
 @WebServlet(
         urlPatterns = {
                 "/connexion",
-                "/deconnexion",
+                "/deconnexion"
         })
 public class Connexion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getRequestURI().contains("connexion")){
-            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req,resp);
-        }
         if(req.getRequestURI().contains("deconnexion")){
             req.getSession().setAttribute("userConnected",null);
-            req.getRequestDispatcher("accueil").forward(req, resp);
+            resp.sendRedirect("accueil");
+        }else if(req.getRequestURI().contains("connexion")){
+            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req,resp);
         }
     }
 

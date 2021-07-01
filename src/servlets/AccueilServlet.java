@@ -22,10 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AccueilServlet extends HttpServlet {
-
-    private Object Utilisateur;
-    private Object Categorie;
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
