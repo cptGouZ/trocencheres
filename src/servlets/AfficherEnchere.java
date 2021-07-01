@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.acl.LastOwnerException;
 import java.time.LocalDateTime;
 
 @WebServlet(
@@ -36,8 +37,13 @@ public class AfficherEnchere extends HttpServlet {
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
             String montant = req.getParameter("montant");
             boolean isMeOnLastEnchere = false;
-            if(lastEnchere!=null)
+            if(lastEnchere!=null) {
                 isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
+            }else{
+                lastEnchere = new Enchere();
+                lastEnchere.setMontant(articleToDisplay.getPrixInitiale());
+            }
+
 
             //Repréparation de la page
             req.setAttribute("article", articleToDisplay);
