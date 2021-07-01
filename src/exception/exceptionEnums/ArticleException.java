@@ -15,6 +15,8 @@ public interface ArticleException extends EnumException {
     int DESCRIPTION_ARTICLE_INVALIDE = 2130;
     int PRIX_ARTICLE_VIDE = 2140;
     int PRIX_ARTICLE_INVALIDE = 2150;
+    int DATE_VIDE = 2160;
+    int FORMAT_DATE_INVALIDE = 2170;
 
     //IHM Exception 12**
 

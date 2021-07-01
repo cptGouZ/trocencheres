@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.acl.LastOwnerException;
 import java.time.LocalDateTime;
 
 @WebServlet(
@@ -36,8 +37,13 @@ public class AfficherEnchere extends HttpServlet {
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
             String montant = req.getParameter("montant");
             boolean isMeOnLastEnchere = false;
-            if(lastEnchere!=null)
+            if(lastEnchere!=null) {
                 isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
+            }else{
+                lastEnchere = new Enchere();
+                lastEnchere.setMontant(articleToDisplay.getPrixInitiale());
+            }
+
 
             //Repréparation de la page
             req.setAttribute("article", articleToDisplay);
@@ -47,7 +53,7 @@ public class AfficherEnchere extends HttpServlet {
             if(req.getRequestURI().contains("afficherenchere")) {
                 req.setAttribute("affichagejsp", "afficher");
                 //Si la dernière enchère n'est pas faite par moi et que l'enchère est encore ouverte on affiche enrichir
-                if (!isMeOnLastEnchere && articleToDisplay.isOuvert())
+                if (!isMeOnLastEnchere && articleToDisplay.isOuvert() && (! articleToDisplay.getUtilisateur().getId().equals(userConnected.getId())))
                     req.setAttribute("affichagejsp", "encherir");
                 //Si l'enchère est fermée que c'est moi le vainqueur et qu'elle est en attente de retrait on affiche pour retirer
                 if (!articleToDisplay.isOuvert() && !articleToDisplay.getIsRetire() && isMeOnLastEnchere)
