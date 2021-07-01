@@ -12,12 +12,12 @@
 
 
             <%--BLOC CONNEXION--%>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center my-5 ">
                 <%--Form Connexion--%>
-                <div class="col-4">
+                <div class="col-4 border border-info border-3 rounded-3">
                     <form method="post" action="${pageContext.request.contextPath}/connexion">
                         <%--LOGIN--%>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 mt-3">
                             <span class="input-group-text" >Identifiant : <sup class="text-danger">* </sup></span>
                             <input type="text" class="form-control" placeholder="pseudo / email" name="login" required>
                         </div>
@@ -42,12 +42,12 @@
                         <br>
                     </form>
                     <div>
-                        <div class="input-group mb-2">
+                        <div class="input-group mb-2 me-2">
                             <%--BOUTON ANNULER--%>
-                            <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary"> Annuler </a>
+                            <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary me-4 mb-2 rounded"> Annuler </a>
 
                             <%--BOUTON CREER COMPTE/PROFIL--%>
-                            <a href="${pageContext.request.contextPath}/creationcompte" class="btn btn-secondary"> Créer un compte </a>
+                            <a href="${pageContext.request.contextPath}/creationcompte" class="btn btn-secondary mb-2 rounded"> Créer un compte </a>
                             <br>
                         </div>
 
