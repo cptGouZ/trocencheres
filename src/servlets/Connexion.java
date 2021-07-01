@@ -25,7 +25,7 @@ public class Connexion extends HttpServlet {
         }
         if(req.getRequestURI().contains("deconnexion")){
             req.getSession().setAttribute("userConnected",null);
-            req.getRequestDispatcher("accueilS").forward(req, resp);
+            req.getRequestDispatcher("accueil").forward(req, resp);
         }
     }
 
@@ -46,7 +46,7 @@ public class Connexion extends HttpServlet {
             req.getSession().setAttribute("userConnected",utilisateurConnecte);
 
             //Puis on renvoi vers la page d'accueil en mode connecté
-            req.getRequestDispatcher("accueilS").forward(req, resp);
+            req.getRequestDispatcher("accueil").forward(req, resp);
 
         } catch (GlobalException e) {
             e.printStackTrace();

@@ -41,7 +41,7 @@ public class EnregistrerCompte extends HttpServlet {
                 //Enregistrer les une création
                 um.creer(userToInsertOrAfterUpdate, newPwConfirmation);
                 req.setAttribute("messageConfirm", UserException.CREATION_USER_OK);
-                req.getRequestDispatcher("accueilS").forward(req, resp);
+                req.getRequestDispatcher("accueil").forward(req, resp);
             }
             if("maj".equals(action)){
                 //Enregistrer une modif
@@ -59,7 +59,7 @@ public class EnregistrerCompte extends HttpServlet {
                 um.supprimer(userBeforeUpdate.getId());
                 req.getSession().setAttribute("userConnected", null);
                 req.setAttribute("messageConfirm", UserException.SUPPR_USER_OK);
-                req.getRequestDispatcher("accueilS").forward(req, resp);
+                req.getRequestDispatcher("accueil").forward(req, resp);
             }
         }catch(GlobalException e){
             if ("maj".equals(action)) req.setAttribute("affichagejsp", "modification");

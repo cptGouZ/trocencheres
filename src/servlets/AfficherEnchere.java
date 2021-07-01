@@ -67,7 +67,7 @@ public class AfficherEnchere extends HttpServlet {
             if(req.getRequestURI().contains("retrait")) {
                 am.retirer(articleToDisplay, userConnected, lastEnchere);
                 req.setAttribute("messageConfirm", "Félicitation vous avez retirer votre article chez le vendeur");
-                req.getRequestDispatcher("accueilS").forward(req, resp);
+                req.getRequestDispatcher("accueil").forward(req, resp);
             }
         } catch (GlobalException e) {
             //Réaffichage de la page comme elle était

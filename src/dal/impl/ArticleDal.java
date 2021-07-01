@@ -90,6 +90,10 @@ public class ArticleDal implements IGenericDao<Article> {
                 sqlConstruction2.append(" ) ");
             }
 
+            if(encheresOuv == false && encheresEnCours == false && encheresRemp == false && ventesTerm == false && ventesNonDeb == false && ventesEnCours == false) {
+                sqlConstruction2.append(" AND CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
+            }
+
             System.out.println(sqlConstruction2);
 
             PreparedStatement pstt = con.prepareCall(sqlConstruction2.toString());
@@ -107,7 +111,7 @@ public class ArticleDal implements IGenericDao<Article> {
 //                //J'ajoute l'article à la liste
                 list.add(articleFromRs(rs));
             }
-            System.out.println("didi" + list);
+            //System.out.println("didi" + list);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

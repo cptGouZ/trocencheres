@@ -7,6 +7,6 @@
 
 Votre compte utilisateur est supprimé
 <a href="/connexion">Connexion</a>
-<a href="/accueilS">Connexion</a>
+<a href="/accueil">Connexion</a>
 
 <%@ include file="../fragments/footer.jsp"%>
