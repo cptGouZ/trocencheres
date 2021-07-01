@@ -22,6 +22,18 @@ public class Article implements Serializable {
     private Integer prixVente;
     private Integer prixInitiale;
     private Adresse adresseRetrait;
+
+    public Article(Utilisateur utilisateur, Categorie categorie, String article, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitiale, Adresse adresseRetrait) {
+        this.utilisateur = utilisateur;
+        this.categorie = categorie;
+        this.article = article;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitiale = prixInitiale;
+        this.adresseRetrait = adresseRetrait;
+    }
+
     public boolean isOuvert(){
         boolean retour = false;
         LocalDateTime now = LocalDateTime.now();

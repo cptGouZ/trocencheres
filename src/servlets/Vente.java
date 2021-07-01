@@ -53,7 +53,7 @@ public class Vente extends HttpServlet {
 
         String debutEnchere = req.getParameter("debutEnchere").trim();
         System.out.println(debutEnchere);
-        String debutEncherePrecis = (debutEnchere + ":00").trim();
+        String debutEncherePrecis = (debutEnchere + ":01").trim();
         LocalDateTime debutEnchereBll = LocalDateTime.parse(debutEncherePrecis);
 
         String finEnchere = req.getParameter("finEnchere").trim();
@@ -74,8 +74,8 @@ public class Vente extends HttpServlet {
         req.setAttribute("descriptionSaisie",description);
         req.setAttribute("categorieSaisie",categorie);
         req.setAttribute("prixSaisie",prixDepart);
-        req.setAttribute("dateDebutSaisie",debutEnchere);
-        req.setAttribute("dateFinSaisie",finEnchere);
+        req.setAttribute("dateDebutSaisie",debutEnchereBll);
+        req.setAttribute("dateFinSaisie",finEnchereBll);
         req.setAttribute("rueSaisie",rue);
         req.setAttribute("cpoSaisie",cpo);
         req.setAttribute("villeSaisie",ville);
@@ -88,8 +88,7 @@ public class Vente extends HttpServlet {
             newAdresse = new Adresse(rue,cpo,ville,idUtilisateur,false);
             iam.creer(newAdresse);
 
-            Article newArticle = null ;
-                newArticle = icm.insertNewArticle(
+            icm.insertNewArticle(
                             userEnCours,
                             categorie,
                             article,
