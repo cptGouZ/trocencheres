@@ -12,24 +12,36 @@
 
 
 </head>
+
+
 <body class="container">
-    <%@ include file="background.jsp"%>
+   <!--<%@ include file="background.jsp"%> -->
+
     <header class="row">
-        <div class="col"><a href="${pageContext.request.contextPath}/deconnexion"><img src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
-        <div class="col"><h1>${param.get("titre")}</h1></div>
-        <c:if test="${empty sessionScope.get('userConnected')}">
-            <div class="col"><a href="${pageContext.request.contextPath}/connexion">Se connecter</a></div>
-        </c:if>
-        <c:if test="${!empty sessionScope.get('userConnected')}">
-            <div class="col"><a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a></div>
-            <div class="col">
-                <form method="post" action="${pageContext.request.contextPath}/profil">
-                    <input type="hidden" name="userId" value=${userConnected.id}>
-                    <button>Mon Profil</button>
-                </form>
+        <nav class="navbar navbar-dark bg-dark rounded">
+            <div class="container-fluid">
+                <div class="col-md-center"><a href="${pageContext.request.contextPath}/deconnexion"><img class="rounded" src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
+
+                <div class="col-md-center"><h1>${param.get("titre")}</h1></div>
+                    <c:if test="${empty sessionScope.get('userConnected')}">
+                        <a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/connexion">Se connecter</a>
+                    </c:if>
+
+                    <c:if test="${!empty sessionScope.get('userConnected')}">
+
+                        <div class="col-md-center"><a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
+                        <div class="col-md-center">
+                            <form method="post" class="my-0" action="${pageContext.request.contextPath}/profil">
+                                <input type="hidden" name="userId" value=${userConnected.id}>
+                                <button class="navbar-brand btn btn-dark">Mon Profil</button>
+                            </form>
+                        </div>
+                        <div class="col-md-center">
+                            <a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a>
+                        </div>
+                    </c:if>
             </div>
-            <div class="col"><a href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
-        </c:if>
+        </nav>
 
         <%--Message Création Article OK--%>
         ${empty messageErreur ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageErreur+="</p>"}
