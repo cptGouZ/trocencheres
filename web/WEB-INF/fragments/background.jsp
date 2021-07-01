@@ -8,7 +8,7 @@
         background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.8)),url('<%=request.getContextPath()%>/images/troclogo.png');
         background-repeat: no-repeat;
         background-position: center;
-        background-attachment: fixed;
+        background-attachment: scroll;
         background-size: 100% 100%;
     }
 </style>
