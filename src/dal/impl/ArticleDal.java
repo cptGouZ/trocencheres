@@ -5,6 +5,7 @@ import dal.ConnectionProvider;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
+import exception.exceptionEnums.AdresseException;
 import exception.exceptionEnums.AppException;
 import exception.exceptionEnums.ArticleException;
 import exception.exceptionEnums.UserException;
@@ -105,7 +106,7 @@ public class ArticleDal implements IGenericDao<Article> {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            GlobalException.getInstance().addError(ArticleException.ECHEC_RECHERCHE);
             throw GlobalException.getInstance();
         }
         return list;

@@ -19,8 +19,6 @@
 
      <%--Form VENTE--%>
      <div class="col">
-         <%--Message d'erreur de connexion--%>
-         <p class="text-decoration-underline text-danger">${empty messageErreurArticle ? "" : messageErreurArticle}</p>
          <form method="post" action="vente">
              <%--ARTICLE--%>
              <div class="input-group mb-3">
