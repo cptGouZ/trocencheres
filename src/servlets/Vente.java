@@ -120,7 +120,7 @@ public class Vente extends HttpServlet {
             e.printStackTrace();
 
             //Affiche un message d'erreur si la vérification article a échoué
-            req.setAttribute("messageErreurArticle", GlobalException.getInstance().getMessageErrors());
+            req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
             //Et renvoi à la page de création de la vente
             req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
         }
