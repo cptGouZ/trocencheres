@@ -12,7 +12,7 @@
 
 
 </head>
-<body class="container">
+<body class="container-fluid">
     <%@ include file="background.jsp"%>
     <header class="row">
         <div class="col"><a href="${pageContext.request.contextPath}/deconnexion"><img src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
