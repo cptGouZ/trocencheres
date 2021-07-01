@@ -18,6 +18,7 @@
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 <div class="row">
+    ${userToDisplay.id}
     <div class="col">
         <div class="row">
             <c:if test="${'creation'.equals(affichagejsp)}">
