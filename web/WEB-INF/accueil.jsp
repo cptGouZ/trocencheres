@@ -45,26 +45,26 @@
                         <label for="a">Achats</label>
                         <input type="radio" name="acha" id="a" checked/>
                         <br />
-                        <label for="c1">encheres ouvertes</label>
+                        <label for="c1">Enchères ouvertes sauf les miennes</label>
                         <input type="checkbox" name="ach1" id="c1" />
                         <br />
-                        <label for="c2">mes encheres en cours</label>
+                        <label for="c2">Enchères sur lesquelles j'ai misé</label>
                         <input type="checkbox" name="ach2" id="c2" />
                         <br />
-                        <label for="c3">mes encheres remportees</label>
+                        <label for="c3">Enchères gagnées</label>
                         <input type="checkbox" name="ach3" id="c3" />
                     </div>
                     <div class="col-6 col-lg-3">
                         <label for="v">Ventes</label>
                         <input type="radio" name="acha" id="v"/>
                         <br />
-                        <label for="c4">mes ventes en cours</label>
+                        <label for="c4">Mes articles en cours de vente</label>
                         <input type="checkbox" name="ven1" id="c4" />
                         <br />
-                        <label for="c5">ventes non debutees</label>
+                        <label for="c5">Mes articles en attente de vente</label>
                         <input type="checkbox" name="ven2" id="c5" />
                         <br />
-                        <label for="c6">ventes terminees</label>
+                        <label for="c6">Mes ventes terminees</label>
                         <input type="checkbox" name="ven3" id="c6"/>
                     </div>
                 </div>
