@@ -19,7 +19,7 @@
             <div class="container-fluid">
                 <div class="col-md-center"><a href="${pageContext.request.contextPath}/deconnexion"><img class="rounded" src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
 
-                <div class="col-md-center"><h1>${param.get("titre")}</h1></div>
+                <div class="col-md-center text-white"><h1>${param.get("titre")}</h1></div>
                     <c:if test="${empty sessionScope.get('userConnected')}">
                         <a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/connexion">Se connecter</a>
                     </c:if>
