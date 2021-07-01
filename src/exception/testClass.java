@@ -8,15 +8,15 @@ public class testClass {
 /* TODO : Vérification des exception. Le header contien "messageErreur" et "messageConfirm" pour les affichages
     Utilisateur
     Dal
-        Article -> Olivier
-        Enchere -> Julien
+        Article -> Olivier : ok : tous les champs obligatoires déclenchent une exception dans Nouvelle Vente
+        Enchere -> Julien : ok
         Adresse -> validé Julien
-        Categorie -> Olivier
+        Categorie -> Olivier : ok
         User -> validé Julien
     Managers
         AdresseManager -> validé Julien
-        ArticleManager -> Olivier
-        CategorieManager -> Olivier
+        ArticleManager -> Olivier : ok
+        CategorieManager -> Olivier : ok
         ConnexionManager -> Alex
         EnchereManager -> Julien
         UserManager -> validé Julien
