@@ -126,12 +126,12 @@
                 <%--Enregistrer / Supprimer
                 Afficher si le profil de session est celui de l'utilisateur--%>
                 <c:if test="${'modification'.equals(affichagejsp)}">
-                    <div class="row">
+                    <div class="row justify-content-evenly ">
                         <div class="col">
                             Credit : ${userToDisplay.credit}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row justify-content-evenly">
                         <div class="col">
                             <button type="submit" class="btn btn-secondary" name="action" value="maj">Enregistrer</button>
                         </div>
