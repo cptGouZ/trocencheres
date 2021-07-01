@@ -17,25 +17,22 @@
     <jsp:param name="messageErreur" value="${messageErreur}"/>
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
-<div class="row">
-    <div class="col">
-        <div class="row">
-            <c:if test="${'creation'.equals(affichagejsp)}">
-                <form method="post" action="${pageContext.request.contextPath}/enregistrercompte" class="col">
-            </c:if>
-            <c:if test="${'modification'.equals(affichagejsp)}">
-                <form method="post" action="${pageContext.request.contextPath}/enregistrercompte" class="col">
-                    <input type="hidden" name="userId" value="${userToDisplay.id}">
-            </c:if>
+<form method="post" action="${pageContext.request.contextPath}/enregistrercompte">
+    <div class="row justify-content-center">
+        <div class="col-11 col-md-5 lg-3">
+        <c:if test="${'modification'.equals(affichagejsp)}">
+            <input type="hidden" name="userId" value="${userToDisplay.id}">
+        </c:if>
+            <div class="row">
                 <%--Pseudo / Nom--%>
                 <div class="row">
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6 input-group mb-3">
                         <span class="col-2 input-group-text" id="idPseudo">Pseudo : <sup class="text-danger">*</sup></span>
                         <input type="text" class="col form-control" placeholder="Pseudo" name="pseudo" required
                             ${!empty userToDisplay.pseudo ? defaultPseudo : null}>
 
                     </div>
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idNom">Nom : <sup class="text-danger">*</sup></span>
                         <input type="text" class="form-control" placeholder="Nom" name="nom" required
                             ${!empty userToDisplay.nom ? defaultNom : null}>
@@ -44,12 +41,12 @@
 
                 <%--Prénom / Email--%>
                 <div class="row">
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idPrenom">Prénom : <sup class="text-danger">*</sup></span>
                         <input type="text" class="form-control" placeholder="Prénom" name="prenom" required
                             ${!empty userToDisplay.prenom ? defaultPrenom : null}>
                     </div>
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idEmail">Email : <sup class="text-danger">*</sup></span>
                         <input type="email" class="form-control" placeholder="E-mail" name="email" required
                             ${!empty userToDisplay.email ? defaultEmail : null}>
@@ -58,12 +55,12 @@
 
                 <%--Téléphone / Rue--%>
                 <div class="row">
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idTel">Tél : </span>
                         <input type="text" class="form-control" placeholder="Téléphone" name="tel"
                             ${!empty userToDisplay.phone ? defaultPhone : null}>
                     </div>
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idRue">Rue : </span>
                         <input type="text" class="form-control" placeholder="Rue" name="rue"
                             ${!empty userToDisplay.adresse.rue ? defaultRue : null}>
@@ -72,12 +69,12 @@
 
                 <%--Code Postal / Ville--%>
                 <div class="row">
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idCpo">Code Postal : </span>
                         <input type="text" class="form-control" placeholder="Code Postal" name="cpo"
                             ${!empty userToDisplay.adresse.cpo ? defaultCpo : null}>
                     </div>
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idVille">Ville : </span>
                         <input type="text" class="form-control" placeholder="Ville" name="ville"
                             ${!empty userToDisplay.adresse.ville ? defaultVille : null}>
@@ -87,7 +84,7 @@
                 <%--Mot de passe Actuel--%>
                 <c:if test="${'modification'.equals(affichagejsp)}">
                     <div class="row">
-                        <div class="col input-group mb-3">
+                        <div class="col-12 col-md-6  input-group mb-3">
                             <span class="input-group-text" id="idPassword">Mot de passe : <sup class="text-danger">*</sup></span>
                             <input type="password" class="form-control" placeholder="Mot de passe" name="password" required>
                         </div>
@@ -96,11 +93,11 @@
 
                 <%--Nouveau mot de passe / Confirmation--%>
                 <div class="row">
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idNewPassword">Nouveau mot de passe : </span>
                         <input type="password" class="form-control" placeholder="Nouveau mot de passe" name="newPassword" />
                     </div>
-                    <div class="col input-group mb-3">
+                    <div class="col-12 col-md-6  input-group mb-3">
                         <span class="input-group-text" id="idConfirmation">Confirmation : </span>
                         <input type="password" class="form-control" placeholder="Confirmation" name="confirmPassword"/>
                     </div>
@@ -139,9 +136,9 @@
                         </div>
                     </div>
                 </c:if>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 <jsp:include page="fragments/footer.jsp"/>

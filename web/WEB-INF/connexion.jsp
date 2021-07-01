@@ -14,7 +14,7 @@
             <%--BLOC CONNEXION--%>
             <div class="row justify-content-center my-5 ">
                 <%--Form Connexion--%>
-                <div class="col-4 border border-info border-3 rounded-3">
+                <div class="col-4 border border-secondary border-3 rounded-3">
                     <form method="post" action="${pageContext.request.contextPath}/connexion">
                         <%--LOGIN--%>
                         <div class="input-group mb-3 mt-3">
