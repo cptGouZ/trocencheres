@@ -19,30 +19,41 @@
             <jsp:include page="fragments/categorie.jsp">
                 <jsp:param name="listeCategories" value="${listeCategories}"/>
             </jsp:include>
+            <%--Message d'erreur de connexion--%>
+            <p class="row text-decoration-underline text-danger">
+                ${empty messageErreur ? "" : messageErreur}
+            </p>
             <!--Voir les informations Ventes et Achats si le profil est connecté-->
             <c:if test="${!empty sessionScope.get('userConnected')}">
             <div class="row mb-3">
                 <div class="border border-dark">
                     <input type="radio" name="acha" id="a" checked/>
                     <label for="a">Achats</label><br />
-                    <input type="checkbox" name="ach1" id="c1"/>
+                    <input type="checkbox" name="ach1" id="c1" />
                     <label for="c1">encheres ouvertes</label><br />
-                    <input type="checkbox" name="ach2" id="c2"/>
+                    <input type="checkbox" name="ach2" id="c2" />
                     <label for="c2">mes encheres en cours</label><br />
-                    <input type="checkbox" name="ach3" id="c3"/>
+                    <input type="checkbox" name="ach3" id="c3" />
                     <label for="c3">mes encheres remportees</label><br />
                 </div>
                 <div class="border border-dark">
                     <input type="radio" name="acha" id="v"/>
                     <label for="v">Ventes</label><br />
-                    <input type="checkbox" name="ven1" id="c4"/>
+                    <input type="checkbox" name="ven1" id="c4" />
                     <label for="c4">mes ventes en cours</label><br />
-                    <input type="checkbox" name="ven2" id="c5"/>
+                    <input type="checkbox" name="ven2" id="c5" />
                     <label for="c5">ventes non debutees</label><br />
-                    <input type="checkbox" name="ven3" id="c6"/>
+                    <input type="checkbox" name="ven3" id="c6" />
                     <label for="c6">ventes terminees</label><br />
                 </div>
             </div>
+            <!--Partie JS-->
+            <script>
+                function decocher(a,b) {
+                    document.getElementById(a).checked = false;
+                    document.getElementById(b).checked = false;
+                }
+            </script>
             </c:if>
             <!--Affichage du bouton de recherche-->
             <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
