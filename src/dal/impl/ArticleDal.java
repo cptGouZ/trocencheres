@@ -86,7 +86,7 @@ public class ArticleDal implements IGenericDao<Article> {
                     //Vente term
                     if(ventesTerm) {
                         gestionOr(sqlConstruction2);
-                        sqlConstruction2.append(" date_debut_encheres > CAST(GETDATE() AS datetime) ");}
+                        sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime) ");}
                 sqlConstruction2.append(" ) ");
             }
 
