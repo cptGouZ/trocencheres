@@ -42,34 +42,24 @@
             <c:if test="${!empty sessionScope.get('userConnected')}">
                 <div class="row justify-content-center">
                     <div class="col-6 col-lg-3">
-                        <input type="radio" name="acha" id="a" checked/>
-                        <label for="a">Achats</label>
-                        <br />
-                        <input type="checkbox" name="ach1" id="c1" />
-                        <label for="c1">Toutes les enchères ouvertes</label>
-                        <br />
-                        <input type="checkbox" name="ach2" id="c2" />
-                        <label for="c2">Enchères sur lesquelles j'ai misé</label>
-                        <br />
-                        <input type="checkbox" name="ach3" id="c3" />
-                        <label for="c3">Enchères gagnées</label>
-                        <label for="a">Achats</label><br />
-                        <input type="checkbox" name="ach1" id="c1" onclick='decocher("c4","c5","c6")'/>
-                        <label for="c1">encheres ouvertes</label><br />
-                        <input type="checkbox" name="ach2" id="c2" onclick='decocher("c4","c5","c6")'/>
-                        <label for="c2">mes encheres en cours</label><br />
-                        <input type="checkbox" name="ach3" id="c3" onclick='decocher("c4","c5","c6")'/>
-                        <label for="c3">mes encheres remportees</label><br />
+                        <input type="radio" name="achavent" id="acha" onclick='degriser("c1","c2","c3")'/>
+                        <label for="acha">Achats</label><br />
+                        <input type="checkbox" name="ach1" id="c1" disabled />
+                        <label for="c1">Toutes les enchères ouvertes</label><br />
+                        <input type="checkbox" name="ach2" id="c2" disabled />
+                        <label for="c2">Enchères sur lesquelles j'ai misé</label><br />
+                        <input type="checkbox" name="ach3" id="c3" disabled />
+                        <label for="c3">Enchères gagnées</label><br />
                     </div>
                     <div class="col-6 col-lg-3">
-                        <input type="radio" name="acha" id="v"/>
-                        <label for="v">Ventes</label><br />
-                        <input type="checkbox" name="ven1" id="c4" onclick='decocher("c1","c2","c3")'/>
-                        <label for="c4">mes ventes en cours</label><br />
-                        <input type="checkbox" name="ven2" id="c5" onclick='decocher("c1","c2","c3")'/>
-                        <label for="c5">ventes non debutees</label><br />
-                        <input type="checkbox" name="ven3" id="c6" onclick='decocher("c1","c2","c3")'/>
-                        <label for="c6">ventes terminees</label><br />
+                        <input type="radio" name="achavent" id="vent" onclick='degriser("c4","c5","c6")'/>
+                        <label for="vent">Ventes</label><br />
+                        <input type="checkbox" name="ven1" id="c4" disabled/>
+                        <label for="c4">Mes articles en cours de vente</label><br />
+                        <input type="checkbox" name="ven2" id="c5" disabled/>
+                        <label for="c5">Mes articles en attente de vente</label><br />
+                        <input type="checkbox" name="ven3" id="c6" disabled/>
+                        <label for="c6">Mes ventes terminees</label><br />
                     </div>
                 </div>
             </c:if>

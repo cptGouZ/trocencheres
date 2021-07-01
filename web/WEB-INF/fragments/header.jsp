@@ -11,11 +11,25 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <script>
-        function decocher(a,b,c) {
-            document.getElementById(a).checked=false;
-            document.getElementById(b).checked=false;
-            document.getElementById(c).checked=false;
-        }
+        function degriser(a,b,c) {
+            document.getElementById("c1").checked=false;
+            document.getElementById("c2").checked=false;
+            document.getElementById("c3").checked=false;
+            document.getElementById("c4").checked=false;
+            document.getElementById("c5").checked=false;
+            document.getElementById("c6").checked=false;
+
+            document.getElementById("c1").disabled=true;
+            document.getElementById("c2").disabled=true;
+            document.getElementById("c3").disabled=true;
+            document.getElementById("c4").disabled=true;
+            document.getElementById("c5").disabled=true;
+            document.getElementById("c6").disabled=true;
+
+            document.getElementById(a).disabled=false;
+            document.getElementById(b).disabled=false;
+            document.getElementById(c).disabled=false;}
+
     </script>
 
 </head>
