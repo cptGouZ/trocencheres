@@ -8,6 +8,8 @@
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Accueil"/>
+    <jsp:param name="messageErreur" value="${messageErreur}"/>
+    <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
 <!-- PARTIE RECHERCHE-->
@@ -81,23 +83,17 @@
                     <div class="col-xs-12 col-md-6">
                         <form method="post" action="${pageContext.request.contextPath}/afficherenchere">
                             <input type="hidden" name="idArticle" value="<%=item.getId()%>">
-                            <button class="btn btn-success mb-3">Afficher</button>
-                        </form>
-                    </div>
-                </c:if>
-                <%--Pouvoir encherir sur un article--%>
-                <c:if test="${!empty sessionScope.get('userConnected')}">
-                    <div class="col-xs-12 col-md-6">
-                        <form method="post" action="${pageContext.request.contextPath}/encherir">
-                            <input type="hidden" name="idArticle" value="<%=item.getId()%>">
-                            <button class="btn btn-success mb-3">Encherir</button>
+                            <button class="btn btn-success mb-3">Afficher/Encherir</button>
                         </form>
                     </div>
                 </c:if>
                 <%--Lien vers profil vendeur si le profil est connecté--%>
                 <c:if test="${!empty sessionScope.get('userConnected')}">
                     <div class="col-auto">
-                        <a href="${pageContext.request.contextPath}/profil?userId=<%=item.getUtilisateur().getId()%>">InfosVendeur</a>
+                        <form method="post" action="${pageContext.request.contextPath}/profil">
+                            <input type="hidden" name="userId" value="<%=item.getUtilisateur().getId()%>"/>
+                            <button>InfosVendeur</button>
+                        </form>
                     </div>
                 </c:if>
         </div>

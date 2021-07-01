@@ -55,11 +55,6 @@ public class Utilisateur implements Serializable {
         this.admin = admin;
     }
 
-    //TODO A supprimer plus tard ?
-    public Utilisateur(String pseudo) {
-        this.pseudo = pseudo;
-    }
-
     public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone) {
         this.adresse = adresse;
         this.pseudo = pseudo;
@@ -71,7 +66,7 @@ public class Utilisateur implements Serializable {
 
     public Integer getCreditDispo() throws GlobalException {
         IGenericDao<Enchere> dao = DaoProvider.getEnchereDao();
-        Integer retour = getCredit()-dao.sumEnchereByUser(getId());
+        Integer retour = getCredit()-DaoProvider.getEnchereDao().sumEnchereByUser(getId());
         return retour;
     }
 }

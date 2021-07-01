@@ -5,6 +5,8 @@ import exception.EnumException;
 public interface UserException extends EnumException {
     //DAL Exception 10**
     int SELECT_BY_USER_ID = 1000;
+    int SELECT_BY_MAIL = 1004;
+    int SELECT_BY_PSEUDO = 1006;
     int USER_INSERTION_ERROR = 1010;
     int USER_DELETION_ERROR = 1020;
     int USER_UPDATE_ERROR = 1030;
@@ -28,5 +30,7 @@ public interface UserException extends EnumException {
     int CONFIRMATION_PASSWORD_NO_MATCH = 1165;
     int TELEPHONE_INVALIDE = 1166;
     //IHM Exception 12**
-
+    int MODIF_USER_OK = 1200;
+    int CREATION_USER_OK = 1201;
+    int SUPPR_USER_OK = 1202;
 }
