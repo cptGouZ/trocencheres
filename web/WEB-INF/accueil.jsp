@@ -43,6 +43,16 @@
                 <div class="row justify-content-center">
                     <div class="col-6 col-lg-3">
                         <input type="radio" name="acha" id="a" checked/>
+                        <label for="a">Achats</label>
+                        <br />
+                        <input type="checkbox" name="ach1" id="c1" />
+                        <label for="c1">Toutes les enchères ouvertes</label>
+                        <br />
+                        <input type="checkbox" name="ach2" id="c2" />
+                        <label for="c2">Enchères sur lesquelles j'ai misé</label>
+                        <br />
+                        <input type="checkbox" name="ach3" id="c3" />
+                        <label for="c3">Enchères gagnées</label>
                         <label for="a">Achats</label><br />
                         <input type="checkbox" name="ach1" id="c1" onclick='decocher("c4","c5","c6")'/>
                         <label for="c1">encheres ouvertes</label><br />
