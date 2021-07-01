@@ -46,7 +46,7 @@
                         <label for="a">Achats</label>
                         <br />
                         <input type="checkbox" name="ach1" id="c1" />
-                        <label for="c1">Enchères ouvertes sauf les miennes</label>
+                        <label for="c1">Toutes les enchères ouvertes</label>
                         <br />
                         <input type="checkbox" name="ach2" id="c2" />
                         <label for="c2">Enchères sur lesquelles j'ai misé</label>
