@@ -43,40 +43,35 @@ public class AfficherEnchere extends HttpServlet {
             req.setAttribute("article", articleToDisplay);
             req.setAttribute("enchere", lastEnchere);
 
-
-            /*****************************************************/
-            /* SELECTION DE L'AFFICHAGE A FAIRE APRES TRAITEMENT */
-            /*****************************************************/
             boolean attenteRetrait=false; //TODO calcul à établir. Statut dans table article ?
 
-            //Par défaut on demande un affichage
-            req.setAttribute("affichagejsp", "afficher");
-
-            //Si nous venons d'un affichage
+            //Nous venons pour un affichage d'enchère
             if(req.getRequestURI().contains("afficherenchere")) {
+                req.setAttribute("affichagejsp", "afficher");
                 //Si la dernière enchère n'est pas faite par moi et que l'enchère est encore ouverte on affiche enrichir
                 if (!isMeOnLastEnchere && articleToDisplay.isOuvert())
                     req.setAttribute("affichagejsp", "encherir");
-
                 //Si l'enchère est fermée que c'est moi le vainqueur et qu'elle est en attente de retrait on affiche pour retirer
                 if (!articleToDisplay.isOuvert() && attenteRetrait && isMeOnLastEnchere)
                     req.setAttribute("affichagejsp", "retirer");
-            }
 
-            /****************************************/
-            /* TRAITEMENT DES DONNEES A ENREGISTRER */
-            /****************************************/
+                req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
+            }
+            //Nous venons pour enchérir
             if(req.getRequestURI().contains("encherir")) {
                 //créer une nouvelle enchère
                 em.creer(articleToDisplay, montant, userConnected,lastEnchere) ;
                 lastEnchere = em.getLastEnchereOnArticle(articleToDisplay.getId());
                 req.setAttribute("enchere", lastEnchere);
+                req.setAttribute("affichagejsp", "afficher");
+                req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
             }
+            //Nous venons pour retirer l'article
             if(req.getRequestURI().contains("retrait")) {
                 am.retirer(articleToDisplay, userConnected, lastEnchere);
+                req.setAttribute("messageConfirm", "Félicitation vous avez retirer votre article chez le vendeur");
+                req.getRequestDispatcher("accueilS").forward(req, resp);
             }
-
-            req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
         } catch (GlobalException e) {
             //Réaffichage de la page comme elle était
             if(req.getRequestURI().contains("afficherenchere"))

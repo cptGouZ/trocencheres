@@ -12,27 +12,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-@WebServlet("/connexion")
+@WebServlet(
+        urlPatterns = {
+                "/connexion",
+                "/deconnexion",
+        })
 public class Connexion extends HttpServlet {
-
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String jspConnexion = "WEB-INF/connexion.jsp";
-        String jspReinitMdp = "WEB-INF/reinitMdp.jsp";
-
-        String redirectionJsp = jspConnexion ;
-
-        if(req.getParameter("id")!=null)
-        {
-            redirectionJsp = jspReinitMdp ;
+        if(req.getRequestURI().contains("connexion")){
+            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req,resp);
         }
-
-        RequestDispatcher rd ;
-        rd = req.getRequestDispatcher(redirectionJsp) ;
-        rd.forward(req,resp);
+        if(req.getRequestURI().contains("deconnexion")){
+            req.getSession().setAttribute("userConnected",null);
+            req.getRequestDispatcher("accueilS").forward(req, resp);
+        }
     }
 
     @Override

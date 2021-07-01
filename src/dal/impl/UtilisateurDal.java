@@ -1,5 +1,6 @@
 package dal.impl;
 
+import bll.impl.UserManager;
 import bo.Adresse;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
@@ -7,59 +8,54 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
+import jdk.nashorn.internal.objects.Global;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurDal implements IGenericDao<Utilisateur> {
-
-    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email=?";
-    private static final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
-
     @Override
     public Utilisateur selectByEmail(String login) throws GlobalException {
-
+        final String SQL_SELECT_BY_EMAIL = "SELECT * FROM UTILISATEURS WHERE email=?";
         Utilisateur utilisateurEnBdd = null ;
-
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
                 PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_EMAIL);
         ) {
             pStmt.setString(1, login);
             ResultSet rs = pStmt.executeQuery();
-
             while (rs.next()) {
                 utilisateurEnBdd = userFromRs(rs);
-
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(UserException.SELECT_BY_MAIL);
+            throw GlobalException.getInstance();
         }
         return utilisateurEnBdd;
     }
 
     @Override
     public Utilisateur selectByPseudo(String pseudo) throws GlobalException {
-
+        final String SQL_SELECT_BY_PSEUDO = "SELECT * FROM UTILISATEURS WHERE pseudo=?";
         Utilisateur utilisateurEnBdd = null;
-
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
                 PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_PSEUDO);
         ) {
             pStmt.setString(1, pseudo);
             ResultSet rs = pStmt.executeQuery();
-
             while (rs.next()) {
                 utilisateurEnBdd = userFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(UserException.SELECT_BY_PSEUDO);
+            throw GlobalException.getInstance();
         }
         return utilisateurEnBdd;
     }
-
 
     @Override
     public void insert(Utilisateur obj) throws GlobalException {
@@ -87,7 +83,6 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         }
     }
 
-    //TODO mise à jour du statut administrateur
     @Override
     public void update(Utilisateur obj) throws GlobalException {
         final String UPDATE = "UPDATE utilisateurs SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, mdp=?, credit=?, administrateur=0 WHERE no_utilisateur=?";
@@ -115,7 +110,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         try (Connection cnx = ConnectionProvider.getConnection();
              PreparedStatement pstmt = cnx.prepareStatement(DELETE)) {
             pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             GlobalException.getInstance().addError(UserException.USER_DELETION_ERROR);
@@ -135,7 +130,6 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
                 retour = userFromRs(rs);
             }
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
             GlobalException.getInstance().addError(UserException.SELECT_BY_USER_ID);
             throw GlobalException.getInstance();
         }
@@ -159,9 +153,9 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
     }
 
     @Override
+    @Deprecated
     public List<Utilisateur> selectAll() throws GlobalException {
         List<Utilisateur> retour = new ArrayList<>();
-
         return retour;
     }
 }

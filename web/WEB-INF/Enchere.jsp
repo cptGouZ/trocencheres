@@ -6,7 +6,8 @@
 
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Connexion"/>
-    <jsp:param name="messageCreationArticle" value="${message}"/>
+    <jsp:param name="messageErreur" value="${messageErreur}"/>
+    <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
 <div class="row">
@@ -43,6 +44,7 @@
                 <div class="col-4">
                     <form action="${pageContext.request.contextPath}/encherir" method="post" class="input-group mb-3">
                         <span class="input-group-text">Ma propal : <sup class="text-danger">*</sup></span>
+                        <input type="hidden" name="idArticle" value="${article.id}"/>
                         <input type="text" class="form-control" placeholder="Montant" name="montant" required value="${enchere.montant +1}">
                         <button type="submit" class="btn btn-secondary" name="btn" value="encherir">Enchérir</button>
                     </form>
@@ -53,6 +55,7 @@
             <div class="row justify-content-center">
                 <div class="col-4">
                     <form action="${pageContext.request.contextPath}/retrait" method="post" class="input-group mb-3">
+                        <input type="hidden" name="idArticle" value="${article.id}"/>
                         <button type="submit" class="btn btn-secondary" name="btn" value="retrait">Retirer</button>
                     </form>
                 </div>

@@ -38,12 +38,11 @@ public class AdresseDal implements IGenericDao<Adresse> {
             }
             if(obj.getId()==null)
                 GlobalException.getInstance().addError(AdresseException.INSERT_ABORT);
-
             if(GlobalException.getInstance().hasErrors())
                 throw GlobalException.getInstance();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            GlobalException.getInstance().addError(AdresseException.INSERT);
             throw GlobalException.getInstance();
         }
     }
@@ -62,7 +61,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
             pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            GlobalException.getInstance().addError(AdresseException.UPDATE);
             throw GlobalException.getInstance();
         }
     }
@@ -76,7 +75,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
             pstmt.setInt(1, id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            GlobalException.getInstance().addError(AppException.CONNECTION_ERROR);
+            GlobalException.getInstance().addError(AdresseException.DELETE);
             throw GlobalException.getInstance();
         }
     }
@@ -96,21 +95,25 @@ public class AdresseDal implements IGenericDao<Adresse> {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(AdresseException.SELECT_BY_ID);
+            throw GlobalException.getInstance();
         }
         return adresseRecherchee ;
     }
 
     @Override
+    @Deprecated
     public List<Adresse> selectAll() throws GlobalException {
         return new ArrayList<>();
     }
 
     @Override
+    @Deprecated
     public List<Adresse> selectAllAdresseByUser(int userId) throws GlobalException {
-        return IGenericDao.super.selectAllAdresseByUser(userId);
+        return new ArrayList<>();
     }
 
-    public Adresse selectUserDomicile(int idUtilisateur) {
+    public Adresse selectUserDomicile(int idUtilisateur) throws GlobalException {
         Adresse adresseRecherchee = null;
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
@@ -123,6 +126,8 @@ public class AdresseDal implements IGenericDao<Adresse> {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            GlobalException.getInstance().addError(AdresseException.SELECT_ALL_EXCEPTION);
+            throw GlobalException.getInstance();
         }
         return adresseRecherchee ;
     }

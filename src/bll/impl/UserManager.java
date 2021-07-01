@@ -17,10 +17,8 @@ public class UserManager implements IUserManager {
 
     @Override
     public Utilisateur getById(int userId) throws GlobalException {
-        Utilisateur retour = null;
         IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
-        retour = userDao.selectById(userId);
-        return retour;
+        return userDao.selectById(userId);
     }
 
     @Override
@@ -71,15 +69,14 @@ public class UserManager implements IUserManager {
         adresseDao.update(userToUpdate.getAdresse());
     }
 
-    //TODO Vérifier que l'utilisateur n'a pas d'enchère en cours ou d'article en vente?
     @Override
     public void supprimer(int userId) throws GlobalException {
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IAdresseManager am = ManagerProvider.getAdresseManager();
         Utilisateur user = getById(userId);
-        for (Adresse a : am.getAdresseByUser(userId)){
+/*        for (Adresse a : am.getAdressesByUser(userId)){
             am.supprimer(user.getAdresse().getId());
-        }
+        }*/
         userDao.delete(user.getId());
     }
 
@@ -191,7 +188,7 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD_NO_MATCH);
     }
 
-    public static Utilisateur prepareUser(HttpServletRequest req) throws GlobalException{
+    public Utilisateur prepareUser(HttpServletRequest req) throws GlobalException{
         //Récupération des données de la page partie user
         String pseudo = req.getParameter("pseudo").trim();
         String nom = req.getParameter("nom").trim();

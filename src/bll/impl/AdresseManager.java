@@ -41,7 +41,6 @@ public class AdresseManager implements IAdresseManager {
         adresseDao.update(adresse);
     }
 
-    //TODO vérifier si des enchères sont liées ?
     @Override
     public void supprimer(int id) throws GlobalException {
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
@@ -49,26 +48,23 @@ public class AdresseManager implements IAdresseManager {
     }
 
     @Override
-    public List<Adresse> getAdresseByUser(int userId) throws GlobalException {
-        List<Adresse> retour = new ArrayList<>();
+    public List<Adresse> getAdressesByUser(int userId) throws GlobalException {
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
-        retour = adresseDao.selectAllAdresseByUser(userId);
+        List<Adresse> retour = adresseDao.selectAllAdresseByUser(userId);
         return retour;
     }
 
     @Override
     public Adresse getById (int id) throws GlobalException{
-        Adresse retour = null;
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
-        retour = adresseDao.selectById(id);
+        Adresse retour = adresseDao.selectById(id);
         return retour;
     }
 
     @Override
     public List<Adresse> getAll() throws GlobalException {
-        List<Adresse> retour = new ArrayList<>();
         IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
-        retour = adresseDao.selectAll();
+        List<Adresse> retour = adresseDao.selectAll();
         return retour;
     }
 
