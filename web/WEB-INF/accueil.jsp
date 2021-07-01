@@ -14,83 +14,61 @@
 
 <!-- PARTIE RECHERCHE-->
 <div class="row">
-    <div class="col-12 col-md-6 col-lg-3">
-        <form action="${pageContext.request.contextPath}/accueil" method="post">
-            <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
-            <!-- Import fragment Categorie-->
-            <jsp:include page="fragments/categorie.jsp">
-                <jsp:param name="listeCategories" value="${listeCategories}"/>
-            </jsp:include>
-            <!--Voir les informations Ventes et Achats si le profil est connecté-->
-            <c:if test="${!empty sessionScope.get('userConnected')}">
-            <div class="row mb-3">
-                <div class="border border-dark">
-                    <input type="radio" name="acha" id="a" checked/>
-                    <label for="a">Achats</label><br />
-                    <input type="checkbox" name="ach1" id="c1" />
-                    <label for="c1">encheres ouvertes</label><br />
-                    <input type="checkbox" name="ach2" id="c2" />
-                    <label for="c2">mes encheres en cours</label><br />
-                    <input type="checkbox" name="ach3" id="c3" />
-                    <label for="c3">mes encheres remportees</label><br />
+    <div class="col">
+        <div action="${pageContext.request.contextPath}/accueil" method="post">
+            <div class="row justify-content-center">
+                <div class="col-6 col-lg-3">
+                    <%-- Recherche par nom d'article --%>
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-lg-3">
+                            <input type="text" name="textechoix"  class="form-control" id="idtext2" value="" placeholder="Le nom de l'article contient"/>
+                        </div>
+                    </div>
+                    <!-- Import fragment Categorie-->
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-lg-3">
+                            <jsp:include page="fragments/categorie.jsp">
+                                <jsp:param name="listeCategories" value="${listeCategories}"/>
+                            </jsp:include>
+                        </div>
+                    </div>
                 </div>
-                <div class="border border-dark">
-                    <input type="radio" name="acha" id="v"/>
-                    <label for="v">Ventes</label><br />
-                    <input type="checkbox" name="ven1" id="c4" />
-                    <label for="c4">mes ventes en cours</label><br />
-                    <input type="checkbox" name="ven2" id="c5" />
-                    <label for="c5">ventes non debutees</label><br />
-                    <input type="checkbox" name="ven3" id="c6" />
-                    <label for="c6">ventes terminees</label><br />
+                <div class="col-6 col-lg-3">
+                    <!--Affichage du bouton de recherche-->
+                    <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
                 </div>
             </div>
+            <!--Voir les informations Ventes et Achats si le profil est connecté-->
+            <c:if test="${!empty sessionScope.get('userConnected')}">
+                <div class="row justify-content-center">
+                    <div class="col-6 col-lg-3">
+                        <input type="radio" name="acha" id="a" checked/>
+                        <label for="a">Achats</label><br />
+                        <input type="checkbox" name="ach1" id="c1" />
+                        <label for="c1">encheres ouvertes</label><br />
+                        <input type="checkbox" name="ach2" id="c2" />
+                        <label for="c2">mes encheres en cours</label><br />
+                        <input type="checkbox" name="ach3" id="c3" />
+                        <label for="c3">mes encheres remportees</label><br />
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <input type="radio" name="acha" id="v"/>
+                        <label for="v">Ventes</label><br />
+                        <input type="checkbox" name="ven1" id="c4" />
+                        <label for="c4">mes ventes en cours</label><br />
+                        <input type="checkbox" name="ven2" id="c5" />
+                        <label for="c5">ventes non debutees</label><br />
+                        <input type="checkbox" name="ven3" id="c6" />
+                        <label for="c6">ventes terminees</label><br />
+                    </div>
+                </div>
             </c:if>
-            <!--Affichage du bouton de recherche-->
-            <button class="btn btn-primary mb-3" type="submit">Rechercher</button>
         </form>
     </div>
 </div>
-
-
-<!-- PARTIE RESULTATS-->
-<div class="row mb-3">
-    <div class="col-auto">
-        <div class="row">
-            <div class="col-auto">
-                <%
-                    List<Article> articleList2 = (List<Article>) request.getAttribute("listedesarticles");
-                    for (Article item : articleList2) {
-                        out.print("<div class=\"col-auto\">");
-                        out.print("<div>Objet : " + item.getArticle() + "</div>");
-                        out.print("<div>Prix : " + item.getPrixVente() + " points</div>");
-                        out.print("<div>Fin de l'enchere : " + item.getDateFin() + "</div>");
-                        out.print("<div>Vendeur : " + item.getUtilisateur().getPseudo() + "</div><br>");
-                %>
-                <%--Pouvoir afficher un article et ses enchères--%>
-                <c:if test="${!empty sessionScope.get('userConnected')}">
-                    <div class="col-xs-12 col-md-6">
-                        <form method="post" action="${pageContext.request.contextPath}/afficherenchere">
-                            <input type="hidden" name="idArticle" value="<%=item.getId()%>">
-                            <button class="btn btn-success mb-3">Afficher/Encherir</button>
-                        </form>
-                    </div>
-                </c:if>
-                <%--Lien vers profil vendeur si le profil est connecté--%>
-                <c:if test="${!empty sessionScope.get('userConnected')}">
-                    <div class="col-auto">
-                        <form method="post" action="${pageContext.request.contextPath}/profil">
-                            <input type="hidden" name="userId" value="<%=item.getUtilisateur().getId()%>"/>
-                            <button>InfosVendeur</button>
-                        </form>
-                    </div>
-                </c:if>
-        </div>
-            <%
-                }
-            %>
-    </div>
-</div>
+<jsp:include page="fragments/DisplayEnchere.jsp">
+    <jsp:param name="listedesarticles" value="${listedesarticles}"/>
+</jsp:include>
 
 <%@ include file="fragments/footer.jsp"%>
 
