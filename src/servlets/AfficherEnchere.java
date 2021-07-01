@@ -47,7 +47,7 @@ public class AfficherEnchere extends HttpServlet {
             if(req.getRequestURI().contains("afficherenchere")) {
                 req.setAttribute("affichagejsp", "afficher");
                 //Si la dernière enchère n'est pas faite par moi et que l'enchère est encore ouverte on affiche enrichir
-                if (!isMeOnLastEnchere && articleToDisplay.isOuvert())
+                if (!isMeOnLastEnchere && articleToDisplay.isOuvert() && (! articleToDisplay.getUtilisateur().getId().equals(userConnected.getId())))
                     req.setAttribute("affichagejsp", "encherir");
                 //Si l'enchère est fermée que c'est moi le vainqueur et qu'elle est en attente de retrait on affiche pour retirer
                 if (!articleToDisplay.isOuvert() && !articleToDisplay.getIsRetire() && isMeOnLastEnchere)
