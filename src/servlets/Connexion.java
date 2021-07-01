@@ -50,7 +50,7 @@ public class Connexion extends HttpServlet {
         } catch (GlobalException e) {
             e.printStackTrace();
             //Affiche un message d'erreur si la vérification identifiant/mot de passe a échoué
-            req.setAttribute("messageErreur", e.getMessageErrors());
+            req.setAttribute("messageErreurLog", e.getMessageErrors());
             //Et renvoi à la page de connexion
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }

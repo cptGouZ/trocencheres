@@ -26,35 +26,33 @@
                             <span class="input-group-text" >Mot de passe : <sup class="text-danger">* </sup></span>
                             <input type="password" class="form-control" placeholder="mot de passe" name="mdp" required >
                         </div>
-
-                        <%--Message d'erreur de connexion--%>
-                        <p class="text-decoration-underline text-danger">${empty messageErreurLog ? "" : messageErreurLog}</p>
-
-
-                        <%--BOUTON CONNEXION--%>
-                        <button  type="submit button" class="btn btn-secondary"  name="connexion"> Connexion </button>
-                        <br>
-
-                        <%--RESTE CONNECTE--%>
-                        <input type="checkbox" id="resteConnecte" name="resteConnecte"
-                               checked>
-                        <label for="resteConnecte">Se souvenir de moi</label>
-                        <br>
-                    </form>
-                    <div>
-                        <div class="input-group mb-2 me-2">
-                            <%--BOUTON ANNULER--%>
-                            <a href="${pageContext.request.contextPath}/accueil" class="btn btn-secondary me-4 mb-2 rounded"> Annuler </a>
-
-                            <%--BOUTON CREER COMPTE/PROFIL--%>
-                            <a href="${pageContext.request.contextPath}/creationcompte" class="btn btn-secondary mb-2 rounded"> Créer un compte </a>
-                            <br>
+                        <div class="row">
+                            <%--RESTE CONNECTE--%>
+                            <div class="col">
+                                <input type="checkbox" id="resteConnecte" name="resteConnecte" checked>
+                                <label for="resteConnecte">Se souvenir de moi</label>
+                            </div>
+                            <%--LIEN REINIT MDP--%>
+                            <div class="col">
+                                <a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a>
+                            </div>
                         </div>
 
-                        <%--LIEN REINIT MDP--%>
-                        <li><a href="${pageContext.request.contextPath}/reinitMdp" >Mot de passe oublié</a></li>
-                        <br>
-                    </div>
+                        <%--Message d'erreur de connexion--%>
+                        ${empty messageErreurLog ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageErreurLog+="</p>"}
+
+                        <div class="row my-1">
+                            <%--BOUTON CONNEXION--%><br>
+                            <button  type="submit button" class="col mx-2 btn btn-secondary"  name="connexion"> Connexion </button>
+
+                            <%--BOUTON CREER COMPTE/PROFIL--%>
+                            <a href="${pageContext.request.contextPath}/creationcompte" class="col mx-2  btn btn-secondary"> Créer un compte </a>
+                        </div>
+                        <div class="row my-1 justify-content-center">
+                            <%--BOUTON ANNULER--%>
+                            <a href="${pageContext.request.contextPath}/accueil" class="col-6 btn btn-secondary"> Annuler </a>
+                        </div>
+                    </form>
                 </div>
             </div>
 
