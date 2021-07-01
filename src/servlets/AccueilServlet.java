@@ -85,7 +85,8 @@ public class AccueilServlet extends HttpServlet {
             rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
             rd.forward(req, resp);
         } catch (GlobalException e) {
-            e.printStackTrace();
+            req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+            req.getRequestDispatcher("accueil").forward(req, resp);
         }
     }
 

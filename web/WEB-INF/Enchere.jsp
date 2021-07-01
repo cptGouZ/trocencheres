@@ -10,6 +10,8 @@
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
 
+<fmt:parseDate value="${ article.dateFin }" pattern="yyyy-MM-dd'T'HH:mm" var="dateFin" type="both" />
+
 <div class="row">
     <div class="col">
         <div class="row justify-content-center">
@@ -31,7 +33,7 @@
             <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitiale} crédits</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Fin de l'enchère : ${article.dateFin} à 23h59</span>
+            <span class="col-4 input-group-text" >Fin de l'enchère : <fmt:formatDate type = "both" dateStyle = "medium" timeStyle = "short" value="${ dateFin }"/></span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Retrait : ${article.adresseRetrait.rue += article.adresseRetrait.cpo += article.adresseRetrait.ville}</span>
