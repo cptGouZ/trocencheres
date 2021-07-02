@@ -92,7 +92,7 @@ public class Vente extends HttpServlet {
                             newAdresse);
 
             //Affiche un message confirmant la création de l'article en BDD
-            String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;
+            String creationArticleOk = "Felicitations votre nouvelle vente a bien ete enregistree" ;
             req.setAttribute("messageConfirm" , creationArticleOk);
 
             //Reset tout les champs saisis lors de la création de l'article
