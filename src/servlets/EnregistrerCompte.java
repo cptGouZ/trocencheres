@@ -52,13 +52,13 @@ public class EnregistrerCompte extends HttpServlet {
                 //Je charge l'utilisateur à afficher
                 req.setAttribute("userToDisplay", um.getById(userId));
                 req.setAttribute("affichagejsp", "modification");
-                req.setAttribute("messageConfirm", UserException.MODIF_USER_OK);
+                req.setAttribute("messageConfirm", GlobalException.getInstance().getMessage(UserException.MODIF_USER_OK));
                 req.getRequestDispatcher("WEB-INF/gestioncompte.jsp").forward(req, resp);
             }
             if("supprimer".equals(action)){
                 um.supprimer(userBeforeUpdate.getId());
                 req.getSession().setAttribute("userConnected", null);
-                req.setAttribute("messageConfirm", UserException.SUPPR_USER_OK);
+                req.setAttribute("messageConfirm", GlobalException.getInstance().getMessage(UserException.SUPPR_USER_OK));
                 resp.sendRedirect("accueil");
             }
         }catch(GlobalException e){
