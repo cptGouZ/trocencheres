@@ -126,21 +126,10 @@
                 <%--Enregistrer / Supprimer
                 Afficher si le profil de session est celui de l'utilisateur--%>
                 <c:if test="${'modification'.equals(affichagejsp)}">
-                    <div class="row justify-content-evenly ">
-                        <div class="col">
-                            Credit : ${userToDisplay.credit}
-                        </div>
-                    </div>
-                    <div class="row justify-content-evenly">
-                        <div class="col">
-                            <button type="submit" class="btn btn-secondary" name="action" value="maj">Enregistrer</button>
-                        </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-secondary" name="action" value="supprimer">Supprimer</button>
-                        </div>
-                        <div class="col">
-                            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/accueil">Annuler</a>
-                        </div>
+                    <div class="row justify-content-evenly my-3">
+                        <button type="submit" class="col mx-5 btn btn-secondary" name="action" value="maj">Enregistrer</button>
+                        <button type="submit" class="col mx-5 btn btn-secondary" name="action" value="supprimer">Supprimer</button>
+                        <a class="col mx-5 btn btn-secondary" href="${pageContext.request.contextPath}/accueil">Annuler</a>
                     </div>
                 </c:if>
             </div>
