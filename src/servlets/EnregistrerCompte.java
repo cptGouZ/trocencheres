@@ -41,7 +41,7 @@ public class EnregistrerCompte extends HttpServlet {
                 //Enregistrer les une création
                 um.creer(userToInsertOrAfterUpdate, newPwConfirmation);
                 req.setAttribute("messageConfirm", UserException.CREATION_USER_OK);
-                req.getRequestDispatcher("accueil").forward(req, resp);
+                resp.sendRedirect("accueil");
             }
             if("maj".equals(action)){
                 //Enregistrer une modif
