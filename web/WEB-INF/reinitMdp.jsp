@@ -14,12 +14,12 @@
         <div class="col">
             <form method="" action="">
             <%--Titre--%>
-            <h3>Réinitialisation Mot de passe</h3>
+            <h3>Reinitialisation Mot de passe</h3>
             <%--EMAIL du COMPTE--%>
             <label for="email" > Email associé à votre compte : </label>
             <input type="text" id="email" name="email" ><br>
             <%--BOUTON REINIT--%>
-            <button  type="submit button" class="btn btn-secondary"  name="reinitMdp"> Réinitialiser </button>
+            <button  type="submit button" class="btn btn-secondary"  name="reinitMdp"> Reinitialiser </button>
             </form>
 
             <form method="get" action="connexion" >

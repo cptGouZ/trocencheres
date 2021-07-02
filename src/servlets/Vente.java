@@ -67,8 +67,8 @@ public class Vente extends HttpServlet {
         req.setAttribute("descriptionSaisie",description);
         req.setAttribute("categorieSaisie",categorie);
         req.setAttribute("prixSaisie",prixDepart);
-        req.setAttribute("dateDebutSaisie",debutEnchereBll);
-        req.setAttribute("dateFinSaisie",finEnchereBll);
+        req.setAttribute("dateDebutSaisie",debutEnchere);
+        req.setAttribute("dateFinSaisie",finEnchere);
         req.setAttribute("rueSaisie",rue);
         req.setAttribute("cpoSaisie",cpo);
         req.setAttribute("villeSaisie",ville);
@@ -92,7 +92,7 @@ public class Vente extends HttpServlet {
                             newAdresse);
 
             //Affiche un message confirmant la création de l'article en BDD
-            String creationArticleOk = "Félicitations votre nouvelle vente a bien été enregistrée" ;
+            String creationArticleOk = "Felicitations votre nouvelle vente a bien ete enregistree" ;
             req.setAttribute("messageConfirm" , creationArticleOk);
 
             //Reset tout les champs saisis lors de la création de l'article
