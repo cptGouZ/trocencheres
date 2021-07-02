@@ -45,6 +45,7 @@ public class GestionCompte extends HttpServlet {
 
             //Affichage d'un profil
             if(req.getRequestURI().contains("profil")){
+                req.setAttribute("creditdispo", um.getById(userId).getCreditDispo() );
                 req.setAttribute("displayBtnModif", false);
                 if(isMeOrImAdmin)
                     req.setAttribute("displayBtnModif", true);

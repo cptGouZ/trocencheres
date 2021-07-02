@@ -59,7 +59,7 @@ public class EnregistrerCompte extends HttpServlet {
                 um.supprimer(userBeforeUpdate.getId());
                 req.getSession().setAttribute("userConnected", null);
                 req.setAttribute("messageConfirm", UserException.SUPPR_USER_OK);
-                req.getRequestDispatcher("accueil").forward(req, resp);
+                resp.sendRedirect("accueil");
             }
         }catch(GlobalException e){
             if ("maj".equals(action)) req.setAttribute("affichagejsp", "modification");

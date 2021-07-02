@@ -48,7 +48,7 @@ public class GlobalException extends Exception {
     public String getMessageErrors(){
         StringBuilder retour = new StringBuilder();
         for (Integer error : errors){
-            String part = String.format("Error Number %d : %s \n", error, getMessage(error));
+            String part = String.format("%s \n", getMessage(error));
             retour.append(part);
         }
         clearErrors();

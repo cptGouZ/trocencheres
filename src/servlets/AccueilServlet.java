@@ -56,9 +56,10 @@ public class AccueilServlet extends HttpServlet {
             RequestDispatcher rd;
             rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
             rd.forward(req, resp);
+
         } catch (GlobalException e) {
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
-            req.getRequestDispatcher("accueil").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
         }
     }
 
@@ -86,7 +87,7 @@ public class AccueilServlet extends HttpServlet {
             rd.forward(req, resp);
         } catch (GlobalException e) {
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
-            req.getRequestDispatcher("accueil").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
         }
     }
 

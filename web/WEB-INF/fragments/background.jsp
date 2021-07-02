@@ -11,4 +11,10 @@
         background-attachment: scroll;
         background-size: 100% 100%;
     }
+    * {
+
+        font-family: 'Zen Loop', cursive;
+        font-size: x-large;
+        font-weight: bolder;
+    }
 </style>

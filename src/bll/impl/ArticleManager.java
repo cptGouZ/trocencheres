@@ -38,6 +38,10 @@ public class ArticleManager implements IArticleManager {
     @Override
     public List<Article> getByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
         //Controle de valeur
+        validerRecherche(articleName);
+
+        if(GlobalException.getInstance().hasErrors())
+            throw GlobalException.getInstance();
 
         //Traitement des donnés si le controle est ok
         IGenericDao<Article> IDao = DaoProvider.getArticleDao();
@@ -169,6 +173,12 @@ public class ArticleManager implements IArticleManager {
             GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_VIDE);
         if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleAVerifier.getArticle()))
             GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_INVALIDE);
+    }
+
+    private void validerRecherche(String articleName){
+
+        if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleName))
+            GlobalException.getInstance().addError(ArticleException.CRITERE_RECHERCHE_INVALIDE);
     }
 
     private void validerDescription(Article articleAVerifier){
