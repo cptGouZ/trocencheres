@@ -1,3 +1,5 @@
+create datebase JEUESSAI
+USE JEUESSAI
 create table ADRESSES
 (
     no_adresse     int identity
