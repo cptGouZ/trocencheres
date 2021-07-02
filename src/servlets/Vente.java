@@ -67,8 +67,8 @@ public class Vente extends HttpServlet {
         req.setAttribute("descriptionSaisie",description);
         req.setAttribute("categorieSaisie",categorie);
         req.setAttribute("prixSaisie",prixDepart);
-        req.setAttribute("dateDebutSaisie",debutEnchereBll);
-        req.setAttribute("dateFinSaisie",finEnchereBll);
+        req.setAttribute("dateDebutSaisie",debutEnchere);
+        req.setAttribute("dateFinSaisie",finEnchere);
         req.setAttribute("rueSaisie",rue);
         req.setAttribute("cpoSaisie",cpo);
         req.setAttribute("villeSaisie",ville);
