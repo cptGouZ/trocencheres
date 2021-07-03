@@ -33,4 +33,6 @@ public interface UserException extends EnumException {
     int MODIF_USER_OK = 1200;
     int CREATION_USER_OK = 1201;
     int SUPPR_USER_OK = 1202;
+    int UNKNOWN_USER = 1203;
+    int USER_DELETION_UNAUTHORIZED = 1204;
 }

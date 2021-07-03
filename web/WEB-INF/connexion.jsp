@@ -9,13 +9,12 @@
     <jsp:param name="messageErreur" value="${messageErreur}"/>
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
-
-
             <%--BLOC CONNEXION--%>
             <div class="row justify-content-center my-5 ">
                 <%--Form Connexion--%>
                 <div class="col-4 border border-secondary border-3 rounded-3">
                     <form method="post" action="${pageContext.request.contextPath}/connexion">
+                        <input type="hidden" name="destination" value="${destination}">
                         <%--LOGIN--%>
                         <div class="input-group mb-3 mt-3">
                             <span class="input-group-text" >Identifiant : <sup class="text-danger">* </sup></span>
@@ -43,14 +42,14 @@
 
                         <div class="row my-1">
                             <%--BOUTON CONNEXION--%><br>
-                            <button  type="submit button" class="col mx-2 btn btn-secondary"  name="connexion"> Connexion </button>
+                            <button class="col mx-2 btn btn-secondary"  name="connexion">Connexion</button>
 
                             <%--BOUTON CREER COMPTE/PROFIL--%>
-                            <a href="${pageContext.request.contextPath}/creationcompte" class="col mx-2  btn btn-secondary"> Créer un compte </a>
+                            <a href="${pageContext.request.contextPath}/creationcompte" class="col mx-2  btn btn-secondary">Créer un compte</a>
                         </div>
                         <div class="row my-1 justify-content-center">
                             <%--BOUTON ANNULER--%>
-                            <a href="${pageContext.request.contextPath}/accueil" class="col-6 btn btn-secondary"> Annuler </a>
+                            <a href="${pageContext.request.contextPath}/accueil" class="col-6 btn btn-secondary">Annuler</a>
                         </div>
                     </form>
                 </div>

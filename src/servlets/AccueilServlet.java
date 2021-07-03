@@ -45,7 +45,7 @@ public class AccueilServlet extends HttpServlet {
             List<bo.Categorie> listeCat = cateman.getAll();
 
             //Declencher requete par tri
-            Utilisateur util = (Utilisateur) req.getSession().getAttribute("userConnected");
+            Utilisateur util = ManagerProvider.getUserManager().getById((Integer) req.getSession().getAttribute("luid"));
             List<Article> articleList = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
 
             //Ajout des attributs à la requête

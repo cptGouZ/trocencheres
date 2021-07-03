@@ -21,9 +21,11 @@ public class Connexion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getRequestURI().contains("deconnexion")){
-            req.getSession().setAttribute("userConnected",null);
+            req.getSession().setAttribute("luid",null);
             resp.sendRedirect("accueil");
         }else if(req.getRequestURI().contains("connexion")){
+            if(req.getAttribute("destination")==null)
+                req.setAttribute("destination", "/accueil");
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }
     }
@@ -42,14 +44,14 @@ public class Connexion extends HttpServlet {
             Utilisateur utilisateurConnecte = icm.connexionAuSite(identifiant,mdp);
 
             //On enregistre l'utilisateur en session
-            req.getSession().setAttribute("userConnected",utilisateurConnecte);
+            req.getSession().setAttribute("luid",utilisateurConnecte.getId());
 
-            //Puis on renvoi vers la page d'accueil en mode connecté
-            resp.sendRedirect("accueil");
+            //Puis on renvoi vers la page demandée en mode connecté
+            resp.sendRedirect(req.getContextPath()+req.getParameter("destination"));
 
         } catch (GlobalException e) {
-            e.printStackTrace();
             //Affiche un message d'erreur si la vérification identifiant/mot de passe a échoué
+            req.setAttribute("destination", req.getParameter("destination"));
             req.setAttribute("messageErreurLog", e.getMessageErrors());
             //Et renvoi à la page de connexion
             req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);

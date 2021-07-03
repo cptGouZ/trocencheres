@@ -28,7 +28,7 @@
                 <button class="col-12 col-md-3 mx-md-2 btn btn-primary" type="submit">Rechercher</button>
             </div>
             <!--Voir les informations Ventes et Achats si le profil est connecté-->
-            <c:if test="${!empty sessionScope.get('userConnected')}">
+            <c:if test="${!empty sessionScope.get('luid')}">
                 <div class="row justify-content-center">
                     <div class="col mx-1">
                         <input type="radio" name="achavent" id="acha" onclick='degriser("c1","c2","c3")'/>

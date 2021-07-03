@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!doctype html>
+<html lang="fr">
+<head>
     <title>TrocEnchère</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -37,33 +40,32 @@
             document.getElementById(c).disabled=false;}
 
     </script>
-
+    <%@ include file="background.jsp"%>
 </head>
 <body class="container-fluid">
-    <%@ include file="background.jsp"%>
     <header class="row">
         <nav class="navbar navbar-dark bg-dark rounded">
-            <div class="container-fluid">
-                <div class="col-md-center"><a href="${pageContext.request.contextPath}/deconnexion"><img class="rounded" src="<%=request.getContextPath()%>/images/logos.png" ></a></div>
+            <div class="container-fluid text-white">
+                <div class="col">
+                    <a href="${pageContext.request.contextPath}/accueil">
+                        <img class="rounded" alt="logo eni" src="${pageContext.request.contextPath}/images/logos.png"/>
+                    </a>
+                </div>
 
-                <div class="col-md-center text-white"><h1>${param.get("titre")}</h1></div>
-                    <c:if test="${empty sessionScope.get('userConnected')}">
+                <div class="col">
+                    <h1>${param.get("titre")}</h1>
+                </div>
+                <div class="col-right">
+                    <c:if test="${empty sessionScope.get('luid')}">
                         <a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/connexion">Se connecter</a>
                     </c:if>
 
-                    <c:if test="${!empty sessionScope.get('userConnected')}">
-
-                        <div class="col-md-center"><a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
-                        <div class="col-md-center">
-                            <form method="post" class="my-0" action="${pageContext.request.contextPath}/profil">
-                                <input type="hidden" name="userId" value=${userConnected.id}>
-                                <button class="navbar-brand btn btn-dark">Mon Profil</button>
-                            </form>
-                        </div>
-                        <div class="col-md-center">
-                            <a class="navbar-brand btn btn-dark" href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a>
-                        </div>
+                    <c:if test="${!empty sessionScope.get('luid')}">
+                        <a class="btn btn-dark" href="${pageContext.request.contextPath}/vente">Nouvelle vente</a></div>
+                        <a class="btn btn-dark" href="${pageContext.request.contextPath}/profil?uid=${sessionScope.get('luid')}">Mon Profil</a>
+                        <a class="btn btn-dark" href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a>
                     </c:if>
+                </div>
             </div>
         </nav>
 

@@ -30,10 +30,7 @@
             </div>
             <c:if test="${displayBtnModif==true}">
                 <div class="col-12 col-sm-6">
-                    <form method="post" action="${pageContext.request.contextPath}/modifcompte">
-                        <input type="hidden" name="userId" value="${userToDisplay.id}">
-                        <button class="btn btn-secondary" href="${pageContext.request.contextPath}/comptemodif">Modifier</button>
-                    </form>
+                    <a class="btn btn-secondary" href="${pageContext.request.contextPath}/gestioncompte?uid=${userToDisplay.id}">Modifier</a>
                 </div>
             </c:if>
         </div>
