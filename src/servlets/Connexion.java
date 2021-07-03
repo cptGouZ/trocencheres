@@ -24,7 +24,7 @@ public class Connexion extends HttpServlet {
             req.getSession().setAttribute("userConnected",null);
             resp.sendRedirect("accueil");
         }else if(req.getRequestURI().contains("connexion")){
-            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/connexion.jsp").forward(req, resp);
         }
     }
 
