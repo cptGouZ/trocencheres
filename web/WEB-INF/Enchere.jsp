@@ -27,10 +27,10 @@
             <span class="col-4 input-group-text" >Catégorie : ${article.categorie.libelle}</span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Meilleur offre : ${empty enchere.montant ? article.prixInitiale : enchere.montant} pts par ${enchere.user.pseudo} </span>
+            <span class="col-4 input-group-text" >Meilleur offre : ${empty enchere.montant ? article.prixInitial : enchere.montant} pts par ${enchere.user.pseudo} </span>
         </div>
         <div class="row justify-content-center">
-            <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitiale} crédits</span>
+            <span class="col-4 input-group-text" >Mise à prix : ${article.prixInitial} crédits</span>
         </div>
         <div class="row justify-content-center">
             <span class="col-4 input-group-text" >Fin de l'enchère : <fmt:formatDate type = "both" dateStyle = "medium" timeStyle = "short" value="${ dateFin }"/></span>

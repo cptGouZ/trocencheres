@@ -3,6 +3,7 @@ package servlets;
 import bll.ManagerProvider;
 import bll.interfaces.IArticleManager;
 import bll.interfaces.IEnchereManager;
+import bll.interfaces.IUserManager;
 import bo.Article;
 import bo.Enchere;
 import bo.Utilisateur;
@@ -22,20 +23,22 @@ import java.io.IOException;
                 "/retrait"
         })
 public class AfficherEnchere extends HttpServlet {
+    IEnchereManager em = ManagerProvider.getEnchereManager();
+    IArticleManager am = ManagerProvider.getArticleManager();
+    IUserManager um = ManagerProvider.getUserManager();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        IEnchereManager em = ManagerProvider.getEnchereManager();
-        IArticleManager am = ManagerProvider.getArticleManager();
-        Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
+        int loggedUserId = (Integer) req.getSession().getAttribute("luid");
         int idArticle = Integer.parseInt(req.getParameter("idArticle"));
 
         try {
+            Utilisateur loggedUser = um.getById(loggedUserId);
             Article articleToDisplay = am.getById(idArticle);
             Enchere lastEnchere = em.getLastEnchereOnArticle(idArticle);
             String montant = req.getParameter("montant");
             boolean isMeOnLastEnchere = false;
             if(lastEnchere!=null) {
-                isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
+                isMeOnLastEnchere = lastEnchere.getUser().getId().equals(loggedUser.getId());
             }else{
                 lastEnchere = new Enchere();
                 lastEnchere.setMontant(articleToDisplay.getPrixInitial());
@@ -50,7 +53,7 @@ public class AfficherEnchere extends HttpServlet {
             if(req.getRequestURI().contains("afficherenchere")) {
                 req.setAttribute("affichagejsp", "afficher");
                 //Si la dernière enchère n'est pas faite par moi et que l'enchère est encore ouverte on affiche enrichir
-                if (!isMeOnLastEnchere && articleToDisplay.isOuvert() && (! articleToDisplay.getUtilisateur().getId().equals(userConnected.getId())))
+                if (!isMeOnLastEnchere && articleToDisplay.isOuvert() && (! articleToDisplay.getUtilisateur().getId().equals(loggedUser.getId())))
                     req.setAttribute("affichagejsp", "encherir");
                 //Si l'enchère est fermée que c'est moi le vainqueur et qu'elle est en attente de retrait on affiche pour retirer
                 if (!articleToDisplay.isOuvert() && !articleToDisplay.getIsRetire() && isMeOnLastEnchere)
@@ -60,7 +63,7 @@ public class AfficherEnchere extends HttpServlet {
             //Nous venons pour enchérir
             if(req.getRequestURI().contains("encherir")) {
                 //créer une nouvelle enchère
-                em.creer(articleToDisplay, montant, userConnected,lastEnchere) ;
+                em.creer(articleToDisplay, montant, loggedUser,lastEnchere) ;
                 lastEnchere = em.getLastEnchereOnArticle(articleToDisplay.getId());
                 req.setAttribute("enchere", lastEnchere);
                 req.setAttribute("affichagejsp", "afficher");
@@ -68,7 +71,7 @@ public class AfficherEnchere extends HttpServlet {
             }
             //Nous venons pour retirer l'article
             if(req.getRequestURI().contains("retrait")) {
-                am.retirer(articleToDisplay, userConnected, lastEnchere);
+                am.retirer(articleToDisplay, loggedUser, lastEnchere);
                 req.setAttribute("messageConfirm", "Félicitation vous avez retirer votre article chez le vendeur");
                 req.getRequestDispatcher("accueil").forward(req, resp);
             }

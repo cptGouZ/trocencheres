@@ -73,8 +73,6 @@ public class ArticleDal implements IGenericDao<Article> {
                 sqlConstruction2.append(" ) ");
             }
 
-
-
             //Mes ventes
             if(ventesTerm || ventesNonDeb || ventesEnCours) {
                 if(util != null) {
@@ -110,8 +108,9 @@ public class ArticleDal implements IGenericDao<Article> {
                 startArg++;
             }
             for(int idxArg=startArg; idxArg<nbUser+startArg; idxArg++){
-                pstt.setInt(startArg, util.getId());
+                pstt.setInt(idxArg, util.getId());
             }
+            System.out.println(sqlConstruction2);
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
                 list.add(articleFromRs(rs));

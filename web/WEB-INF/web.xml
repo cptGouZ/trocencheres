@@ -5,21 +5,11 @@
          version="4.0">
 
     <!-- deconnexion auto après xx min d'inactivité (géré par TomCat) -->
-      <session-config>
-          <session-timeout>10</session-timeout>
-      </session-config>
+    <session-config>
+      <session-timeout>10</session-timeout>
+    </session-config>
 
     <welcome-file-list>
         <welcome-file>accueil</welcome-file>
     </welcome-file-list>
-
-    <servlet>
-        <servlet-name>AccueilServlet</servlet-name>
-        <servlet-class>servlets.AccueilServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AccueilServlet</servlet-name>
-        <url-pattern>/accueil</url-pattern>
-    </servlet-mapping>
-
 </web-app>

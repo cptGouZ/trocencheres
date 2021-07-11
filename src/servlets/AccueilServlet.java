@@ -7,15 +7,17 @@ import bo.Article;
 import bo.Utilisateur;
 import exception.GlobalException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@WebServlet(urlPatterns = "/accueil")
 public class AccueilServlet extends HttpServlet {
     private final IArticleManager am = ManagerProvider.getArticleManager();
-    ICategorieManager cateman = ManagerProvider.getCategorieManager();
+    private final ICategorieManager cateman = ManagerProvider.getCategorieManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

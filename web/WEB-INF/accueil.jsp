@@ -1,17 +1,11 @@
-<%@ page import="bo.Article" %>
-<%@ page import="java.util.List" %>
-<%@ page import="bo.Utilisateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!--Données pous JSTL et Charset-->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Accueil"/>
     <jsp:param name="messageErreur" value="${messageErreur}"/>
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
-
 <!-- PARTIE RECHERCHE-->
 <div class="row justify-content-center my-4">
     <div class="col-12 col-md-8 col-lg-6">
@@ -58,6 +52,4 @@
 <jsp:include page="fragments/DisplayEnchere.jsp">
     <jsp:param name="listedesarticles" value="${listedesarticles}"/>
 </jsp:include>
-
 <%@ include file="fragments/footer.jsp"%>
-

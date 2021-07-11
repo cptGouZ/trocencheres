@@ -10,13 +10,11 @@
 <c:set var="defaultRue" value="value=\"${userToDisplay.adresse.rue}\""/>
 <c:set var="defaultCpo" value="value=\"${userToDisplay.adresse.cpo}\""/>
 <c:set var="defaultVille" value="value=\"${userToDisplay.adresse.ville}\""/>
-
 <jsp:include page="fragments/header.jsp">
     <jsp:param name="titre" value="Gestion de Profil"/>
     <jsp:param name="messageErreur" value="${messageErreur}"/>
     <jsp:param name="messageConfirm" value="${messageConfirm}"/>
 </jsp:include>
-
 <c:if test="${'modification'.equals(affichagejsp)}">
 <form method="post" action="${pageContext.request.contextPath}/gestioncompte${!empty luid ? "?uid="+=luid: ""}">
 </c:if>
