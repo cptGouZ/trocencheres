@@ -14,7 +14,8 @@
                 <%--Form Connexion--%>
                 <div class="col-4 border border-secondary border-3 rounded-3">
                     <form method="post" action="${pageContext.request.contextPath}/connexion">
-                        <input type="hidden" name="destination" value="${destination}">
+                        <input type="hidden" name="destination" value="${destination}${!empty uid ? "?uid="+=uid : ""}">
+                        <input type="hidden" name="uid" value="${uid}">
                         <%--LOGIN--%>
                         <div class="input-group mb-3 mt-3">
                             <span class="input-group-text" >Identifiant : <sup class="text-danger">* </sup></span>

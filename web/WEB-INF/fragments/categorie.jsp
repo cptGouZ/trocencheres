@@ -5,7 +5,7 @@
 <select class="form-select" name="categorie" aria-label="Default select example">
     <option value="0">Categories</option>
     <c:forEach var="categorie" items="${listeCategories}">
-        <option value="${categorie.id}">${categorie.libelle}</option>
+        <option value="${categorie.id}" ${selectedCat.equals(categorie.id) ? "selected" : ""}>${categorie.libelle}</option>
     </c:forEach>
 </select>
 

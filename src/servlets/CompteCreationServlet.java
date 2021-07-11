@@ -27,7 +27,7 @@ public class CompteCreationServlet extends HttpServlet {
         String newPwConf = req.getParameter("newPwConf").trim();
         Utilisateur newUser = null;
         try{
-            newUser = um.getUserFromRequest(req, newPwConf);
+            newUser = um.getFromHttpRequest(req, newPwConf);
             um.creer(newUser, newPwConf);
             req.getSession().setAttribute("loggedUserId", newUser.getId());
             req.setAttribute("msgConfirm", GlobalException.getInstance().getMessage(UserException.CREATION_USER_OK));

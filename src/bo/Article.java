@@ -20,9 +20,21 @@ public class Article implements Serializable {
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
     private Integer prixVente;
-    private Integer prixInitiale;
+    private Integer prixInitial;
     private Adresse adresseRetrait;
     private Boolean isRetire;
+
+    public Article(Utilisateur utilisateur, Categorie categorie, String article, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Adresse adresseRetrait) {
+        this.utilisateur = utilisateur;
+        this.categorie = categorie;
+        this.article = article;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.adresseRetrait = adresseRetrait;
+        isRetire=false;
+    }
 
     public boolean isOuvert(){
         boolean retour = false;

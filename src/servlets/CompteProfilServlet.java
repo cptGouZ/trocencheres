@@ -24,7 +24,7 @@ public class CompteProfilServlet extends HttpServlet {
         try {
             userToDisplay = um.getById(userId);
             req.setAttribute("displayBtnModif", loggedUserId.equals(userId) ? true : false);
-            req.setAttribute("creditdispo", userToDisplay.getCreditDispo());
+            req.setAttribute("creditdispo", userToDisplay.getCreditDispo()); //TODO passer ca dans le filtre
         } catch (GlobalException e) {
             req.setAttribute("messageErreur", UserException.UNKNOWN_USER);
         }finally{

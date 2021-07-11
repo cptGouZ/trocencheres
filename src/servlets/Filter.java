@@ -12,7 +12,7 @@ import java.io.IOException;
         "/vente",
         "/profil",
         "/enchere",
-        "/modificationcompte", "/suppressioncompte"
+        "/gestioncompte", "/suppressioncompte"
 })
 public class Filter implements javax.servlet.Filter {
     @Override
@@ -21,6 +21,8 @@ public class Filter implements javax.servlet.Filter {
         HttpServletResponse resp = (HttpServletResponse)respFilter;
         boolean isConnected = req.getSession().getAttribute("luid")!=null;
         if(!isConnected) {
+            if(req.getParameter("uid")!=null)
+                req.setAttribute("uid", req.getParameter("uid"));
             req.setAttribute("destination", req.getServletPath());
             req.getRequestDispatcher("connexion").forward(req, resp);
         }

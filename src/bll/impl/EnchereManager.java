@@ -18,9 +18,7 @@ import java.util.regex.Pattern;
 public class EnchereManager implements IEnchereManager {
     @Override
     public Enchere getLastEnchereOnArticle(int idArticle) throws GlobalException {
-
         Enchere encDao = DaoProvider.getEnchereDao().selectEnchereMaxByIdArticle(idArticle);
-
         return encDao ;
     }
 

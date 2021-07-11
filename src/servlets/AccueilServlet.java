@@ -1,15 +1,11 @@
 package servlets;
 
-import bll.impl.ArticleManager;
 import bll.interfaces.IArticleManager;
 import bll.ManagerProvider;
 import bll.interfaces.ICategorieManager;
 import bo.Article;
-import bo.Categorie;
-import bo.Enchere;
 import bo.Utilisateur;
 import exception.GlobalException;
-import lombok.SneakyThrows;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AccueilServlet extends HttpServlet {
@@ -46,7 +41,7 @@ public class AccueilServlet extends HttpServlet {
 
             //Declencher requete par tri
             Utilisateur util = ManagerProvider.getUserManager().getById((Integer) req.getSession().getAttribute("luid"));
-            List<Article> articleList = am2.getByCrit2(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
+            List<Article> articleList = am2.getByCriteria(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
 
             //Ajout des attributs à la requête
             req.setAttribute("listeCategories", listeCat);

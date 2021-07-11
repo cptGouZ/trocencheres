@@ -17,7 +17,7 @@ import java.io.IOException;
                 "/connexion",
                 "/deconnexion"
         })
-public class Connexion extends HttpServlet {
+public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.getRequestURI().contains("deconnexion")){

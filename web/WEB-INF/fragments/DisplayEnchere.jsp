@@ -18,7 +18,7 @@
                     <div class="col-10">
                         <div class="container-fluid">
                             <div>Objet : ${item.article}</div>
-                            <div>Prix initial : ${item.prixInitiale} points</div>
+                            <div>Prix initial : ${item.prixInitial} points</div>
                             <div>Prix en cours : ${item.prixVente} points</div>
                             <div>Debut enchere : <fmt:formatDate type = "both" dateStyle = "medium" timeStyle = "short" value="${ dateDebut }"/></div>
                             <div>Fin enchere : <fmt:formatDate type = "both" dateStyle = "medium" timeStyle = "short" value="${ dateFin }"/></div>

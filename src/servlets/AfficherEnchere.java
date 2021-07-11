@@ -1,7 +1,6 @@
 package servlets;
 
 import bll.ManagerProvider;
-import bll.impl.EnchereManager;
 import bll.interfaces.IArticleManager;
 import bll.interfaces.IEnchereManager;
 import bo.Article;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.acl.LastOwnerException;
-import java.time.LocalDateTime;
 
 @WebServlet(
         urlPatterns = {
@@ -41,7 +38,7 @@ public class AfficherEnchere extends HttpServlet {
                 isMeOnLastEnchere = lastEnchere.getUser().getId().equals(userConnected.getId());
             }else{
                 lastEnchere = new Enchere();
-                lastEnchere.setMontant(articleToDisplay.getPrixInitiale());
+                lastEnchere.setMontant(articleToDisplay.getPrixInitial());
             }
 
 

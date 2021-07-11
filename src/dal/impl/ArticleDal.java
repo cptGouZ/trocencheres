@@ -5,10 +5,8 @@ import dal.ConnectionProvider;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
-import exception.exceptionEnums.AdresseException;
 import exception.exceptionEnums.AppException;
 import exception.exceptionEnums.ArticleException;
-import exception.exceptionEnums.UserException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ public class ArticleDal implements IGenericDao<Article> {
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM ARTICLES WHERE no_article=?";
 
     @Override
-    public List<Article> selectByCrit2(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
+    public List<Article> selectByCriteria(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
 
         String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as no_article, a.article as article, a.description as description, a.retrait as retrait," +
                 "a.date_debut_encheres as date_debut_encheres, a.date_fin_encheres as date_fin_encheres, a.prix_initial as prix_initial, " +
@@ -133,7 +131,7 @@ public class ArticleDal implements IGenericDao<Article> {
             pStmt.setString(2, obj.getDescription());
             pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(obj.getDateDebut()));
             pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(obj.getDateFin()));
-            pStmt.setInt(5,obj.getPrixInitiale());
+            pStmt.setInt(5,obj.getPrixInitial());
             pStmt.setInt(6,obj.getPrixVente());
             pStmt.setInt(7,obj.getUtilisateur().getId());
             pStmt.setInt(8,obj.getAdresseRetrait().getId());
@@ -189,7 +187,7 @@ public class ArticleDal implements IGenericDao<Article> {
         art.setDescription(rs.getString("description"));
         art.setDateDebut(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
         art.setDateFin(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-        art.setPrixInitiale(rs.getInt("prix_initial"));
+        art.setPrixInitial(rs.getInt("prix_initial"));
         art.setPrixVente(rs.getInt("prix_vente"));
         art.setIsRetire(rs.getBoolean("retrait"));
         art.setUtilisateur(user);
@@ -229,7 +227,7 @@ public class ArticleDal implements IGenericDao<Article> {
             pStmt.setString(2,newArticle.getDescription());
             pStmt.setTimestamp(3,java.sql.Timestamp.valueOf(newArticle.getDateDebut()));
             pStmt.setTimestamp(4,java.sql.Timestamp.valueOf(newArticle.getDateFin()));
-            pStmt.setInt(5,newArticle.getPrixInitiale());
+            pStmt.setInt(5,newArticle.getPrixInitial());
             pStmt.setInt(6,newArticle.getUtilisateur().getId());
             pStmt.setInt(7,newArticle.getCategorie().getId());
             pStmt.setInt(8,newArticle.getAdresseRetrait().getId());

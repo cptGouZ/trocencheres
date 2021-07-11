@@ -70,7 +70,7 @@
         </nav>
 
         <%--Message Création Article OK--%>
-        ${empty messageErreur ? "" : "<p class=\"text-decoration-underline text-danger\">"+=messageErreur+="</p>"}
+        ${empty messageErreur ? "" : "<p class=\"alert alert-danger text-center\">"+=messageErreur+="</p>"}
         ${empty messageConfirm ? "" : "<p class=\"text-decoration-underline text-success\">"+=messageConfirm+="</p>"}
     </header>
 

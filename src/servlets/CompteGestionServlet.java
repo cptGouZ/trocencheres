@@ -61,14 +61,14 @@ public class CompteGestionServlet extends HttpServlet {
             }
 
             //Enregistrement du profil et message de confirmation
-            Utilisateur userAfterUpdate = um.getUserFromRequest(req, user.getPassword());
+            Utilisateur userAfterUpdate = um.getFromHttpRequest(req, user.getPassword());
             um.mettreAJour(user, userAfterUpdate, newPwConf);
             req.setAttribute("messageConfirm", GlobalException.getInstance().getMessage(UserException.MODIF_USER_OK));
 
         }catch(GlobalException e){
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
         }finally {
-            req.setAttribute("userToDisplay", um.getUserFromRequest(req, null));
+            req.setAttribute("userToDisplay", um.getFromHttpRequest(req, null));
             req.setAttribute("affichagejsp", "modification");
             req.getRequestDispatcher("WEB-INF/CompteGestion.jsp").forward(req, resp);
         }

@@ -10,5 +10,5 @@ public interface IUserManager {
     void creer(Utilisateur user, String confirmationPassword) throws GlobalException;
     void mettreAJour(Utilisateur userToUpdate, Utilisateur userUpdated, String newPwConf) throws GlobalException;
     void supprimer(int userId) throws  GlobalException;
-    Utilisateur getUserFromRequest(HttpServletRequest req, String actualPw);
+    Utilisateur getFromHttpRequest(HttpServletRequest req, String actualPw);
 }

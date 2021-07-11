@@ -176,7 +176,7 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.CONFIRMATION_PASSWORD_NO_MATCH);
     }
 
-    public Utilisateur getUserFromRequest(HttpServletRequest req, String actualPw){
+    public Utilisateur getFromHttpRequest(HttpServletRequest req, String actualPw){
         //Récupération des données de la page
         String pseudo = req.getParameter("pseudo").trim();
         String nom = req.getParameter("nom").trim();
