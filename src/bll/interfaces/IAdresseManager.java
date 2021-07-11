@@ -10,7 +10,7 @@ public interface IAdresseManager {
      * Permet de créer une nouvelle adresse
      * L'adresse transmise doit contenir ses infos y compris le n° d'utilisateur et si il s'agit du domicile
      * @param adresse : Adresse
-     * @throws GlobalException
+     * @throws GlobalException Listes des erreurs
      */
     void creer(Adresse adresse) throws GlobalException;
     void mettreAJour(Adresse adresse) throws GlobalException;

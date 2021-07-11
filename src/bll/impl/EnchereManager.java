@@ -1,6 +1,5 @@
 package bll.impl;
 
-import bll.interfaces.IArticleManager;
 import bll.interfaces.IEnchereManager;
 import bo.Article;
 import bo.Enchere;
@@ -10,16 +9,13 @@ import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.ArticleException;
 import exception.exceptionEnums.EnchereException;
-import jdk.nashorn.internal.objects.Global;
-import sun.security.action.GetLongAction;
 
 import java.util.regex.Pattern;
 
 public class EnchereManager implements IEnchereManager {
     @Override
     public Enchere getLastEnchereOnArticle(int idArticle) throws GlobalException {
-        Enchere encDao = DaoProvider.getEnchereDao().selectEnchereMaxByIdArticle(idArticle);
-        return encDao ;
+        return DaoProvider.getEnchereDao().selectEnchereMaxByIdArticle(idArticle);
     }
 
     @Override
@@ -60,10 +56,9 @@ public class EnchereManager implements IEnchereManager {
 
     }
 
-    private final String PATTERN_PRIX = "^[0-9]{1,10}$" ;
-
+    /* CONTRÔLES DE L'ENCHERE */
+    private final static String PATTERN_PRIX = "^[0-9]{1,10}$" ;
     private void validerPrix(String prixAVerifier){
-
         if (prixAVerifier.isEmpty())
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_VIDE);
         if(!Pattern.matches(PATTERN_PRIX, prixAVerifier))

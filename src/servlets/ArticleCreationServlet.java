@@ -1,18 +1,14 @@
 package servlets;
 
 import bll.ManagerProvider;
-import bll.impl.UserManager;
-import bll.interfaces.IAdresseManager;
 import bll.interfaces.IArticleManager;
-import bll.interfaces.IUserManager;
 import bo.Article;
 import bo.Categorie;
 import bo.Utilisateur;
 import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
-
-import javax.servlet.RequestDispatcher;
+import exception.exceptionEnums.ArticleException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +33,7 @@ public class ArticleCreationServlet extends HttpServlet {
             req.setAttribute("dateDuJour", defaultDate.toString());
             req.setAttribute("loggedUserAdresse", loggedUser.getAdresse());
         } catch (GlobalException e) {
-            e.printStackTrace();
+            req.setAttribute("message", GlobalException.getInstance().getMessageErrors());
         }
         req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);
     }
@@ -50,13 +46,10 @@ public class ArticleCreationServlet extends HttpServlet {
             Article newArt = iam.getFromHttpRequest(req);
             req.setAttribute("articleToDisplay",newArt);
             iam.create(newArt);
-
-            //Affiche un message confirmant la création de l'article en BDD
-            String creationArticleOk = "Felicitations votre nouvelle vente a bien ete enregistree" ;
-            req.setAttribute("messageConfirm" , creationArticleOk);
+            //Si tout s'est bien passé
+            req.setAttribute("messageConfirm" , GlobalException.getInstance().getMessage(ArticleException.ARTICLE_CREATION_OK));
             req.setAttribute("articleToDisplay",null);
         } catch (GlobalException e) {
-            //Affiche un message d'erreur si la vérification article a échoué
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
         }finally{
             req.getRequestDispatcher("WEB-INF/vente.jsp").forward(req,resp);

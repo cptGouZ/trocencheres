@@ -39,7 +39,7 @@ public class CategorieDal implements IGenericDao<Categorie> {
         Categorie retour = null;
         try (
                 Connection cnx = ConnectionProvider.getConnection();
-                PreparedStatement pstt = cnx.prepareStatement(SELECT_BY_ID);
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_BY_ID)
         ) {
             pstt.setInt(1, id);
             ResultSet rs = pstt.executeQuery();
@@ -60,7 +60,7 @@ public class CategorieDal implements IGenericDao<Categorie> {
         List<Categorie> retour = new ArrayList<>();
         try (
                 Connection cnx = ConnectionProvider.getConnection();
-                PreparedStatement pstt = cnx.prepareStatement(SELECT_BY_ID);
+                PreparedStatement pstt = cnx.prepareStatement(SELECT_BY_ID)
         ) {
             ResultSet rs = pstt.executeQuery();
             while(rs.next()){

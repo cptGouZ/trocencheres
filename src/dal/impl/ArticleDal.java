@@ -18,7 +18,8 @@ public class ArticleDal implements IGenericDao<Article> {
 
     @Override
     public List<Article> selectByCriteria(String articleName, Integer catId, boolean ventesTerm, boolean encheresOuv, boolean ventesNonDeb, boolean encheresEnCours, boolean encheresRemp, boolean ventesEnCours, Utilisateur util) throws GlobalException {
-
+        boolean hasCategorie = false;
+        int nbUser = 0;
         String SQL_SELECT_ARTICLES_BY_CRITERES2 = "SELECT a.no_article as no_article, a.article as article, a.description as description, a.retrait as retrait," +
                 "a.date_debut_encheres as date_debut_encheres, a.date_fin_encheres as date_fin_encheres, a.prix_initial as prix_initial, " +
                 "a.prix_vente as prix_vente, a.no_utilisateur as no_utilisateur, a.no_adresse as no_adresse, a.no_categorie as no_categorie " +
@@ -26,23 +27,25 @@ public class ArticleDal implements IGenericDao<Article> {
                 "WHERE a.article LIKE ?";
 
         //Je crée une liste
-        List<Article> list = new ArrayList<Article>();
+        List<Article> list = new ArrayList<>();
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection()
         ) {
-
             StringBuilder sqlConstruction2 = new StringBuilder(SQL_SELECT_ARTICLES_BY_CRITERES2);
 
             //Traitement de la catégorie
             if(!catId.equals(0)) {
-                sqlConstruction2.append(" AND c.no_categorie = '"+ catId +"'");
+                sqlConstruction2.append(" AND c.no_categorie=?");
+                hasCategorie = true;
             }
 
             //Je regarde mes achats
-            if(encheresOuv == true || encheresEnCours == true || encheresRemp == true) {
-                    if(util != null) {
-                        sqlConstruction2.append(" AND NOT(a.no_utilisateur=" + util.getId() + ")"); }
+            if(encheresOuv || encheresEnCours || encheresRemp ) {
+                if(util != null) {
+                    sqlConstruction2.append(" AND NOT(a.no_utilisateur=?)");
+                    nbUser++;
+                }
                 sqlConstruction2.append(" AND ( ");
                     //Enchère ouverte
                     if(encheresOuv) {
@@ -51,28 +54,33 @@ public class ArticleDal implements IGenericDao<Article> {
                     //Enchères en cours avec une enchere mini
                     if(encheresEnCours) {
                         gestionOr(sqlConstruction2);
-                        sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (SELECT no_article" +
-                                " FROM Encheres INNER JOIN" +
-                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + "  GROUP BY no_article)" +
-                                " AS t ON t.no_enchere = ENCHERES.no_enchere) ");}
+                        sqlConstruction2.append(" (CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres) AND no_article IN (" +
+                                "SELECT no_article FROM Encheres INNER JOIN" +
+                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=?  GROUP BY no_article)" +
+                                " AS t ON t.no_enchere = ENCHERES.no_enchere) ");
+                        nbUser++;
+                    }
 
                     //Enchères remportees(enchere + date terminée)
                     if(encheresRemp) {
                         gestionOr(sqlConstruction2);
-                        sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (SELECT no_article" +
-                                " FROM Encheres INNER JOIN" +
-                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=" + util.getId() + " GROUP BY no_article)" +
-                                " AS t ON t.no_enchere = ENCHERES.no_enchere");}
+                        sqlConstruction2.append(" date_fin_encheres < CAST(GETDATE() AS datetime)) AND no_article IN (" +
+                                "SELECT no_article FROM Encheres INNER JOIN" +
+                                " (SELECT MAX(no_enchere) AS no_enchere FROM Encheres WHERE no_utilisateur=? GROUP BY no_article)" +
+                                " AS t ON t.no_enchere = ENCHERES.no_enchere");
+                        nbUser++;
+                    }
                 sqlConstruction2.append(" ) ");
             }
 
 
 
             //Mes ventes
-            //TODO attente la création des article pour pouvoir gérer les période de vente
-            if(ventesTerm == true || ventesNonDeb == true || ventesEnCours == true) {
-                    if(util != null) {
-                        sqlConstruction2.append(" AND a.no_utilisateur=" + util.getId() ); }
+            if(ventesTerm || ventesNonDeb || ventesEnCours) {
+                if(util != null) {
+                    sqlConstruction2.append(" AND a.no_utilisateur=?" );
+                    nbUser++;
+                }
                 sqlConstruction2.append(" AND ( ");
                     //Ventes en cours
                     if (ventesEnCours) {
@@ -89,14 +97,21 @@ public class ArticleDal implements IGenericDao<Article> {
                 sqlConstruction2.append(" ) ");
             }
 
-            if(encheresOuv == false && encheresEnCours == false && encheresRemp == false && ventesTerm == false && ventesNonDeb == false && ventesEnCours == false) {
+            //Critères de temps lorsque l'on est sur la recherche de base
+            if(!encheresOuv && !encheresEnCours && !encheresRemp && !ventesTerm && !ventesNonDeb && !ventesEnCours) {
                 sqlConstruction2.append(" AND CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres ");
             }
 
-            System.out.println(sqlConstruction2);
-
-            PreparedStatement pstt = con.prepareCall(sqlConstruction2.toString());
+            int startArg = 2;
+            PreparedStatement pstt = con.prepareStatement(sqlConstruction2.toString());
             pstt.setString(1, "%" + articleName + "%");
+            if(hasCategorie) {
+                pstt.setInt(startArg, catId);
+                startArg++;
+            }
+            for(int idxArg=startArg; idxArg<nbUser+startArg; idxArg++){
+                pstt.setInt(startArg, util.getId());
+            }
             ResultSet rs = pstt.executeQuery();
             while (rs.next()) {
                 list.add(articleFromRs(rs));
@@ -159,7 +174,7 @@ public class ArticleDal implements IGenericDao<Article> {
                 "WHERE CAST(GETDATE() AS datetime) BETWEEN date_debut_encheres AND date_fin_encheres";
 
         //Je crée un article et une liste
-        List<Article> list = new ArrayList<Article>();
+        List<Article> list = new ArrayList<>();
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection()
@@ -203,7 +218,7 @@ public class ArticleDal implements IGenericDao<Article> {
         //Je lance la connexion
         try (
                 Connection con = ConnectionProvider.getConnection();
-                PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID);
+                PreparedStatement pstt = con.prepareCall(SQL_SELECT_BY_ID)
         ) {
             pstt.setInt(1,id);
             ResultSet rs = pstt.executeQuery();
@@ -221,7 +236,7 @@ public class ArticleDal implements IGenericDao<Article> {
     public void insert(Article newArticle) throws GlobalException {
         final String SQL_INSERT_ARTICLE = "insert into ARTICLES(article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, no_adresse, retrait) values(?,?,?,?,?,0,?,?,?,?);";
         try(Connection uneConnection = ConnectionProvider.getConnection();
-            PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pStmt = uneConnection.prepareStatement(SQL_INSERT_ARTICLE, Statement.RETURN_GENERATED_KEYS)
         ){
             pStmt.setString(1,newArticle.getArticle());
             pStmt.setString(2,newArticle.getDescription());

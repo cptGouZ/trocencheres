@@ -19,7 +19,8 @@ public interface ArticleException extends EnumException {
     int DATE_VIDE = 2160;
     int FORMAT_DATE_INVALIDE = 2170;
     int CRITERE_RECHERCHE_INVALIDE = 2180;
+    int DATE_DEBUT_SUP_FIN = 2190;
 
     //IHM Exception 12**
-
+    int ARTICLE_CREATION_OK = 2200;
 }

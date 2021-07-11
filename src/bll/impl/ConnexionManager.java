@@ -13,7 +13,7 @@ public class ConnexionManager implements IConnexionManager {
     public Utilisateur connexionAuSite(String login, String mdp) throws GlobalException {
 
         //Créer un utilisateurLog correspondant à l'utilisateur désirant se connecté
-        Utilisateur utilisateurLog = null ;
+        Utilisateur utilisateurLog ;
 
         //Créer un utilisateurOk pour pouvoir vérifier les infos en Base de Données
         Utilisateur utilisateurOk = null ;

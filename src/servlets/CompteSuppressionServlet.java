@@ -19,8 +19,8 @@ public class CompteSuppressionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer userId = Integer.valueOf(req.getParameter("uid"));
-        Utilisateur user = null;
+        int userId = Integer.valueOf(req.getParameter("uid"));
+        Utilisateur user;
         try {
             user = um.getById(userId);
             if(user==null) {

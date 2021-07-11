@@ -18,12 +18,12 @@ public class CompteProfilServlet extends HttpServlet {
     private final IUserManager um = ManagerProvider.getUserManager();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer userId = Integer.parseInt(req.getParameter("uid"));
+        int userId = Integer.parseInt(req.getParameter("uid"));
         Integer loggedUserId = (Integer) req.getSession().getAttribute("luid");
         Utilisateur userToDisplay = null;
         try {
             userToDisplay = um.getById(userId);
-            req.setAttribute("displayBtnModif", loggedUserId.equals(userId) ? true : false);
+            req.setAttribute("displayBtnModif", loggedUserId.equals(userId));
             req.setAttribute("creditdispo", userToDisplay.getCreditDispo()); //TODO passer ca dans le filtre
         } catch (GlobalException e) {
             req.setAttribute("messageErreur", UserException.UNKNOWN_USER);

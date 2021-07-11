@@ -1,6 +1,5 @@
 package dal.impl;
 
-import bll.impl.UserManager;
 import bo.Adresse;
 import bo.Utilisateur;
 import dal.ConnectionProvider;
@@ -8,8 +7,6 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.UserException;
-import jdk.nashorn.internal.objects.Global;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         Utilisateur utilisateurEnBdd = null ;
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_EMAIL);
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_EMAIL)
         ) {
             pStmt.setString(1, login);
             ResultSet rs = pStmt.executeQuery();
@@ -42,7 +39,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
         Utilisateur utilisateurEnBdd = null;
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_PSEUDO);
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_PSEUDO)
         ) {
             pStmt.setString(1, pseudo);
             ResultSet rs = pStmt.executeQuery();
@@ -63,7 +60,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
                               "VALUES (?, ?, ?, ?, ?, ?, 0, 0)";
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pstmt = uneConnection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement pstmt = uneConnection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ){
             pstmt.setString(1, obj.getPseudo());
             pstmt.setString(2, obj.getNom());
@@ -155,8 +152,7 @@ public class UtilisateurDal implements IGenericDao<Utilisateur> {
     @Override
     @Deprecated
     public List<Utilisateur> selectAll() throws GlobalException {
-        List<Utilisateur> retour = new ArrayList<>();
-        return retour;
+        return new ArrayList<>();
     }
 }
 

@@ -18,9 +18,9 @@ public class CompteGestionServlet extends HttpServlet {
     private final IUserManager um = ManagerProvider.getUserManager();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer userId = Integer.valueOf(req.getParameter("uid"));
+        int userId = Integer.parseInt(req.getParameter("uid"));
         Integer loggedUserId = (Integer) req.getSession().getAttribute("luid");
-        Utilisateur user = null;
+        Utilisateur user;
         try {
             if (loggedUserId.equals(userId)) {
                 user = um.getById(userId);
@@ -62,7 +62,7 @@ public class CompteGestionServlet extends HttpServlet {
 
             //Enregistrement du profil et message de confirmation
             Utilisateur userAfterUpdate = um.getFromHttpRequest(req, user.getPassword());
-            um.mettreAJour(user, userAfterUpdate, newPwConf);
+            um.mettreAJour(userId, userAfterUpdate, newPwConf);
             req.setAttribute("messageConfirm", GlobalException.getInstance().getMessage(UserException.MODIF_USER_OK));
 
         }catch(GlobalException e){

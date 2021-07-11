@@ -5,8 +5,6 @@ import dal.ConnectionProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.AdresseException;
-import exception.exceptionEnums.AppException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +16,13 @@ public class AdresseDal implements IGenericDao<Adresse> {
      * Permet d'enregistrer une nouvelle adresse en BDD
      * L'adresse transmise doit contenir ses infos y compris le n° d'utilisateur et si il s'agit du domicile
      * @param obj : Adresse
-     * @throws GlobalException
+     * @throws GlobalException Liste des erreurs
      */
     @Override
     public void insert(Adresse obj) throws GlobalException {
         final String INSERT = "INSERT INTO adresses (rue, cpo, ville, no_utilisateur, domicile) VALUES (?, ?, ?, ?, ?)";
         try(Connection cnx = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ){
             pstmt.setString(1, obj.getRue());
             pstmt.setString(2, obj.getCpo());
@@ -51,7 +49,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
     public void update(Adresse obj) throws GlobalException {
         final String UPDATE = "UPDATE adresses SET rue=?, cpo=?, ville=?, domicile=? WHERE no_adresse=?";
         try(Connection cnx = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
+            PreparedStatement pstmt = cnx.prepareStatement(UPDATE)
         ){
             pstmt.setString(1, obj.getRue());
             pstmt.setString(2, obj.getCpo());
@@ -70,7 +68,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
     public void delete(int id) throws GlobalException {
         final String INSERT = "INSERT INTO adresses (rue, cpo, ville, no_utilisateur, domicile) VALUES (?, ?, ?, ?, ?)";
         try(Connection cnx = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = cnx.prepareStatement(INSERT);
+            PreparedStatement pstmt = cnx.prepareStatement(INSERT)
         ){
             pstmt.setInt(1, id);
         } catch (SQLException throwables) {
@@ -86,7 +84,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
         Adresse adresseRecherchee = null;
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_ID);
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_ID)
         ) {
             pStmt.setInt(1, id);
             ResultSet rs = pStmt.executeQuery();
@@ -117,7 +115,7 @@ public class AdresseDal implements IGenericDao<Adresse> {
         Adresse adresseRecherchee = null;
         try (
                 Connection uneConnection = ConnectionProvider.getConnection();
-                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_USER_ID);
+                PreparedStatement pStmt = uneConnection.prepareStatement(SQL_SELECT_BY_USER_ID)
         ) {
             pStmt.setInt(1, idUtilisateur);
             ResultSet rs = pStmt.executeQuery();

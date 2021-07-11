@@ -27,7 +27,7 @@ public class AfficherEnchere extends HttpServlet {
         IEnchereManager em = ManagerProvider.getEnchereManager();
         IArticleManager am = ManagerProvider.getArticleManager();
         Utilisateur userConnected = (Utilisateur) req.getSession().getAttribute("userConnected");
-        Integer idArticle = Integer.valueOf(req.getParameter("idArticle"));
+        int idArticle = Integer.parseInt(req.getParameter("idArticle"));
 
         try {
             Article articleToDisplay = am.getById(idArticle);
@@ -80,7 +80,6 @@ public class AfficherEnchere extends HttpServlet {
                 req.setAttribute("affichagejsp", "encherir");
             if(req.getRequestURI().contains("retrait"))
                 req.setAttribute("affichagejsp", "retirer");
-            e.printStackTrace();
             req.setAttribute("message", GlobalException.getInstance().getMessageErrors());
             req.getRequestDispatcher("WEB-INF/Enchere.jsp").forward(req, resp);
         }

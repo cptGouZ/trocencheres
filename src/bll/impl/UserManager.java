@@ -14,19 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Pattern;
 
 public class UserManager implements IUserManager {
-
+    IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+    IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
     @Override
     public Utilisateur getById(int userId) throws GlobalException {
-        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
         return userDao.selectById(userId);
     }
 
     @Override
-    public void mettreAJour(Utilisateur userInBase, Utilisateur userUpdated, String newPwConf) throws GlobalException {
-
-        /****************************************/
+    public void mettreAJour(Integer userId, Utilisateur userUpdated, String newPwConf) throws GlobalException {
+        Utilisateur userInBase = getById(userId);
         /* MISE A JOUR DE L'UTILISATEUR COURANT */
-        /****************************************/
         userInBase.setPseudo(userUpdated.getPseudo());
         userInBase.setNom(userUpdated.getNom());
         userInBase.setPrenom(userUpdated.getPrenom());
@@ -36,14 +34,8 @@ public class UserManager implements IUserManager {
         userInBase.getAdresse().setCpo(userUpdated.getAdresse().getCpo());
         userInBase.getAdresse().setVille(userUpdated.getAdresse().getVille());
 
-        /************************/
         /* CONTROLE DES DONNEES */
-        /************************/
-        validerPseudo(userInBase);
-        validerNom(userInBase);
-        validerPrenom(userInBase);
-        validerEmail(userInBase);
-        validerTelephone(userInBase);
+        validerUser(userInBase);
         if( !userInBase.getPassword().equals(userUpdated.getPassword()) ) {
             //Validation du nouveau mot de passe demandé
             validerPasswordCreation(userUpdated, newPwConf);
@@ -52,11 +44,7 @@ public class UserManager implements IUserManager {
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
 
-        /*****************************************/
         /* Modification de l'utilisateur en base */
-        /*****************************************/
-        IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
-        IGenericDao<Adresse> adresseDao = DaoProvider.getAdresseDao();
         userDao.update(userInBase);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
@@ -66,7 +54,6 @@ public class UserManager implements IUserManager {
     @Override
     public void supprimer(int userId) throws GlobalException {
         //TODO controles les enchères et ventes en cours sur l'utilisateur
-        IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
         IAdresseManager am = ManagerProvider.getAdresseManager();
         Utilisateur user = getById(userId);
 /*        for (Adresse a : am.getAdressesByUser(userId)){
@@ -79,21 +66,14 @@ public class UserManager implements IUserManager {
     public void creer(Utilisateur user, String confirmationPassword) throws GlobalException {
         IAdresseManager am = ManagerProvider.getAdresseManager();
         IGenericDao<Utilisateur>userDao = DaoProvider.getUtilisateurDao();
-        /************************/
+
         /* CONTROLE DES DONNEES */
-        /************************/
-        validerPseudo(user);
-        validerNom(user);
-        validerPrenom(user);
-        validerEmail(user);
-        validerTelephone(user);
+        validerUser(user);
         validerPasswordCreation(user, confirmationPassword);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
 
-        /**************************/
         /* MANIPULATION DE LA DAL */
-        /**************************/
         userDao.insert(user);
         user.getAdresse().setUserId(user.getId());
         user.getAdresse().setDomicile(true);
@@ -108,19 +88,16 @@ public class UserManager implements IUserManager {
 
 
 
-
-    /*****************************/
     /*CONTROLES DE L'UTILISATEUR */
-    /*****************************/
-    private final String PATTERN_USER = "^[\\p{L}0-9]{0,30}$";
-    private final String PATTERN_PRENOM = "^[\\p{L}0-9]{0,30}$";
-    private final String PATTERN_NOM = "^[\\p{L}0-9]{0,30}$";
-    private final String PATTERN_EMAIL = "^[\\w\\-\\.]*@[a-z0-9-\\.]*\\.[a-z]*$";
-    private final String PATTERN_TELEPHONE = "^\\d{10}$";
-    private final String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
+    private final static String PATTERN_USER = "^[\\p{L}0-9]{0,30}$";
+    private final static String PATTERN_PRENOM = "^[\\p{L}0-9]{0,30}$";
+    private final static String PATTERN_NOM = "^[\\p{L}0-9]{0,30}$";
+    private final static String PATTERN_EMAIL = "^[\\w\\-.]*@[a-z0-9-.]*\\.[a-z]*$";
+    private final static String PATTERN_TELEPHONE = "^\\d{10}$";
+    private final static String PATTERN_PASSWORD ="^[\\p{P}\\w]{6,12}$";
 
-    private void validerPseudo(Utilisateur user) throws GlobalException {
-        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+    private void validerUser(Utilisateur user) throws GlobalException {
+        //Pseudo
         Utilisateur userByPseudo = userDao.selectByPseudo(user.getPseudo());
         if (user.getPseudo().isEmpty())
             GlobalException.getInstance().addError(UserException.PSEUDO_VIDE);
@@ -128,24 +105,17 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.PSEUDO_INVALIDE);
         if (userByPseudo!=null && !userByPseudo.getId().equals(user.getId()))
             GlobalException.getInstance().addError(UserException.PSEUDO_EXISTANT);
-    }
-
-    private void validerNom(Utilisateur user) {
+        //Nom
         if(user.getNom().isEmpty())
             GlobalException.getInstance().addError(UserException.NOM_VIDE);
         if(!Pattern.matches(PATTERN_NOM, user.getNom()))
             GlobalException.getInstance().addError(UserException.NOM_INVALIDE);
-    }
-
-    private void validerPrenom(Utilisateur user) {
+        //Prénom
         if(user.getPrenom().isEmpty())
             GlobalException.getInstance().addError(UserException.PRENOM_VIDE);
         if(!Pattern.matches(PATTERN_PRENOM,user.getPrenom()))
             GlobalException.getInstance().addError(UserException.PRENOM_INVALIDE);
-    }
-
-    private void validerEmail(Utilisateur user) throws GlobalException {
-        IGenericDao<Utilisateur> userDao = DaoProvider.getUtilisateurDao();
+        //E-mail
         Utilisateur userByMail = userDao.selectByEmail(user.getEmail());
         if(user.getEmail().isEmpty())
             GlobalException.getInstance().addError(UserException.EMAIL_VIDE);
@@ -153,9 +123,7 @@ public class UserManager implements IUserManager {
             GlobalException.getInstance().addError(UserException.EMAIL_INVALIDE);
         if (userByMail!=null && !userByMail.getId().equals(user.getId()))
             GlobalException.getInstance().addError(UserException.EMAIL_EXISTANT);
-    }
-
-    private void validerTelephone(Utilisateur user){
+        //Téléphone
         if(!user.getPhone().isEmpty()){
             if(!Pattern.matches(PATTERN_TELEPHONE, user.getPhone()))
                 GlobalException.getInstance().addError(UserException.TELEPHONE_INVALIDE);
@@ -188,10 +156,8 @@ public class UserManager implements IUserManager {
         String ville = req.getParameter("ville").trim();
         Adresse newAdresse = new Adresse(rue, cpo, ville);
         Utilisateur newUser = new Utilisateur(newAdresse, pseudo, nom, prenom, email, tel);
-
         String pwToSet = req.getParameter("newPw").isEmpty() ? actualPw : req.getParameter("newPw").trim();
         newUser.setPassword(pwToSet);
-
         return newUser;
     }
 }

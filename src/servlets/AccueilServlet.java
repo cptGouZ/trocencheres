@@ -6,25 +6,43 @@ import bll.interfaces.ICategorieManager;
 import bo.Article;
 import bo.Utilisateur;
 import exception.GlobalException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccueilServlet extends HttpServlet {
+    private final IArticleManager am = ManagerProvider.getArticleManager();
+    ICategorieManager cateman = ManagerProvider.getCategorieManager();
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            //Recuperation des libellés de catégories
+            List<bo.Categorie> listeCat = cateman.getAll();
+            List<Article> articleList = am.getAll();
+
+            //La servlet envoie l'info à la JSP !
+            req.setAttribute("listedesarticles", articleList);
+            req.setAttribute("listeCategories", listeCat);
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
+
+        } catch (GlobalException e) {
+            req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             //On recupere la categorie, et le nom quand l'utilisateur le saisit
             String textechoix = req.getParameter("textechoix");
-            Integer categorie = 0;
+            int categorie = 0;
             if(req.getParameter("categorie")!=null)
-                categorie = Integer.valueOf(req.getParameter("categorie"));
+                categorie = Integer.parseInt(req.getParameter("categorie"));
             //Récupérer eglt les checkbox si elles sont cochees
             boolean ventesTerm = req.getParameter("ven3") != null;
             boolean encheresOuv = req.getParameter("ach1") != null;
@@ -33,57 +51,21 @@ public class AccueilServlet extends HttpServlet {
             boolean encheresRemp = req.getParameter("ach3") != null;
             boolean ventesEnCours = req.getParameter("ven1") != null;
 
-            //On fait appel a ArticleManager
-            IArticleManager am2 = ManagerProvider.getArticleManager();
-            //Preparation des catégories et définition de l'attribut
-            ICategorieManager cateman = ManagerProvider.getCategorieManager();
-            List<bo.Categorie> listeCat = cateman.getAll();
-
             //Declencher requete par tri
-            Utilisateur util = ManagerProvider.getUserManager().getById((Integer) req.getSession().getAttribute("luid"));
-            List<Article> articleList = am2.getByCriteria(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
+            Utilisateur util = null;
+            if(req.getSession().getAttribute("luid")!=null)
+                util = ManagerProvider.getUserManager().getById((Integer) req.getSession().getAttribute("luid"));
+            List<Article> articleList = am.getByCriteria(textechoix, categorie, ventesTerm, encheresOuv, ventesNonDeb, encheresEnCours, encheresRemp, ventesEnCours, util);
+            List<bo.Categorie> listeCat = cateman.getAll();
 
             //Ajout des attributs à la requête
             req.setAttribute("listeCategories", listeCat);
             req.setAttribute("listedesarticles", articleList);
-
-            //Redirection vers accueil
-            RequestDispatcher rd;
-            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-            rd.forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
 
         } catch (GlobalException e) {
             req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
             req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
         }
     }
-
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            //On fait appel a ArticleManager
-            List<Article> articleList = new ArrayList<>();
-            IArticleManager am = ManagerProvider.getArticleManager();
-
-            //Recuperation des libellés de catégories
-            ICategorieManager cateman = ManagerProvider.getCategorieManager();
-            List<bo.Categorie> listeCat = cateman.getAll();
-
-            articleList = am.getAll();
-
-            //La servlet envoie l'info à la JSP !
-            req.setAttribute("listedesarticles", articleList);
-            req.setAttribute("listeCategories", listeCat);
-
-            //Redirection vers accueil
-            RequestDispatcher rd;
-            rd = req.getRequestDispatcher("WEB-INF/accueil.jsp");
-            rd.forward(req, resp);
-        } catch (GlobalException e) {
-            req.setAttribute("messageErreur", GlobalException.getInstance().getMessageErrors());
-            req.getRequestDispatcher("WEB-INF/accueil.jsp").forward(req, resp);
-        }
-    }
-
 }

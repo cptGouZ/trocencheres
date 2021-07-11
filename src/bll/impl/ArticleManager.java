@@ -48,7 +48,7 @@ public class ArticleManager implements IArticleManager {
         //Détails du produit
         String article = req.getParameter("article").trim();
         String description = req.getParameter("description").trim();
-        Integer categorieId = Integer.valueOf(req.getParameter("categorie").trim());
+        int categorieId = Integer.parseInt(req.getParameter("categorie").trim());
         Categorie categorie = catDao.selectById(categorieId);
         Integer prixDepart = Integer.valueOf(req.getParameter("prixDepart").trim());
         //Debut et fin de vente
@@ -62,23 +62,18 @@ public class ArticleManager implements IArticleManager {
         String ville = req.getParameter("ville").trim();
         Adresse adresseRetrait = new Adresse(rue,cpo,ville,loggedUserId,false);
         //Création de l'objet
-        Article retour = new Article( loggedUser, categorie, article, description,
-                                      debutEnchereBll, finEnchereBll,  prixDepart, adresseRetrait );
-        return retour;
+        return new Article( loggedUser, categorie, article, description,
+                debutEnchereBll, finEnchereBll,  prixDepart, adresseRetrait );
     }
 
     @Override
-    public Article create(Article nouvelArticle) throws GlobalException {
+    public void create(Article nouvelArticle) throws GlobalException {
 
         //Validation des champs saisies
-        validerNomArticle(nouvelArticle);
-        validerDescription(nouvelArticle);
-        validerPrix(nouvelArticle);
-        //TODO Validation des autres champs
-        validerDate(nouvelArticle.getDateDebut()) ; //Vérif date début enchère
-        validerDate(nouvelArticle.getDateFin()) ; // Vérif date fin enchère
+        validerArticle(nouvelArticle);
         if(GlobalException.getInstance().hasErrors())
             throw GlobalException.getInstance();
+
         //Mise à jour de l'adresse de retrait ou création
         Utilisateur vendor = nouvelArticle.getUtilisateur();
         Adresse vendorAdresse = vendor.getAdresse();
@@ -90,13 +85,13 @@ public class ArticleManager implements IArticleManager {
         } else {
             iam.creer(adresseRetrait);
         }
+
         //Transmission du nouvel article à la DAL
         artDao.insert(nouvelArticle);
-        return nouvelArticle ;
     }
 
     @Override
-    public Article retirer(Article article, Utilisateur userConnected, Enchere lastEnchere) throws GlobalException {
+    public void retirer(Article article, Utilisateur userConnected, Enchere lastEnchere) throws GlobalException {
         Integer montantEnchereGagnante = lastEnchere.getMontant() ;
 
         // MISE A JOUR ARTICLE VENDU //
@@ -108,7 +103,6 @@ public class ArticleManager implements IArticleManager {
 
         // MISE A JOUR CREDITS VENDEUR ET ACHETEUR //
         // Création des utilisateurs ACHETEUR et VENDEUR
-        Utilisateur acheteur = userConnected ;
         Utilisateur vendeur = article.getUtilisateur();
 
         // Récupérer les crédits dispos pour ACHETEUR ET VENDEUR
@@ -121,12 +115,12 @@ public class ArticleManager implements IArticleManager {
 
         // Actualiser le crédit de l'acheteur
         try {
-            acheteur.setCredit(creditAcheteur - montantEnchereGagnante);
-            userDao.update(acheteur);
+            userConnected.setCredit(creditAcheteur - montantEnchereGagnante);
+            userDao.update(userConnected);
         } catch (GlobalException e){
-            e.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_ACHETEUR);
-            acheteur.setCredit(creditAcheteur);
-            throw e ;
+            GlobalException.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_ACHETEUR);
+            userConnected.setCredit(creditAcheteur);
+            throw GlobalException.getInstance() ;
         }
 
         //Actualiser le crédit du vendeur
@@ -134,54 +128,51 @@ public class ArticleManager implements IArticleManager {
             vendeur.setCredit(creditVendeur + montantEnchereGagnante);
             userDao.update(vendeur);
         } catch (GlobalException e){
-            e.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_VENDEUR);
+            GlobalException.getInstance().addError(ArticleException.ECHEC_MISE_A_JOUR_CREDIT_VENDEUR);
             vendeur.setCredit(creditVendeur);
-            throw e ;
+            throw GlobalException.getInstance() ;
         }
-        return article ;
     }
 
-    //region Contrôles
-    private final String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
-    private final String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
-    private final String PATTERN_PRIX = "^[0-9]{1,10}$" ;
-    private final String PATTERN_DATE = "^[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}T[0-9]{2}\\:[0-9]{2}\\:[0-9]{2}$";
-
-    private void validerNomArticle(Article articleAVerifier){
-
-        if (articleAVerifier.getArticle().isEmpty())
-            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_VIDE);
-        if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleAVerifier.getArticle()))
-            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_INVALIDE);
-    }
+    /* CONTROLES DE L'ARTICLE */
+    private final static String PATTERN_NOM_ARTICLE = "[\\w\\s]{0,30}" ;
+    private final static String PATTERN_DESCRIPTION = "[\\w\\s]{0,300}" ;
+    private final static String PATTERN_PRIX = "^[0-9]{1,10}$" ;
+    private final static String PATTERN_DATE = "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$";
 
     private void validerRecherche(String articleName){
         if(!Pattern.matches(PATTERN_NOM_ARTICLE, articleName))
             GlobalException.getInstance().addError(ArticleException.CRITERE_RECHERCHE_INVALIDE);
     }
-
-    private void validerDescription(Article articleAVerifier){
-
-        if (articleAVerifier.getDescription().isEmpty())
+    private void validerArticle(Article art){
+        //nom article
+        if (art.getArticle().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_VIDE);
+        if(!Pattern.matches(PATTERN_NOM_ARTICLE, art.getArticle()))
+            GlobalException.getInstance().addError(ArticleException.NOM_ARTICLE_INVALIDE);
+        //description
+        if (art.getDescription().isEmpty())
             GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_VIDE);
-        if(!Pattern.matches(PATTERN_DESCRIPTION, articleAVerifier.getDescription()))
+        if(!Pattern.matches(PATTERN_DESCRIPTION, art.getDescription()))
             GlobalException.getInstance().addError(ArticleException.DESCRIPTION_ARTICLE_INVALIDE);
-    }
-
-    private void validerPrix(Article articleAVerifier){
-
-        if (articleAVerifier.getPrixInitial().toString().isEmpty())
+        //prix initial
+        if (art.getPrixInitial().toString().isEmpty())
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_VIDE);
-        if(!Pattern.matches(PATTERN_PRIX, articleAVerifier.getPrixInitial().toString()))
+        if(!Pattern.matches(PATTERN_PRIX, art.getPrixInitial().toString()))
             GlobalException.getInstance().addError(ArticleException.PRIX_ARTICLE_INVALIDE);
-    }
-
-    private void validerDate(LocalDateTime dateAVerifier){
-
-        if (dateAVerifier.toString().isEmpty())
+        //date de début d'enchère
+        if (art.getDateDebut().toString().isEmpty())
             GlobalException.getInstance().addError(ArticleException.DATE_VIDE);
-        if(!Pattern.matches(PATTERN_DATE, dateAVerifier.toString()))
+        if(!Pattern.matches(PATTERN_DATE, art.getDateDebut().toString()))
             GlobalException.getInstance().addError(ArticleException.FORMAT_DATE_INVALIDE);
+        //date de fin d'enchère
+        if (art.getDateFin().toString().isEmpty())
+            GlobalException.getInstance().addError(ArticleException.DATE_VIDE);
+        if(!Pattern.matches(PATTERN_DATE, art.getDateFin().toString()))
+            GlobalException.getInstance().addError(ArticleException.FORMAT_DATE_INVALIDE);
+        //date de début < date de fin
+        if ( art.getDateDebut().compareTo(art.getDateFin()) >= 0 ){
+            GlobalException.getInstance().addError(ArticleException.DATE_DEBUT_SUP_FIN);
+        }
     }
-    //endregion
 }

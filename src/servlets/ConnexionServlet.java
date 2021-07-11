@@ -3,10 +3,7 @@ package servlets;
 import bll.interfaces.IConnexionManager;
 import bll.ManagerProvider;
 import bo.Utilisateur;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import exception.GlobalException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;

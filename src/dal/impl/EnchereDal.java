@@ -1,6 +1,5 @@
 package dal.impl;
 
-import bo.Adresse;
 import bo.Article;
 import bo.Enchere;
 import bo.Utilisateur;
@@ -9,8 +8,6 @@ import dal.DaoProvider;
 import dal.IGenericDao;
 import exception.GlobalException;
 import exception.exceptionEnums.EnchereException;
-import exception.exceptionEnums.UserException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +21,9 @@ public class EnchereDal implements IGenericDao<Enchere> {
                                             "INNER JOIN (SELECT MAX(no_enchere) as no_enchere, no_utilisateur FROM ENCHERES GROUP BY no_article, no_utilisateur) AS t ON t.no_enchere = encheres.no_enchere " +
                                             "INNER JOIN ARTICLES A on ENCHERES.no_article = A.no_article " +
                                          "WHERE t.no_utilisateur=? and a.retrait=0;";
-        Integer retour = 0;
+        int retour = 0;
         try (Connection cnx = ConnectionProvider.getConnection();
-             PreparedStatement pstmt = cnx.prepareStatement(SUM_ENCHERE_BY_USER);
+             PreparedStatement pstmt = cnx.prepareStatement(SUM_ENCHERE_BY_USER)
         ){
             pstmt.setInt(1, userId);
             ResultSet rs = pstmt.executeQuery();
@@ -63,7 +60,7 @@ public class EnchereDal implements IGenericDao<Enchere> {
     public void insert(Enchere obj) throws GlobalException {
         final String INSERT = "INSERT INTO ENCHERES (no_utilisateur, no_article, montant) VALUES (?, ?, ?)";
         try (Connection cnx = ConnectionProvider.getConnection();
-             PreparedStatement pstmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstmt = cnx.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ) {
             pstmt.setInt(1, obj.getUser().getId());
             pstmt.setInt(2, obj.getArticle().getId());
@@ -73,7 +70,6 @@ public class EnchereDal implements IGenericDao<Enchere> {
             while(rs.next()){
                 obj.setId(rs.getInt(1));
             }
-            obj = selectById(obj.getId());
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             GlobalException.getInstance().addError(EnchereException.SELECT_BY_ARTICLE);

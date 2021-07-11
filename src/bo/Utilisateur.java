@@ -1,7 +1,6 @@
 package bo;
 
 import dal.DaoProvider;
-import dal.IGenericDao;
 import exception.GlobalException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,35 +25,6 @@ public class Utilisateur implements Serializable {
     private boolean admin;
     private List<Adresse> adresses = new ArrayList<>();
 
-    // Constructeur pour CONNEXION
-    public Utilisateur(String pseudo, String password) {
-        this.pseudo = pseudo;
-        this.password = password;
-    }
-
-    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone, String password, int credit, boolean admin) {
-        this.adresse = adresse;
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.credit = credit;
-        this.admin = admin;
-    }
-
-    public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone, int credit, boolean admin) {
-        this.adresse = adresse;
-        this.pseudo = pseudo;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.phone = phone;
-        this.credit = credit;
-        this.admin = admin;
-    }
-
     public Utilisateur(Adresse adresse, String pseudo, String nom, String prenom, String email, String phone) {
         this.adresse = adresse;
         this.pseudo = pseudo;
@@ -65,9 +35,7 @@ public class Utilisateur implements Serializable {
     }
 
     public Integer getCreditDispo() throws GlobalException {
-        IGenericDao<Enchere> dao = DaoProvider.getEnchereDao();
-        Integer retour = getCredit()-DaoProvider.getEnchereDao().sumEnchereByUser(getId());
-        return retour;
+        return getCredit()-DaoProvider.getEnchereDao().sumEnchereByUser(getId());
     }
 }
 

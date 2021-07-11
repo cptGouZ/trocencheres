@@ -12,12 +12,4 @@ import java.io.Serializable;
 public class Categorie implements Serializable {
     private Integer id;
     private String libelle;
-
-    public Categorie(Integer id) {
-        this.id = id;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
-    }
 }
